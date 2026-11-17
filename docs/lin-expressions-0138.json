@@ -1,0 +1,72 @@
+{
+  "release": "0.13.8",
+  "character": "林岚",
+  "plate": "dist/assets/campaign-2d/workshop-linlan.webp",
+  "sourceSize": [
+    1672,
+    941
+  ],
+  "sourceCropXYWH": [
+    268,
+    48,
+    256,
+    256
+  ],
+  "patchRectXYWH": [
+    360,
+    124,
+    96,
+    104
+  ],
+  "normalizedRectXYWH": [
+    0.215311004784689,
+    0.13177470775770456,
+    0.05741626794258373,
+    0.11052072263549416
+  ],
+  "tool": "Built-in ImageGen · two independent in-place edits of the same crop",
+  "variants": [
+    {
+      "key": "study",
+      "meaning": "垂眼看向台上的样机",
+      "asset": "dist/assets/campaign-2d/expressions/lin-study.webp",
+      "generation": "exec-f1750c4a-c50b-4e23-9c57-b3030eef1eb6",
+      "prompt": "Edit the supplied square frame in place as a registered alternate anime game cel. Hand-drawn character Lin Lan, an adult Chinese craft learner in the workshop. Keep this EXACT camera crop, perspective, pose and style unchanged: the existing nose, jaw, ears, hair, forehead, wall, clothing and sunlit skin colours remain superimposable in precisely the same positions. Only redraw her eye expression and mouth: both lids lower noticeably and both pupils look diagonally DOWN toward the unseen tabletop at image-right, eyes still open and focused. A small neutral closed mouth as she concentrates. This is quiet scrutiny directed at a joinery sample, not sadness. Eye sockets and corners stay on their registration points; do not tilt or rotate her head. Preserve the sharp cel outlines and flat warm shading; no new text or graphical elements. Output the same square frame.",
+      "bytes": 8010,
+      "sha256": "7ab1044688d4076242c5c40f3adc5b8cb232baabb7ea0ad3a16d43b05969a456"
+    },
+    {
+      "key": "smile",
+      "meaning": "说起自己的失误时舒眉带笑",
+      "asset": "dist/assets/campaign-2d/expressions/lin-smile.webp",
+      "generation": "exec-5422a273-752c-42c4-b7af-3efc34bd1b76",
+      "prompt": "Edit the supplied square artwork in place as a registered alternate anime game cel for an adult workshop peer reminiscing about a mistake of her own. EXACT same crop and pose, nose and jaw position, hair, head silhouette, ear, wall, body, outlines, palette, eye proportions and local sunlight as the given frame. Preserve the same person's identity. Change ONLY the eyebrows, squint of the eyes and mouth: an unmistakably warmer, self-amused soft smile, gently squinting eyes, slightly lifted cheeks and a small natural open smile with just a narrow hint of upper teeth, as if saying 'I've done that too'. Relaxed friendly acknowledgement between equals. No blush marks, no huge laugh, no exaggerated head movement. Match the existing Chinese anime style faithfully. Pixel registration is essential. No words. Output the same square frame.",
+      "bytes": 8178,
+      "sha256": "9ce808d5f6651a310342e11fe51a747a4110c8bc707961aead8f4b70dafa5c04"
+    }
+  ],
+  "registration": "源图的 256×256 局部等比放大作编辑底图；将两张独立原绘对回源底片，以鼻翼、脸缘、发际等稳定点校准平移，分别在眼眉和唇部内缘取色羽化，最终以 96×104 透明无损 WebP 配准原图。基础表情直接使用原画。",
+  "qa": {
+    "comparison": "output/performance-0138/art-lin/comparison.png",
+    "fullScene": [
+      "output/performance-0138/art-lin/workshop-study.webp",
+      "output/performance-0138/art-lin/workshop-smile.webp"
+    ],
+    "measurements": "output/performance-0138/art-lin/registration.json",
+    "changedBoundsInSceneXYXY": [
+      373,
+      135,
+      450,
+      218
+    ],
+    "changedPixels": [
+      2942,
+      2971
+    ],
+    "checks": [
+      "原画局部与两种神情同框通读",
+      "还原至完整工坊构图检查凝视方向",
+      "校验贴片边界四侧完全透明、掩膜外场景像素相同"
+    ]
+  }
+}

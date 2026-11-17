@@ -1,0 +1,16 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs');
+const {P,caveDone}=require('./helpers/campaign-fixtures.cjs');
+const base=process.env.TEST_URL||'http://127.0.0.1:4173/',out=process.env.TEST_OUTPUT||'output/campaign-0113';fs.mkdirSync(out,{recursive:true});
+(async()=>{const b=await chromium.launch({channel:'chrome',headless:true});try{
+ const p=await b.newPage({viewport:{width:1440,height:900}}),errors=[],results=[];p.on('pageerror',e=>errors.push(e.message));
+ for(const order of [['front-beam','rear-beam','seat','left-pin','right-pin'],['rear-beam','front-beam','seat','right-pin','left-pin']]){
+  const s=caveDone();s.phase='bench';s.scene='village';s.village.position=[6.85,1.65,2.4];s.village.yaw=Math.PI;s.village.pitch=Math.atan2(.8-1.65,2);
+  await p.goto(base+'?practice=1',{waitUntil:'domcontentloaded'});await p.evaluate(s=>localStorage.setItem('sun-jian-campaign-v1',JSON.stringify(s)),s);await p.goto(base+'?journey=1',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>CampaignJourney.snapshot().scene.available);await p.keyboard.press('e');await p.waitForFunction(()=>CampaignJourney.snapshot().view==='puzzle');
+  for(const [i,id]of order.entries()){
+   const state=await p.evaluate(()=>SunJian.snapshot()),l=P.LEVELS.find(l=>l.id===state.level),move=P.availableInsertions(l,state.removed).find(m=>m.piece===id);assert(move,id+' has a legal insertion path');await p.locator(`[data-piece="${id}"]`).click();await p.locator(`[data-approach="${move.direction}"]`).click();await p.waitForTimeout(80);const xy=await p.evaluate(id=>SunJian.screen().pieces[id],id);assert(xy,id+' can be picked');const box=await p.locator('#viewport').boundingBox();assert(xy.start.x>box.x&&xy.start.x<box.x+box.width&&xy.start.y>box.y&&xy.start.y<box.y+box.height,id+' starts inside the operation view');
+   const end=xy.directions[move.direction].end;await p.mouse.move(xy.start.x,xy.start.y);await p.mouse.down();await p.mouse.move(end.x,end.y,{steps:35});await p.mouse.up();await p.waitForFunction(n=>SunJian.snapshot().history.length===n,i+1,{timeout:5000}).catch(async error=>{console.log('DRAG FAILURE',JSON.stringify({id,direction:move.direction,start:xy.start,axes:xy.axes,end,feedback:await p.locator('#feedback').innerText(),state:await p.evaluate(()=>SunJian.snapshot())}));await p.screenshot({path:out+'/bench-drag-failure.png'});throw error;});await p.waitForFunction(()=>!SunJian.snapshot().busy);assert.equal(await p.evaluate(()=>SunJian.snapshot().history.length),i+1,'one pointer gesture commits once');
+  }
+  await p.locator('#campaign-put').click();assert.equal(await p.evaluate(()=>CampaignJourney.snapshot().state.phase),'farewell');results.push(order);await p.screenshot({path:out+'/bench-drag-'+results.length+'.png'});
+ }
+ assert.deepEqual(errors,[]);fs.writeFileSync(out+'/bench-drag-verification.json',JSON.stringify({actualMouse:true,orders:results,singleCommit:true,errors},null,2));console.log('PASS: every bench part assembled with actual pointer gestures, both beam and pin orders, one commit per gesture, scene completion.');
+ }catch(e){throw e;}finally{await b.close();}})().catch(e=>{console.error(e);process.exit(1)});

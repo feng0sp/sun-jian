@@ -1,0 +1,199 @@
+{
+  "project": "榫间",
+  "version": "0.13.11",
+  "scope": "Scene artwork only; parent integrates code, runtime tests, archives and publishing.",
+  "toolMode": "built-in image_gen",
+  "useCase": "precise-object-edit / compositing",
+  "createdAt": "2026-11-06T12:46:56.270Z",
+  "policy": {
+    "originalsPreserved": true,
+    "productionBitmapEdits": "All actual drawing/removal/compositing used built-in image_gen.",
+    "postprocessing": "Pillow used only for RGB/WebP conversion, 1920×1080 normalization and separate diagnostic contact sheets. No manual bitmap redraw/recolor/cutout.",
+    "normalization": "Tool outputs are 1672×941. Final scene files standardized to 1920×1080 (aspect rounding under 0.06%).",
+    "gitCommitOrPublishByThisAgent": false
+  },
+  "assets": [
+    {
+      "path": "dist/assets/campaign-2d/room-night-bag-01311.webp",
+      "source": "dist/assets/campaign-2d/room-night.webp",
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b082-a09d-7d91-977c-a85dc086818c/exec-312cb1c7-4fff-43db-8ecd-fca8bcf4c4cb.png",
+      "evidenceCopy": "output/polish-01311/art/room-night-bag-01311-source.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha": false,
+      "prompt": "Edit target: first image, the existing illustrated room at night. Supporting reference: second image, the travel backpack identity only. Make ONE local addition to the first image: draw an olive-green medium hiking backpack standing naturally on the floor in the lower-left foreground by the entry, approximately x=9–18%, y=76–96% of the frame. This is the traveller's set-down bag. Repaint the backpack as part of this original 2D hard-edged anime environment: same outline weight, restrained painted fabric detail, warm top-right lamplight, cool window fill, soft dark contact shadow directly touching its base and subtle floor bounce. It must look grounded on this room floor, not a crisp transparent sticker or product render. Keep its scale plausible and leave the elderly man's feet, bucket, chair legs and workbench unobstructed. Strict invariants: preserve exactly the camera, framing, all architecture, table and its empty surface, furniture, tools, old man's identity/face/clothes/pose, and all pixels outside the small bag and adjacent floor-shadow region. No text, no UI, no new people, no extra items, no enlarged canvas. Preserve the original image aspect ratio. Output the complete opaque edited scene, not a cutout.",
+      "qa": {
+        "status": "visual-reviewed",
+        "result": "夜间包与灯光/地面接触匹配，台面净空；与 SampleWideArt 组装/全拆状态检查通过。"
+      }
+    },
+    {
+      "path": "dist/assets/campaign-2d/room-day-bag-01311.webp",
+      "source": "dist/assets/campaign-2d/room-day.webp",
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b082-a09d-7d91-977c-a85dc086818c/exec-205b275e-c613-402c-b212-21d1e98c2652.png",
+      "evidenceCopy": "output/polish-01311/art/room-day-bag-01311-source.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha": false,
+      "prompt": "Edit target: first image, the existing illustrated room in daylight. Supporting reference: second image, backpack identity only. Add just one olive-green medium hiking backpack on the floor in lower-left foreground by the entrance, approximately x=9–18%, y=76–96% of frame. This is exactly the traveller's same set-down backpack. Integrate it into the illustration, matching the original hard-edged anime line weight, simplified fabric folds, daylight from left window, warm indoor bounce, attached soft contact shadow and the same perspective/scale as the chair and man. The bag is a drawn part of the room, not a separately pasted photoreal asset. Do not obstruct man's shoes, bucket, furniture legs or workspace. Strictly preserve original camera, framing, man/face/pose/clothing, all existing furniture/architecture/tools and the EMPTY tabletop; outside the bag and its local floor shadow make no changes. No text, no UI, no new people. Keep original 16:9 aspect, full opaque scene.",
+      "qa": {
+        "status": "visual-reviewed",
+        "result": "同构图白天包受窗光，落地阴影方向一致；台面库存可复用。"
+      }
+    },
+    {
+      "path": "dist/assets/campaign-2d/room-after-dinner-bag-01311.webp",
+      "source": "dist/assets/campaign-2d/room-night-bag-01311.webp",
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b082-a09d-7d91-977c-a85dc086818c/exec-6cbd89eb-a5da-4c90-89df-8a45bf8954ff.png",
+      "evidenceCopy": "output/polish-01311/art/room-after-dinner-bag-01311-source.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha": false,
+      "prompt": "Edit target: this night-room painting with the backpack already integrated. Make an AFTER DINNER variant with ONE tiny local change, without moving the camera or any furniture, face, body or bag. At the FAR REAR workbench against the tool wall, around x=61%, y=36% of the full image, place two small stacked off-white dinner bowls, chopsticks and a folded striped tea towel among the cleared tools. They sit on the REAR workbench above the drawers, behind the large foreground worktable. Use the same hard-edged anime illustration, warm electric lamp illumination and painted material detail. ABSOLUTELY keep the ENTIRE foreground worktable clear and exactly unchanged: no dinner tray, no dishes, no wooden samples, no tabletop storage box. In particular the small shallow tray behind the left corner of the foreground table must stay empty and unobscured, and the right half of the table must remain empty for game layers. Preserve precisely the backpack position, size, contact shadow, elderly man's face/hands/clothes/pose, table edges/legs/vise, chairs and windows. Do not add text/UI/people, no cropping. Return full opaque 16:9 scene.",
+      "qa": {
+        "status": "visual-reviewed",
+        "result": "从夜间有包底图编辑；碗筷放到后工作台，前台完整净空，避免重复烘焙样木和收纳箱。"
+      }
+    },
+    {
+      "path": "dist/assets/campaign-2d/shelter-seated-zhou-bag-01311.webp",
+      "source": "dist/assets/campaign-2d/shelter-seated-zhou.webp",
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b082-a09d-7d91-977c-a85dc086818c/exec-1974a5ca-f123-49b3-aeb6-0e85648b801f.png",
+      "evidenceCopy": "output/polish-01311/art/shelter-seated-zhou-bag-01311-source.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha": false,
+      "prompt": "Edit target: first image, the existing rainy-afterglow village shelter scene with the elderly carpenter seated at the right end of the bench. Supporting reference: second image, backpack identity only. Add one olive-green medium hiking backpack set on the wet stone floor in front of the empty half of the bench, centered approximately x=52.5%, bottom y=94%, the bag about 11% frame width and 19% frame height. The bag must not cover the old man's feet, bench joinery, or cart. IMPORTANT: draw the backpack IN THE SAME hard-edged anime style and image as this man and shelter. Avoid the pasted-asset look. Match restrained outline thickness, simplified broad fabric shadows, warm reflected morning light from the right and cool sky fill, correct floor perspective, a dark CONTACT shadow attached beneath its base and subtle broken reflection in the wet paving. The shoulder straps rest naturally on the ground. Leave the seated man's face/hands/shoes, exact bench shape, cart and all scenery entirely unchanged. Local edit only to bag and touching ground patch. Keep exact camera and 16:9 composition, no crop, no added text/UI/people. Return complete opaque image.",
+      "qa": {
+        "status": "visual-reviewed",
+        "result": "包落在凳前湿地，附着暗影与破碎反光；周伯手脚、座面、车轮未被遮住。"
+      }
+    },
+    {
+      "path": "dist/assets/campaign-2d/shelter-complete-cart-bag-01311.webp",
+      "source": "dist/assets/campaign-2d/shelter-wide-complete-cart.webp",
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b082-a09d-7d91-977c-a85dc086818c/exec-ada73be7-e2d8-48a5-ba19-ccfec45d5c32.png",
+      "evidenceCopy": "output/polish-01311/art/shelter-complete-cart-bag-01311-source.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha": false,
+      "prompt": "Edit target: first image, the completed village bench scene with the elderly carpenter standing behind it and cart at the left. Supporting reference: second image, backpack identity only. Draw one olive-green medium hiking backpack on the wet paving in front of the bench at exactly the location reserved for the traveller's bag: centered x=52.5%, base y=94%, about 11% frame width and 19% height. Integrate it into this existing hard-edged anime painting rather than pasting a cutout. Use the same edge softness and line weight as the man, warm side-light and cool sky fill, natural scale, perspective of wet floor, attached contact shadow and understated fragmented reflection below it; straps rest on stone. Preserve elderly man's whole identity/pose/face/hand and shoes, bench and its joins, cart, posts, buildings and exact composition. Change only bag and adjacent floor patch, no duplication, no extra people, no text/UI, no crop. Full opaque original-aspect scene.",
+      "qa": {
+        "status": "visual-reviewed",
+        "result": "告别首帧包与地面照明一致，站姿周伯及小车保持位置。"
+      }
+    },
+    {
+      "path": "dist/assets/campaign-2d/bench-seated-no-bag-01311.webp",
+      "source": "dist/assets/campaign-2d/bench-seated.webp",
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b082-a09d-7d91-977c-a85dc086818c/exec-9da6e178-ca47-4eb7-8fa1-d41645fc28cd.png",
+      "evidenceCopy": "output/polish-01311/art/bench-seated-no-bag-01311-source.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha": false,
+      "prompt": "Precise local edit of this existing hard-edged anime first-person seated village illustration: REMOVE ONLY the large camouflage backpack filling the lower-right foreground (roughly x=80–100%, y=67–100%). The travel backpack has already been put on the ground, outside this camera frame; do not draw any backpack anywhere else in this picture. Reconstruct the continuous warm wooden bench seat boards, their grain and matching sunlight/shadow in the small area uncovered by the removed bag. Keep the bench perspective and front edge aligned with the original boards visible in the centre foreground. Preserve exactly the elderly carpenter's entire head, face, hair, hands, clothes, sitting pose, knee silhouette, the traveller's hand and blue sleeve at lower-left, the paper notebook, all architecture, mountains, vegetation, wet paving and lighting. No camera move, no crop, no new props or people, no text/UI. Full opaque original-aspect frame; only remove bag and restore the occluded seat boards.",
+      "qa": {
+        "status": "visual-reviewed",
+        "result": "移除坐姿右前景迷彩包，补连续座板；包留在全景凳前地面，避免一切镜头就跑到座面。"
+      }
+    },
+    {
+      "path": "dist/assets/campaign-2d/chair-seated-night-props-01311.webp",
+      "source": "dist/assets/campaign-2d/../story-modern/chair-seated.webp",
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b082-a09d-7d91-977c-a85dc086818c/exec-94cd60da-f7b6-40c3-8b8f-d1550a6384ff.png",
+      "evidenceCopy": "output/polish-01311/art/chair-seated-night-props-01311-source.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha": false,
+      "prompt": "Edit target: the existing night-time seated-chair view inside the carpenter's room. Preserve exact camera, man, furniture, floor, windows and lighting. Add only two permanent workshop props to the visible table so it connects to the other room views, without fixing any game-puzzle state. First: a low EMPTY rectangular wooden storage box with finger joints and a hand-hole, partly cut off by the LEFT frame edge, on the foreground-left part of the table at x=0–18%, y=58–77%. The wood, thickness and warm lamp-lit grain match the existing shallow tray near the carpenter. Keep the box EMPTY and its high sidewalls hide the very far-left table surface from this low viewpoint. Second: two ordinary uncut scrap offcuts, lying flat in an indistinct small stack on the distant table corner around x=43%, y=55%. They are spare unworked wood, NOT tenon learning blocks, NOT assembled joints. Keep all central usable tabletop free, add realistic contact shadows and proper perspective, same hard-edged anime outline and painted texture. No backpack, no new people, no puzzle models, no text/UI, no cropping. Modify only these tiny table regions; return full opaque original-aspect picture.",
+      "qa": {
+        "status": "visual-reviewed",
+        "result": "空收纳箱与两块普通未开槽余料使桌面不再全空；三组可变样木未烘焙入图。周伯原位。"
+      }
+    },
+    {
+      "path": "dist/assets/campaign-2d/chair-seated-day-props-01311.webp",
+      "source": "dist/assets/campaign-2d/chair-seated-day.webp",
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b082-a09d-7d91-977c-a85dc086818c/exec-639fca0d-8cb3-4a8b-b052-7f8aa6de588f.png",
+      "evidenceCopy": "output/polish-01311/art/chair-seated-day-props-01311-source.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha": false,
+      "prompt": "Target is FIRST image, the existing daylight seated-chair view with the elderly carpenter. SECOND image is only a prop-placement reference from the same chair camera at night. Make the exact SAME tiny prop additions to the FIRST image: one EMPTY low rectangular finger-jointed wooden storage box with hand-hole, cropped at the LEFT frame edge of the foreground table (x=0–18%, y=58–77%), and two ordinary uncut spare wood offcuts stacked flat on the distant table corner at x=43%, y=55%. Match their positions, perspective and size to the second image, but render them in the FIRST image's natural morning light and restrained hard-edged anime texture. These are permanent empty storage and unworked scraps, not any of the interactive learning joints. Keep all other tabletop free. Strictly preserve first image's camera, framing, full elderly man's identity, expression, pose and hands, furniture, window, tools, floor and daylight. Change only these two local table regions. No backpack, no additional people, no text/UI, no new assembled joints, no crop. Return full opaque scene.",
+      "qa": {
+        "status": "visual-reviewed",
+        "result": "与夜间同机位同道具，仅按日光受光；人物与家具保持原位。"
+      }
+    },
+    {
+      "path": "dist/assets/campaign-2d/chair-seated-day-empty-props-01311.webp",
+      "source": "dist/assets/campaign-2d/chair-seated-day-empty.webp",
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b082-a09d-7d91-977c-a85dc086818c/exec-5aaed70d-3241-4685-9bad-cc3c82ab813e.png",
+      "evidenceCopy": "output/polish-01311/art/chair-seated-day-empty-props-01311-source.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha": false,
+      "prompt": "Target is FIRST image: daylight seated-chair view with NO PERSON in the room. SECOND image is only the prop placement reference from the same camera: a low empty wooden box at the left foreground edge and two spare wood offcuts at the far table corner. Add exactly those permanent props to the FIRST image at matching perspective, size, texture and positions: EMPTY finger-jointed hand-hole box, cropped by LEFT image edge x=0–18%, y=58–77%, two uncut flat offcuts around x=43%, y=55%. They are generic unworked spare wood and empty storage, not interactive joints or a fixed assembled-puzzle state. CRITICAL: keep room unoccupied. Do NOT copy the elderly man from the reference. Preserve all of FIRST image's empty chair, camera, table edges and vice, windows, tools, furniture and existing daylight. Keep central table usable, no backpack, no other new objects, no text/UI, no crop. Only local prop addition, full opaque original-aspect output.",
+      "qa": {
+        "status": "visual-reviewed",
+        "result": "周伯离屋时仍保持空椅；箱与普通余料位置与有人版一致，无动态库存烘焙。"
+      }
+    }
+  ],
+  "discarded": [
+    {
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b082-a09d-7d91-977c-a85dc086818c/exec-eaddca38-cfd1-4dfd-9a12-6d362e53d8b9.png",
+      "source": "dist/assets/campaign-2d/room-after-dinner.webp",
+      "prompt": "Edit target: first image, the existing illustrated room after dinner at night. Supporting reference: second image, backpack identity only. Add one olive-green medium hiking backpack standing grounded on the entry floor in lower-left foreground approximately x=9–18%, y=76–96%. Draw it with the same hard-edged anime outlines and painterly materials as this scene, warm electric lamp light, cool rainy-window bounce, dark attached contact shadow with soft edge. Its edges and detail level must match the old man and furniture rather than look like a pasted sharp product photo. Preserve all original camera/framing, man face/pose, stools, floor perspective, bowls, towel, tray and existing wooden samples exactly. Touch only the backpack and adjacent floor-shadow patch. Do not add duplicates or any other item, do not move the tabletop props, no text or UI. Preserve original aspect ratio and return the full opaque scene.",
+      "reason": "Retained baked learning models/right box and moved bag relative to night state; not used."
+    },
+    {
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b082-a09d-7d91-977c-a85dc086818c/exec-bc2e89d8-a243-4925-8ca2-e2b0e8ce5081.png",
+      "source": "C:/Users/13412/.codex/generated_images/01a1b082-a09d-7d91-977c-a85dc086818c/exec-312cb1c7-4fff-43db-8ecd-fca8bcf4c4cb.png",
+      "prompt": "Edit target: this newly integrated night-room image, preserve its EXACT camera, framing, furniture geometry, seated old man, face and hands, and the olive backpack's exact position/size/shadows. Create the after-dinner state by making ONLY these tiny tabletop changes: near the back-left of the main table, at roughly x=32–38%, y=43–49% of the frame, add a small neat wooden serving tray with two stacked white bowls, laid-down chopsticks and a folded off-white striped tea towel. These are cleared dinner things. Keep the rest of the large working tabletop COMPLETELY EMPTY so game sample layers can be drawn over it later. Do not add wooden learning blocks or right-side tabletop storage box. Do not alter the backpack or its contact shadow. Keep identical night rain, warm electric lamp and same hard-edged anime style. Do not move any table edges, legs, chairs, tools or the man. No text, no UI, no new people, no cropping. Full opaque 16:9 scene.",
+      "reason": "Added dinner tray on foreground-left inventory tray coordinates; replaced with bowls on rear workbench."
+    }
+  ],
+  "checks": {
+    "sceneCandidateContactSheets": [
+      "output/polish-01311/art/scene-audit-01.jpg",
+      "output/polish-01311/art/scene-audit-02.jpg",
+      "output/polish-01311/art/scene-audit-03.jpg",
+      "output/polish-01311/art/scene-audit-04.jpg",
+      "output/polish-01311/art/scene-audit-05.jpg",
+      "output/polish-01311/art/scene-audit-06.jpg"
+    ],
+    "compared": [
+      "output/polish-01311/art/bag-scenes-before-after.jpg",
+      "output/polish-01311/art/seated-scenes-before-after.jpg"
+    ],
+    "inventoryDiagnostic": "output/polish-01311/art/sample-inventory-registration.jpg",
+    "registration": "output/polish-01311/art/table-anchor-registration.json",
+    "registrationResult": "15 furniture/window/table anchor tests, 48 px grayscale NCC, +/-12 px local search: all best-shift coordinates within 1 pixel each axis at 1920×1080; NCC 0.9148–0.9918. This checks local registration, not pixel identity.",
+    "inventoryCount": "Scene reference candidates and dynamic resources listed separately in output/polish-01311/art/scene-reference-inventory.json. Static references are not runtime reachability proof.",
+    "runtimeValidation": "Delegated to parent; this agent did not run browser or publish.",
+    "limits": [
+      "Chair-seat is a different camera: it shows a fixed empty storage box and generic offcuts, not exact per-piece dynamic inventory; precise inventory remains in room/workbench views.",
+      "Generated illustration textures can vary slightly outside requested local regions; anchors and contact sheets were inspected. Do not claim pixel-identical editing.",
+      "Original unused/history assets retained for compatibility, rather than replaced indiscriminately."
+    ]
+  }
+}

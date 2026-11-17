@@ -1,0 +1,1 @@
+require('./regression.test.cjs');

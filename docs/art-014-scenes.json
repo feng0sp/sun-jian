@@ -1,0 +1,489 @@
+{
+  "project": "榫间",
+  "version": "0.14.0",
+  "createdAt": "2026-11-07T05:09:47.591596+00:00",
+  "scope": "Bounded artwork only; no runtime code, state migration, Git commit or publication by this asset agent.",
+  "method": "Built-in image_gen; Pillow used only for RGB/WebP encoding, output size normalization and diagnostic contact sheet.",
+  "formatNormalization": "Originals 1672x941; final 1920x1080, aspect rounding difference below 0.06%, no object crop or bitmap redraw.",
+  "references": [
+    {
+      "path": "dist/assets/campaign-2d/workshop-linlan.webp",
+      "sha256": "9ee534466b0366f45e968705abda0f22cd1d1c0aa7bf42cca9cdf52e9b24f44e"
+    },
+    {
+      "path": "dist/assets/campaign-2d/xiaoxu/normal.webp",
+      "sha256": "8c5e6ace10e2c1d9ddf05298ffae966dddb5f88fe497dddad1788cf3fac84dd7"
+    },
+    {
+      "path": "dist/assets/campaign-2d/room-day.webp",
+      "sha256": "2d71e4fe92d2940c90c4955adaa3556c585771f21ae43ae51cb83e0629fb11a5"
+    },
+    {
+      "path": "output/fullgame-014/model/stool.png",
+      "sha256": "c5ff9a10f6a0a272c8c19464ad4b5fbefe8017b079d8e8fddd853aafe3e7dcdb"
+    },
+    {
+      "path": "output/fullgame-014/model/table.png",
+      "sha256": "98408b0763d5764c2d112b9994e4b440e716b7177ca76df70248d045d6536ce1"
+    },
+    {
+      "path": "output/fullgame-014/model/shelf.png",
+      "sha256": "be7b95f5f35e2969d8b711307a533b1a512b82b225b89edb13470d92270577a4"
+    }
+  ],
+  "assets": [
+    {
+      "id": "stool-workshop-loose",
+      "path": "dist/assets/campaign-2d/contest-014/stool-workshop-loose.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 337200,
+      "sha256": "b477bb6e644e6d384f76ee5837adbc570e1e17eb0b57f9c59a458b9031efd238",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-5cc7e218-b287-40b7-b821-721ae32d67e5.png",
+      "evidenceCopy": "output/fullgame-014/art/stool-workshop-loose-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "faeba7eeb79ba54e98fd40c54e7ab9141e1ab6f2c4c8f7801d8f3faa12cb08f9",
+      "promptKey": "stool-workshop-loose",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "table-workshop-loose",
+      "path": "dist/assets/campaign-2d/contest-014/table-workshop-loose.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 309072,
+      "sha256": "ff832d5fc526a0582fb37be824dd862cfe6366620a9a47e2ba2767b21e1767fb",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-2dfdd5b0-9a3e-4401-a742-472803e4fcf5.png",
+      "evidenceCopy": "output/fullgame-014/art/table-workshop-loose-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "0972d432e48c6be8bb6322710e4481d785ee3933e74ed951c08967a47731c0fc",
+      "promptKey": "table-workshop-loose",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "shelf-workshop-loose",
+      "path": "dist/assets/campaign-2d/contest-014/shelf-workshop-loose.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 347168,
+      "sha256": "cae6f7016284abe4a9fe7cf5003a2c02a31933c8b9e994f33054c41c7b52aa23",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-7db2e8c9-dc6a-4ccb-aef9-39d603b321bd.png",
+      "evidenceCopy": "output/fullgame-014/art/shelf-workshop-loose-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "9123b1763a9eb40077c56400a5118f6ba3d9584438d17dff753d1feb02b0cfb1",
+      "promptKey": "shelf-workshop-loose-corrected",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "stool-workshop",
+      "path": "dist/assets/campaign-2d/contest-014/stool-workshop.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 328564,
+      "sha256": "0056f3fb7009765895c91597752b2987b071f043c0e34356425b4953e71afbb6",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-826df5f4-76ae-4fe5-93b2-907bc5b24d93.png",
+      "evidenceCopy": "output/fullgame-014/art/stool-workshop-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "3383d133c1306dccf086bcc6c8dcda41bd5b96730700072ccb04b84066ce47df",
+      "promptKey": "stool-workshop",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "table-workshop",
+      "path": "dist/assets/campaign-2d/contest-014/table-workshop.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 285036,
+      "sha256": "f0d2adfdcb7496d24c70f178062658d11ea2bd61181ef08e2a911667d86df123",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-1c81e36a-8b06-43c5-ac28-15288a4a63aa.png",
+      "evidenceCopy": "output/fullgame-014/art/table-workshop-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "8820b5b0c1ce9dfdb1cb13c7442f504f5ee38b99661d4fa313766342af328ed3",
+      "promptKey": "table-workshop",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "shelf-workshop",
+      "path": "dist/assets/campaign-2d/contest-014/shelf-workshop.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 325320,
+      "sha256": "128815b87c0518bf498b9114c435ab7fa635cf85b4942519bf228d2e7fca6fb0",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-04923ac4-1f08-4a22-a6a3-39a267f0b0d6.png",
+      "evidenceCopy": "output/fullgame-014/art/shelf-workshop-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "00e9d01cf12eb7d8cd0493f83d2c6a1db683214457bf2f0286ccc74d4feb5688",
+      "promptKey": "shelf-workshop",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "stool-contest",
+      "path": "dist/assets/campaign-2d/contest-014/stool-contest.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 334782,
+      "sha256": "6a995c2b3daff83891428116e8d24bfe39b7cd57431b9dad1f69c5d2df8066ed",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-ef47fc30-e698-43fd-911c-9a4e07fc0a6d.png",
+      "evidenceCopy": "output/fullgame-014/art/stool-contest-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "673b48eab3f1662b0c3377dcd06ab05d214a0941d978419476d451beb2f31dab",
+      "promptKey": "stool-contest",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "table-contest",
+      "path": "dist/assets/campaign-2d/contest-014/table-contest.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 360450,
+      "sha256": "622e0e203d82965e66ece6eca0dcec740a737f5c4eaee55563f5402242ebefaf",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-c0b1ed15-253c-44a9-b145-016237999e13.png",
+      "evidenceCopy": "output/fullgame-014/art/table-contest-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "9cdcc448b0a5c405486975ae8bbcf44356afecd435e43d1d39429f4079515a26",
+      "promptKey": "table-contest",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "shelf-contest",
+      "path": "dist/assets/campaign-2d/contest-014/shelf-contest.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 361102,
+      "sha256": "47ef37c418234081c743ce79190f3ee13ef2387fc5f52f76018d4eb99139ece7",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-772b5493-1328-4727-936a-434c633ef1bd.png",
+      "evidenceCopy": "output/fullgame-014/art/shelf-contest-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "03b1f6168b6acadb51de9fb2e318fb927260574c3e8dc46a46f70eacdde6d4d3",
+      "promptKey": "shelf-contest",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "stool-contest-built",
+      "path": "dist/assets/campaign-2d/contest-014/stool-contest-built.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 346404,
+      "sha256": "3788785f71d2e4d6e8be41972365f23fdf96983b83983f8bbad630da2c88957e",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-c406f1d4-10c5-4b7e-a7fb-ae6dda237a0d.png",
+      "evidenceCopy": "output/fullgame-014/art/stool-contest-built-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "7e8db95a1c0dcb397b794fe9eb3b0273d9e62db9a395e91514c908ce82074292",
+      "promptKey": "stool-contest-built",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "table-contest-built",
+      "path": "dist/assets/campaign-2d/contest-014/table-contest-built.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 325308,
+      "sha256": "e6bc6b5e47e279e355cc67b85efb7c905e4dc963867f4fd4054d19c50c3bec3a",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-edc90e4b-7555-440a-991f-5b4729ec336b.png",
+      "evidenceCopy": "output/fullgame-014/art/table-contest-built-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "ba2ef133e4b6261cd98e69978d1e0c1941aa7b1b234a242238ad5b14ccbfe929",
+      "promptKey": "table-contest-built",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "shelf-contest-built",
+      "path": "dist/assets/campaign-2d/contest-014/shelf-contest-built.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 350576,
+      "sha256": "5ffd49d9acb15277be98e5e775bcb2a050803251860df5100d399f584f6ad5c1",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-f50c5089-48b4-4a05-b093-01dca83a0cc5.png",
+      "evidenceCopy": "output/fullgame-014/art/shelf-contest-built-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "1bfa37730d80d7015f6601a01f1c7603ea16d3be32715bfc649271ab0e0c2f90",
+      "promptKey": "shelf-contest-built",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "stool-after",
+      "path": "dist/assets/campaign-2d/contest-014/stool-after.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 378032,
+      "sha256": "91560e5b4ba0e8e045ca38d5144c5c9acedb4db68b755e528c34551c3405c582",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-2b83bc49-44a3-4b9e-887c-28ae659f0d78.png",
+      "evidenceCopy": "output/fullgame-014/art/stool-after-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "e180c09de75cd7c9fd8784741de4fa38bd5e093c5ca5fcbdcbad4651fb33429a",
+      "promptKey": "stool-after",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "table-after",
+      "path": "dist/assets/campaign-2d/contest-014/table-after.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 380150,
+      "sha256": "9d8d412ce0bd8ba1ffd9b6b37e016a489590b6a77e8f770b9c5c6c6aaab7f430",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-a33ec78a-42a9-4c17-8bd0-786eca678e4e.png",
+      "evidenceCopy": "output/fullgame-014/art/table-after-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "dd2f268215cf14d74dc0720a8bc061da8a314ccaf5d79ea9116607a79b991835",
+      "promptKey": "table-after",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    },
+    {
+      "id": "shelf-after",
+      "path": "dist/assets/campaign-2d/contest-014/shelf-after.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 377946,
+      "sha256": "6a0d62c50fa20ceab70780cdc282d4d17ddd6ea65acf460f9c082665198ce4bc",
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b457-48d3-75b1-9403-bc0f45a7b1ce\\exec-1b8a6991-2e9e-42ec-90e0-bd7d1cdf45cb.png",
+      "evidenceCopy": "output/fullgame-014/art/shelf-after-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "sourceSha256": "1d88c52d18a77f9969e7a8a43f9ca10c12064311ecccde6eb99ea6045f7946ca",
+      "promptKey": "shelf-after",
+      "visualReview": {
+        "sameWorld": true,
+        "groundedObjects": true,
+        "modelSilhouette": true,
+        "movablePartCount": 3,
+        "notes": "两销和主板为三件可操作物；框架固定。插画为示意，不能用它替代实际碰撞几何。"
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "key": "stool-workshop",
+      "prompt": "Use case: illustration-story / precise-object-edit. Create a full opaque 16:9 horizontal background illustration for the contemporary Chinese woodcraft game 榫间, no UI or captions. Input 1 is the existing workshop painting and Lin Lan identity/camera/style reference. Input 2 is the APPROVED ACTUAL 3D furniture design reference ONLY: draw this exact assembled shoe-changing stool as part of the 2D illustration, never paste in the 3D screenshot, and remove all screenshot UI. Keep the existing workshop architecture, windows, left-positioned young woman in olive green shirt and navy work apron holding a notebook, warm afternoon sunlight, ink outlines and natural anime proportions. On the foreground table at center-right place the finished small stool, physically plausible 45cm high: dark walnut two end trestle leg frames with low crossbars, light pale broad rectangular sliding seat with thick edge/skirt, exactly two warm wood square-headed locking pegs on the visible long edge near opposite ends. Follow the reference model's silhouette/contact relationship, proportions and two-tone wood. The illustrated stool must share the table perspective, outline treatment, warm left window light and a grounded contact shadow; it is a drawn object in this picture, not a floating 3D object. Keep the tray at left, notebook at right, tools in back. Natural hands and face. Composition: full room remains visible, main object center-right in middle/lower portion, left upper and bottom 15 percent relatively quiet for game UI. The picture must be wide landscape 16:9, target 1920x1080; do not crop off the furniture or heads. Clean hard-edged anime game background with modest painted grain, not photorealism, no gold decorations, no text, no logo."
+    },
+    {
+      "key": "table-workshop",
+      "prompt": "Use case: precise-object-edit. Edit target image 1 (finished anime workshop), supporting design reference image 2. Replace only the stool on the foreground table with the approved BEDSIDE SIDE TABLE in image 2. It is visibly taller than the low stool, with a compact broad pale rectangular top/skirt, dark walnut tall trestle legs and low crossbars, exactly two square-headed orange wood locking pegs at opposite ends of the front long edge, same geometry and palette as image 2. It must feel like a small bedside stand rather than a seat. Leave it empty. Strictly preserve the full 16:9 workshop camera, architecture, left woman Lin Lan's identity/face/pose/clothes, all tools, tray and notebook. Match the painted anime lineweight, wood grain, warm left window lighting and grounded contact shadow; do not paste any 3D screenshot pixels or labels. Adjust only the furniture and its immediately attached shadow/reflection; all other scene details stay aligned to image 1. Full opaque landscape scene 1920x1080. No UI, text, logos or extra objects."
+    },
+    {
+      "key": "shelf-workshop",
+      "prompt": "Use case: precise-object-edit. Edit target image 1 (finished anime workshop), supporting design reference image 2. Replace only the stool on the foreground table with the approved DESKTOP BOOK RACK in image 2. It has a broad pale removable horizontal lower book-supporting board on short dark trestle feet, two tall solid dark walnut side bookends above that board, and one high dark horizontal rear rail leaving an OPEN center back. Exactly two square-headed orange wood locking pegs at opposite ends of the front lower board. Follow image 2 accurately: this is an OPEN TOP book rack with no upper shelf, no drawers, no second tier. Leave it empty so its silhouette and pegs are clear. Strictly preserve the full 16:9 workshop camera, architecture, left woman Lin Lan's identity/face/pose/clothes, all tools, tray and notebook. Match the painted anime lineweight, wood grain, warm left window lighting and grounded contact shadow; do not paste any 3D screenshot pixels or labels. Adjust only the furniture and its immediately attached shadow/reflection; all other scene details stay aligned to image 1. Full opaque landscape scene 1920x1080. No UI, text, logos or extra objects."
+    },
+    {
+      "key": "stool-contest",
+      "prompt": "Use case: illustration-story. Create a new full opaque 16:9 anime background for a calm modern provincial beginner woodcraft exchange competition in a Chinese city. Input 1 is ONLY the workshop's anime style, Lin Lan (young woman olive shirt/navy apron), and approved stool design. Input 2 is the exact furniture geometry reference; ignore screenshot UI and labels. Scene: a modest sunny community exhibition hall with high windows, neutral pale walls, simple wooden booths, a few distant visitors, blank paper notices with NO readable words, no real institution logo, no stadium or grand awards stage. Lin Lan stands at a neighboring booth in the middle-left background with her notebook, same appearance. Foreground and center-right is the protagonist's stool booth BEFORE assembly: the dark walnut two-trestle support frame with its two horizontal support rails stays assembled on the clean floor; its pale broad rectangular sliding seat is detached and rests safely on a folded gray protective cloth beside the frame, clearly one continuous panel with a thick skirt; exactly two orange square-headed wooden locking pegs lie neatly together on the panel. No other loose furniture parts. Match the actual reference silhouette, scale, and proportions, but use the same hand-painted anime treatment as the environment: restrained ink contours, warm and cool grouped shadows, natural wood, grounded contact shadows. Work area is open and uncluttered, in the lower middle-right at x50-78% y55-88%; low registration side table/notebook in far right background, leave upper-left and bottom10% quiet for UI. First-person viewpoint; do not add the male protagonist into the background. This is a story game environment, not a photograph or 3D render. Full landscape 1920x1080 design, no UI, no captions, no watermark, no trophies yet."
+    },
+    {
+      "key": "table-contest",
+      "prompt": "Use case: precise-object-edit. Edit target image 1, supporting furniture reference image 2. Only change the foreground loose furniture to the bedside side table version in design reference image 2: noticeably taller dark walnut four-leg trestle framework with low braces, two lengthwise top support rails already attached; pale broad tabletop/skirt lying detached flat on the gray cloth at right; exactly TWO orange square-headed wooden pegs resting on the tabletop. This should look like three movable parts beside a preassembled frame, not a pile of unrelated timber. Keep empty frame and separate top position consistent with image 1. Preserve exactly the 16:9 competition hall camera, windows, lighting, background people and the same Lin Lan at the left booth; no furniture/person duplication. Integrate drawn wood, ink contours, warm light and contact shadow naturally. Do not copy screenshot labels, UI, transparent white overlays or 3D rendering. Full opaque 1920x1080 anime game background, no text, no logos, no watermark."
+    },
+    {
+      "key": "shelf-contest",
+      "prompt": "Use case: precise-object-edit. Edit target image 1, supporting furniture reference image 2. Only change the foreground loose furniture to the desktop book rack version in design reference image 2. The preassembled fixed frame at left has short dark feet, two tall solid walnut side bookends, and a high horizontal rear rail with an open middle back, NO upper shelf. Its pale wide lower book-supporting board is removed and rests flat on the gray cloth at right, exactly TWO orange square-headed wooden locking pegs lying together on that board. The side bookends and rear rail stay visibly connected as fixed framework, leaving the bottom slot empty. Correct smaller desktop scale, not a floor-height bookshelf. Preserve exactly the 16:9 competition hall camera, windows, lighting, background people and the same Lin Lan at the left booth; no furniture/person duplication. Integrate drawn wood, ink contours, warm light and contact shadow naturally. Do not copy screenshot labels, UI, transparent white overlays or 3D rendering. Full opaque 1920x1080 anime game background, no text, no logos, no watermark."
+    },
+    {
+      "key": "stool-contest-built",
+      "prompt": "Use case: precise-object-edit. Edit target image 1, supporting furniture reference image 2. Only assemble the foreground shoe-changing stool: move the one pale seat from the protective cloth onto the dark preassembled support frame at exactly its current floor position, and insert the two square-headed wood pegs at the two front-edge joints. The completed stool must match image 2 precisely: wide pale thick seat/skirt, dark two-trestle legs/low crossbars, two orange square caps visible near opposite ends. The cloth at right is now EMPTY, no duplicate board or spare pegs anywhere. No person touches it yet. Preserve exactly the 16:9 competition hall camera, windows, lighting, background people and the same Lin Lan at the left booth; no furniture/person duplication. Integrate drawn wood, ink contours, warm light and contact shadow naturally. Do not copy screenshot labels, UI, transparent white overlays or 3D rendering. Full opaque 1920x1080 anime game background, no text, no logos, no watermark."
+    },
+    {
+      "key": "table-contest-built",
+      "prompt": "Use case: precise-object-edit. Edit target image1 is the competition booth, image2 is assembled design reference only. Only assemble the foreground bedside side table from its current pieces: the pale broad tabletop/skirt sits on the existing taller walnut trestle frame at its unchanged floor position, two orange square-headed pegs are inserted near opposite ends of the front edge. Exact compact tall proportions and silhouette of image2. Gray protective cloth at right is empty; remove the duplicate loose tabletop and pegs. Do not place anything on top yet. Preserve full 16:9 competition hall camera, all architecture, people, Lin Lan at left, furniture floor position, afternoon light and all pixels outside the local assembly area. Wood and shadows are part of the same anime painting, not a 3D paste. Full opaque 1920x1080, no captions/UI/logos."
+    },
+    {
+      "key": "shelf-contest-built",
+      "prompt": "Use case: precise-object-edit. Edit target image1 is the competition booth, image2 is assembled design reference only. Only assemble the foreground desktop book rack: its pale wide horizontal book-supporting lower board is now seated at the bottom of the fixed dark walnut two tall side bookends/high rear rail, two orange square-headed pegs inserted at the front board edges. Match image2 exactly: open top, high rear rail and open middle back, short feet, no upper shelf or drawers. Leave the rack empty. Gray cloth at right is empty, remove duplicate loose board and pegs. Preserve full 16:9 competition hall camera, all architecture, people, Lin Lan at left, furniture floor position, afternoon light and all pixels outside the local assembly area. Wood and shadows are part of the same anime painting, not a 3D paste. Full opaque 1920x1080, no captions/UI/logos."
+    },
+    {
+      "key": "stool-after",
+      "prompt": "Use case: identity-preserve / compositing. Edit target image1 is the final assembled furniture booth in the modern city woodcraft event. Identity input2 is Xiao Xu; identity input3 is elderly Zhou Bo. Add Xiao Xu, the same young woman from image2, now without hiking backpack, naturally SITTING on this exact stool after its inspection. She wears her orange outdoor jacket, pale shirt, dark trousers and hiking shoes, relaxed friendly smile. Place her bottom correctly on the pale seat, thighs horizontal and both feet grounded, natural knees and hands resting, keeping the two locking peg heads visible. Do not widen/raise the stool or change the seated perspective. The sitting woman is in the foreground beside this stool, face completely within frame. Add Zhou Bo standing a little farther behind at the right, clear head within frame, gray hair and kind lined face, faded blue-gray work jacket, ordinary pale undershirt, dark trousers and cloth shoes; he looks at the finished object with a small warm smile, no judging badge. Keep Lin Lan unchanged at the left background booth. This is quiet post-award conversation, no confetti, no giant trophy, no banners or text. Keep the SAME 16:9 hall camera and architecture, furniture design/scale/floor contact, empty protective cloth except specified kneeling pose, warm window lighting and soft shadows. All figures and object must be coherently DRAWN into the same hard-edged anime background, not cutout stickers or photos. First-person view, do not add protagonist's body. No extra cups, no duplicate furniture, no duplicate pegs. Full opaque landscape 1920x1080, no UI/captions/logo/watermark."
+    },
+    {
+      "key": "table-after",
+      "prompt": "Use case: identity-preserve / compositing. Edit target image1 is the final assembled furniture booth in the modern city woodcraft event. Identity input2 is Xiao Xu; identity input3 is elderly Zhou Bo. Add Xiao Xu, the same young woman from image2, now without hiking backpack, standing half a step behind and to the right of this exact bedside table so her head fits the frame. She wears orange outdoor jacket, pale shirt, dark trousers and hiking shoes; she is gently placing ONE closed paperback on the tabletop next to ONE ordinary enamel cup to try its daily use. Natural five-finger hands, no balancing pose, no leaning her weight on the small table. Keep the full tabletop, both locking pegs and legs visible. This is a bedside table, she does NOT sit on it. Add Zhou Bo standing a little farther behind at the right, clear head within frame, gray hair and kind lined face, faded blue-gray work jacket, ordinary pale undershirt, dark trousers and cloth shoes; he looks at the finished object with a small warm smile, no judging badge. Keep Lin Lan unchanged at the left background booth. This is quiet post-award conversation, no confetti, no giant trophy, no banners or text. Keep the SAME 16:9 hall camera and architecture, furniture design/scale/floor contact, empty protective cloth except specified kneeling pose, warm window lighting and soft shadows. All figures and object must be coherently DRAWN into the same hard-edged anime background, not cutout stickers or photos. First-person view, do not add protagonist's body. No extra cups, no duplicate furniture, no duplicate pegs. Full opaque landscape 1920x1080, no UI/captions/logo/watermark."
+    },
+    {
+      "key": "shelf-after",
+      "prompt": "Use case: identity-preserve / compositing. Edit target image1 is the final assembled furniture booth in the modern city woodcraft event. Identity input2 is Xiao Xu; identity input3 is elderly Zhou Bo. Add Xiao Xu, the same young woman from image2, now without hiking backpack, kneeling naturally on the empty gray protective cloth just to the right of this desktop book rack and putting three small upright books between its side bookends on the pale lower board. She wears orange outdoor jacket, pale shirt, dark trousers and hiking shoes, attentive friendly expression, natural hands and knees. The book rack remains in exactly its current floor position for this exhibition check; do not enlarge it or turn it into a chair or add shelves. Keep front pegs visible and bookends/open high rear rail intact. Add Zhou Bo standing a little farther behind at the right, clear head within frame, gray hair and kind lined face, faded blue-gray work jacket, ordinary pale undershirt, dark trousers and cloth shoes; he looks at the finished object with a small warm smile, no judging badge. Keep Lin Lan unchanged at the left background booth. This is quiet post-award conversation, no confetti, no giant trophy, no banners or text. Keep the SAME 16:9 hall camera and architecture, furniture design/scale/floor contact, empty protective cloth except specified kneeling pose, warm window lighting and soft shadows. All figures and object must be coherently DRAWN into the same hard-edged anime background, not cutout stickers or photos. First-person view, do not add protagonist's body. No extra cups, no duplicate furniture, no duplicate pegs. Full opaque landscape 1920x1080, no UI/captions/logo/watermark."
+    },
+    {
+      "key": "stool-workshop-loose",
+      "prompt": "Use case: precise-object-edit. Edit target is this exact finished anime workshop scene. Create the corresponding BEFORE-ASSEMBLY state, changing only the foreground furniture and immediately attached local shadows. The dark walnut low trestle support frame stays intact, but the entire pale sliding SEAT with its thick apron/skirt is removed. It is one continuous broad panel, laid safely on folded gray fabric on the worktable beside/in front of the empty frame. Exactly TWO orange square-headed wooden locking pegs lie together on that detached panel. No pale seat or inserted pegs remain on the empty frame. Low frame stays at its current center-right tabletop location. Arrange the loose pieces neatly within the center-right foreground table area without cropping or adding extra parts. Preserve the exact full 16:9 camera and architecture, the SAME Lin Lan at left with the same face/clothes/pose, left tray, right notebook, background tools, afternoon sunlight and original painting style. Never paste screenshot/3D pixels or labels. Every piece has correct tabletop perspective, wood lineweight and contact shadow. Full opaque horizontal 1920x1080 game background, no UI/text/logo/watermark."
+    },
+    {
+      "key": "table-workshop-loose",
+      "prompt": "Use case: precise-object-edit. Edit target is this exact finished anime workshop scene. Create the corresponding BEFORE-ASSEMBLY state, changing only the foreground furniture and immediately attached local shadows. The dark walnut taller trestle support frame stays intact, but the entire pale TABLETOP with its thick apron/skirt is removed. It is one continuous broad panel, laid safely on folded gray fabric on the worktable beside/in front of the empty frame. Exactly TWO orange square-headed wooden locking pegs lie together on that detached panel. No pale tabletop or inserted pegs remain on the taller empty frame. Arrange the loose pieces neatly within the center-right foreground table area without cropping or adding extra parts. Preserve the exact full 16:9 camera and architecture, the SAME Lin Lan at left with the same face/clothes/pose, left tray, right notebook, background tools, afternoon sunlight and original painting style. Never paste screenshot/3D pixels or labels. Every piece has correct tabletop perspective, wood lineweight and contact shadow. Full opaque horizontal 1920x1080 game background, no UI/text/logo/watermark."
+    },
+    {
+      "key": "shelf-workshop-loose",
+      "prompt": "Use case: precise-object-edit. Edit target is this exact finished anime workshop scene. Create the corresponding BEFORE-ASSEMBLY state, changing only the foreground furniture and immediately attached local shadows. The short dark trestle feet, TWO TALL DARK SIDE BOOKENDS and high horizontal dark rear rail are ONE fixed frame and stay connected and intact. Remove ONLY the pale lower horizontal BOOK-SUPPORTING BOARD, leaving an empty bottom slide slot. Lay that one broad pale board safely on folded gray fabric beside/in front of the frame on the worktable. Exactly TWO orange square-headed wooden locking pegs lie together on that detached board. No pale board and no inserted pegs remain in the frame. Keep open top, no upper shelf, no extra loose side panels. Arrange the loose pieces neatly within the center-right foreground table area without cropping or adding extra parts. Preserve the exact full 16:9 camera and architecture, the SAME Lin Lan at left with the same face/clothes/pose, left tray, right notebook, background tools, afternoon sunlight and original painting style. Never paste screenshot/3D pixels or labels. Every piece has correct tabletop perspective, wood lineweight and contact shadow. Full opaque horizontal 1920x1080 game background, no UI/text/logo/watermark."
+    },
+    {
+      "key": "shelf-workshop-loose-corrected",
+      "prompt": "Use case: precise-object-edit. Target image1 is an illustrated workshop BEFORE-ASSEMBLY book rack. Design reference image2 shows the approved 3D geometry; ignore all UI and screenshot style. Correct ONLY the low fixed support between the tall side panels: the detached pale main shelf board on the cloth must be the ONLY broad horizontal board. In the empty dark walnut frame remove the broad solid brown floor/deck that currently fills the bottom, and show TWO NARROW PARALLEL LENGTHWISE SUPPORT RAILS with CLEAR OPEN AIR between them. Those narrow rails are fixed to the short trestle frame, and are much narrower than the detached pale shelf, so the tabletop is visible through their middle gap. Keep the tall side bookends, rear high rail, short feet, open top and slide slots intact. Keep exactly one detached pale shelf and two loose orange square-headed pegs on the cloth. Strict invariants: same full 16:9 camera, furniture overall position, woman Lin Lan identity/pose/face, notebook, tray, tools, light and every other object. Match the original anime-painted wood/shadows. No extra shelf or props, no text/UI/logo; full opaque 1920x1080 scene."
+    }
+  ],
+  "stateMeanings": {
+    "workshop-loose": "备赛未完成：框架固定，宽主板和两销独立放在保护布上。",
+    "workshop": "备赛完成：主板与两销归位。",
+    "contest": "运输后/拆修后：三件放在保护布上，框架保持。",
+    "contest-built": "正式装配或维修复装完成：全部归位，保护布为空。",
+    "after": "获奖后：小许试坐/放书杯/放书，周伯观展。"
+  },
+  "limitations": [
+    "These are fixed painted milestone states, not every intermediate one-pin state; the puzzle engine and progress label provide exact partial state.",
+    "Generated local edits preserve overall framing and identity but are not guaranteed pixel-identical outside the changed region.",
+    "No UI/layout/browser QA performed by this asset agent; parent owns runtime checks."
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "source": "dist/assets/campaign-2d/room-table-night-0.webp",
+  "sourceCanvas": [
+    1920,
+    1080
+  ],
+  "sourceCrop": [
+    218,
+    124,
+    442,
+    348
+  ],
+  "assetRectXYWH": [
+    292,
+    200,
+    81,
+    92
+  ],
+  "normalizedRect": [
+    0.15208333333333332,
+    0.18518518518518517,
+    0.0421875,
+    0.08518518518518518
+  ],
+  "tool": "built-in ImageGen (targeted facial-expression edit), alpha packaging after selection",
+  "assets": {
+    "look": {
+      "path": "assets/campaign-2d/expressions/zhou-look.webp",
+      "rgbaDimensions": [
+        162,
+        184
+      ],
+      "alphaBBox": [
+        9,
+        19,
+        155,
+        120
+      ],
+      "skinToneBias": [
+        -15.0,
+        1.0,
+        11.0
+      ],
+      "generatedFilename": "exec-a5a53570-d014-49cf-a8a8-d6a0eded6894.png",
+      "generatedSHA256": "69fabcea5fd72df0ef5e02386f873b39295c514db8b58d57b9dde1a62d3393b4",
+      "encodedSHA256": "21c4212bd9c2a0ccbe6437404909ed656fe6b67e1cf3b7fa01fe208a5bb3c02b",
+      "encodedBytes": 17718
+    },
+    "smile": {
+      "path": "assets/campaign-2d/expressions/zhou-smile.webp",
+      "rgbaDimensions": [
+        162,
+        184
+      ],
+      "alphaBBox": [
+        9,
+        18,
+        155,
+        176
+      ],
+      "skinToneBias": [
+        -11.0,
+        -1.0,
+        5.0
+      ],
+      "generatedFilename": "exec-f25aefbf-92d1-4fa6-9739-7a8624c7a3e5.png",
+      "generatedSHA256": "e26237cee6d7722e93cc3b9377b752b7e6fdddaeaad68cf2b39659136eac416c",
+      "encodedSHA256": "40347d410082485e331995aceb975ec4d472fb0e2f12e978cff0c62dda715d82",
+      "encodedBytes": 26706
+    }
+  },
+  "prompts": {
+    "look": "Precise expression-cel edit of the attached original single square portrait crop: Elder Zhou, the welcoming elderly carpenter, gently glances down toward a joinery sample offscreen at lower right. Change only his irises and upper eyelids, keeping friendly slightly lifted mouth corners EXACTLY as in the original. Relaxed brows, relaxed forehead, gentle curiosity, a soft and generous expression. Both pupils clearly lower and to viewer's right; gently lower the upper eyelids but keep eyes open. Absolutely no frown or furrow, anger, worry or glaring. Eyebrows should form rounded soft arcs, facial appearance stays recognizably the same. Preserve exactly the original nose, angular jaw, ear, hair and silhouette. Keep original large head position, neck, jacket, lighting, proportions and rain-window backdrop pixel registered as if tracing a single replacement animation cel. Same warm palette, anime style and crop, square, original camera, no new objects or writing.",
+    "smile": "Precise expression-cel edit of the single provided target crop, a modern Chinese anime elder in a game. Paint a matching replacement eye-and-mouth expression to be cut back into this SAME scene. A small knowing laugh is just coming out as he remembers a silly wobbly chair. Cheerful crinkles below eyes, expressive soft crescent shape but open eyes gently raised, warmer smile with slightly parted corners (at most a fine sliver of teeth), subtly lifted eyebrows. Keep it restrained, unposed, friendly. Change only the inner face (eyes, brows, mouth); no actual head motion. Use exactly the same crop and facial landmarks matched as closely as a traced animation cel. Same elderly Chinese man, nose bridge, ear, hair, jaw, cheek outline, shirt collar, palette, shading, drawing style, face scale and position, window and camera. Do not zoom, reframe, alter head silhouette, substitute another design, draw an extra person or add text. Single opaque SQUARE edited frame filling the same composition edge to edge."
+  },
+  "assetContract": "Night interior room-wide frames 0 to 4 only. Position the local RGBA cell relative to the displayed painting, not viewport. Neutral is the base art with the cell removed.",
+  "qa": {
+    "files": [
+      "output/performance-0138/art-zhou/zhou-expressions-contact.png",
+      "output/performance-0138/art-zhou/zhou-expressions-five-rooms.jpg",
+      "output/performance-0138/art-zhou/full-look.webp",
+      "output/performance-0138/art-zhou/full-smile.webp"
+    ],
+    "nightFrameFaceAlignmentPx": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ]
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs');
+const {learned}=require('./helpers/campaign-fixtures.cjs');
+const base=process.env.TEST_URL||'http://127.0.0.1:4173/';
+(async()=>{const b=await chromium.launch({channel:'chrome',headless:true}),p=await b.newPage(),errors=[];let held;
+try{
+ p.on('pageerror',e=>errors.push(e.message));
+ await p.route('**/assets/campaign-2d/workbench-4.webp*',r=>{if(r.request().url().includes('retry='))return r.continue();held=r;});
+ await p.goto(base+'?practice=1');const s=learned();s.frame='room';await p.evaluate(s=>localStorage.setItem('sun-jian-campaign-v1',JSON.stringify(s)),s);await p.goto(base+'?journey=1');
+ await p.waitForFunction(()=>window.CampaignJourney&&!CampaignJourney.snapshot().scene.loading);
+ const before=await p.evaluate(()=>JSON.stringify(CampaignJourney.snapshot().state.runs));
+ await p.locator('[data-hotspot="frame:workbench"]').click();
+ await p.waitForFunction(()=>CampaignJourney.snapshot().scene.imageError,{},{timeout:22000});
+ assert.equal(await p.evaluate(()=>CampaignJourney.snapshot().scene.loading),false);
+ assert(await p.locator('[data-retry]').isVisible());assert(await p.locator('[data-menu]').isVisible());
+ await p.locator('[data-retry]').click();await p.waitForFunction(()=>!CampaignJourney.snapshot().scene.loading&&!CampaignJourney.snapshot().scene.imageError);
+ assert.equal(await p.locator('.illustrated-art').evaluate(e=>e.naturalWidth),1920);
+ await p.locator('[data-exit=room]').click();await p.waitForFunction(()=>CampaignJourney.snapshot().scene.frame==='room'&&!CampaignJourney.snapshot().scene.loading);
+ await held.fulfill({contentType:'image/webp',body:fs.readFileSync('dist/assets/campaign-2d/workbench-4.webp')}).catch(()=>{});await p.waitForTimeout(300);
+ assert.equal(await p.evaluate(()=>CampaignJourney.snapshot().scene.frame),'room');assert.equal(await p.evaluate(()=>JSON.stringify(CampaignJourney.snapshot().state.runs)),before);assert.deepEqual(errors,[]);
+ fs.mkdirSync('output/qa-0126',{recursive:true});await p.screenshot({path:'output/qa-0126/recovered.png'});fs.writeFileSync('output/qa-0126/loading.json',JSON.stringify({timeoutRecovery:true,retryRealPainting:true,lateResponseIgnored:true,progressPreserved:true,errors},null,2));
+ console.log('PASS hanging image times out, retry loads real artwork, late response cannot replace scene, progress preserved');
+}finally{await b.close();}})().catch(e=>{console.error(e);process.exit(1)});

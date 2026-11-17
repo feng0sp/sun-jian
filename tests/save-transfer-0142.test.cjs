@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict');
+const {D,P,E,C,learned}=require('./helpers/campaign-fixtures.cjs');
+const X=require('../dist/campaign-save-transfer.js');
+const encode=save=>JSON.stringify({format:'sun-jian-campaign-save',version:1,save});
+const sample=learned(),restored=X.inspect(encode(sample),D,P,E,C);
+assert.equal(restored.summary.lessons,4);assert.equal(restored.save.phase,'night');
+assert.deepEqual(restored.save.runs['learn-pinned-out'].history,sample.runs['learn-pinned-out'].history);
+for(const bad of ['{}','null','{','[]',JSON.stringify({format:'sun-jian-campaign-save',version:1,save:{version:2,phase:'complete',runs:{},done:'all'}}),'x'.repeat(X.MAX_BYTES+1)])assert.throws(()=>X.inspect(bad,D,P,E,C));
+const forged=structuredClone(sample);forged.phase='complete';forged.done.push('not-a-task');forged.continuation={...forged.continuation,active:true,productionStarted:true,resultSeen:true,endingSeen:true};
+const safe=X.inspect(encode(forged),D,P,E,C);assert(!safe.summary.awarded);assert(safe.summary.corrected);assert.notEqual(safe.save.phase,'complete');
+const broken=structuredClone(sample);broken.runs['learn-pinned-out'].history=[];
+const partial=X.inspect(encode(broken),D,P,E,C);assert.equal(partial.summary.lessons,2);assert.equal(partial.save.phase,'learning');
+console.log('PASS save transfer format/size guard, legal proofs, corrupt history recovery and forged award rejection');

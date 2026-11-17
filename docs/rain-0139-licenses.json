@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-11-06",
+  "recordings": [
+    {
+      "id": "leaves",
+      "title": "Rain on leaves",
+      "author": "SamsterBirdies",
+      "sourcePage": "https://freesound.org/people/SamsterBirdies/sounds/584272/",
+      "publicPreview": "https://cdn.freesound.org/previews/584/584272_5487341-hq.mp3",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceSha256": "98937a7ce64e973dbaa3d7879f41500d4e15e3b8b4ea30f6b927af5bf0d53977",
+      "processedSha256": "b04b69fdb362a63ed795b52a318813b9214c42e2ca247172b23d04280be4e9ae",
+      "asset": "dist/assets/audio/rain-leaves.js",
+      "assetBytes": 1066310,
+      "assetSha256": "c6070c7728a4db1f212b1718b8eaf18a7e839db00a7440bbe319c87329783b45",
+      "processing": "Complete public HQ preview; 85 Hz high-pass, 11 kHz low-pass, EBU loudness target -19 LUFS/-3 dBTP, stereo 48 kHz Opus VBR 128 kbps. Loop boundary crossfaded at playback. Base64 packaged in a lazily loaded script for HTTP and file:// parity.",
+      "sourceAccess": "Author page links public HQ preview; no sign-in, cookies, tokens or download endpoint used."
+    },
+    {
+      "id": "courtyard",
+      "title": "Clean rain in a courtyard",
+      "author": "xkeril",
+      "sourcePage": "https://freesound.org/people/xkeril/sounds/612817/",
+      "publicPreview": "https://cdn.freesound.org/previews/612/612817_13504080-hq.mp3",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceSha256": "f81c3852b38a209aeb83dece3788fd9e5c7d8e9594be393e755a3fb67d85fb59",
+      "processedSha256": "9008e3748515e28748b27c31d93c0b7d5145a9cf370fb0d5d9e7b07bdcb492ac",
+      "asset": "dist/assets/audio/rain-courtyard.js",
+      "assetBytes": 2739565,
+      "assetSha256": "445fadebbeef10364df4f2e026a6f8cf4cb1bde4a3f0efd2d2dff5b2c8af93d0",
+      "processing": "Complete public HQ preview; 85 Hz high-pass, 11 kHz low-pass, EBU loudness target -19 LUFS/-3 dBTP, stereo 48 kHz Opus VBR 128 kbps. Loop boundary crossfaded at playback. Base64 packaged in a lazily loaded script for HTTP and file:// parity.",
+      "sourceAccess": "Author page links public HQ preview; no sign-in, cookies, tokens or download endpoint used."
+    }
+  ]
+}

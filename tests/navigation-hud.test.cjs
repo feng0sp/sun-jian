@@ -1,0 +1,14 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs');
+const {D}=require('./helpers/campaign-fixtures.cjs');
+const base=process.env.TEST_URL||'http://127.0.0.1:4173/',out=process.env.TEST_OUTPUT||'output/campaign-0113';fs.mkdirSync(out,{recursive:true});
+async function seed(p,s){await p.goto(base+'?practice=1',{waitUntil:'domcontentloaded'});await p.evaluate(s=>localStorage.setItem('sun-jian-campaign-v1',JSON.stringify(s)),s);await p.goto(base+'?journey=1',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>CampaignJourney.snapshot().scene.available);}
+async function mutations(p,action){await p.evaluate(()=>{window.hudCount=0;window.hudObserver=new MutationObserver(m=>hudCount+=m.length);for(const id of ['campaign-target','campaign-location','campaign-time','campaign-chapter','campaign-heading','campaign-goal','campaign-purpose'])hudObserver.observe(document.getElementById(id),{childList:true,subtree:true,attributes:true,characterData:true});});await action();return p.evaluate(()=>{hudObserver.disconnect();return hudCount;});}
+(async()=>{const b=await chromium.launch({channel:'chrome',headless:true});try{
+ const p=await b.newPage({viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));const s=D.fresh();s.phase='settle';s.openingSeen=true;s.village.position=[-2.4,1.65,-4.8];s.village.yaw=.2;s.village.pitch=-.3;await seed(p,s);await p.locator('#campaign-target:not([hidden])').waitFor();
+ const idle=await mutations(p,()=>p.waitForTimeout(650));const walking=await mutations(p,async()=>{await p.keyboard.down('s');await p.waitForTimeout(350);await p.keyboard.up('s');});
+ fs.writeFileSync(out+'/hud-measurements.json',JSON.stringify({idle,walking},null,2));assert(idle<5,'a stationary target must not rebuild its label every frame');assert(walking<15,'unchanged area and objective must not rebuild on every movement frame');
+ await p.keyboard.press('e');await p.locator('#campaign-conversation').waitFor();await p.locator('#campaign-choices').getByRole('button',{name:'我先四处看看。',exact:true}).click();await p.waitForFunction(()=>!CampaignJourney.snapshot().modal);await p.locator('#campaign-target:not([hidden])').waitFor();assert((await p.locator('#campaign-target').innerText()).includes('周伯'));
+ // The side wall blocks chair interaction from outside; walking through the door still works.
+ s.village.position=[5,1.65,-4];s.village.yaw=Math.PI/2;s.village.pitch=-.3;await seed(p,s);await p.waitForTimeout(180);await p.keyboard.press('e');assert.equal((await p.evaluate(()=>CampaignJourney.snapshot())).modal,null);
+ assert.deepEqual(errors,[]);console.log('PASS: stable HUD avoids repeated DOM mutations, remains interactive after dialogue, and a wall blocks interaction.');
+ }finally{await b.close();}})().catch(e=>{console.error(e);process.exit(1)});

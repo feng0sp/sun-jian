@@ -1,0 +1,14 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs');
+const P=require('../dist/puzzle-core.js');require('../dist/bench-puzzle.js');const D=require('../dist/campaign-data.js'),C=require('../dist/cave-data.js'),S=require('../dist/campaign-story.js');
+const base=process.env.TEST_URL||'http://127.0.0.1:4173/',out=process.env.TEST_OUTPUT||'output/campaign-0112';fs.mkdirSync(out,{recursive:true});
+async function seed(p,s){await p.goto(base+'?practice=1');await p.evaluate(s=>localStorage.setItem('sun-jian-campaign-v1',JSON.stringify(s)),s);await p.goto(base+'?journey=1');await p.waitForFunction(()=>CampaignJourney.snapshot().scene.available);await p.waitForTimeout(120);}
+async function lines(p){for(let i=0;i<6;i++){if(!await p.locator('#campaign-next').isVisible())break;await p.locator('#campaign-next').click();}}
+(async()=>{const b=await chromium.launch({channel:'chrome',headless:true});try{
+const results=[];for(const [width,height]of [[1280,720],[1440,900],[1920,1080]]){const p=await b.newPage({viewport:{width,height}}),errs=[];p.on('pageerror',e=>errs.push(e.message));
+ // Real keyboard traversal of all displayed optional choices without advancing unrelated tasks.
+ for(const id of ['chair','tools','cup','heritage','invite']){const s=D.fresh();s.openingSeen=true;s.phase='settle';s.talk={id,line:0};s.village.position=[-2.4,1.65,-4.8];s.village.yaw=.2;s.village.pitch=-.3;await seed(p,s);await lines(p);const buttons=await p.locator('#campaign-choices button').all();assert(buttons.length>=2,id);for(const q of buttons){await q.focus();const r=await q.boundingBox();assert(r.x>=0&&r.y>=0&&r.x+r.width<=width&&r.y+r.height<=height,id+' choice visible');}await p.keyboard.press('ArrowUp');assert(await p.locator('#campaign-choices').evaluate(e=>e.contains(document.activeElement)));await p.keyboard.press('Tab');assert(await p.locator('#campaign-conversation').evaluate(e=>e.contains(document.activeElement)));assert.equal(await p.evaluate(()=>CampaignJourney.snapshot().state.phase),'settle');if(id==='chair')await p.screenshot({path:out+'/dialogue-'+width+'.png'});}
+ // A simple click on the cup does not force an unrequested action.
+ const s=D.fresh();s.openingSeen=true;s.phase='settle';s.talk={id:'cup',line:0};await seed(p,s);assert.equal(await p.locator('#campaign-speaker').innerText(),'我');await p.locator('#campaign-choices').getByRole('button',{name:'先放下。',exact:true}).click();assert(!await p.evaluate(()=>CampaignJourney.snapshot().state.spoken.includes('teaPour')));
+ assert.deepEqual(errs,[]);results.push({width,height,branches:5,keyboard:true,errors:errs});await p.close();}
+fs.writeFileSync(out+'/dialogue-layouts.json',JSON.stringify(results,null,2));console.log('PASS: three desktop sizes, five conversation branches, visible choices, arrow/Tab focus, cup action is optional.');
+}finally{await b.close();}})().catch(e=>{console.error(e);process.exit(1)});

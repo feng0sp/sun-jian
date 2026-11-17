@@ -1,0 +1,97 @@
+{
+  "version": "0.13.9",
+  "tool": "built-in ImageGen",
+  "prompts": {
+    "normal": "Create one production-ready half-body character sprite for a calm Chinese narrative joinery puzzle game, on a truly transparent background. Xiaoxu is a Chinese woman in her mid twenties, a modern hiking companion, warm, practical and slightly quick-witted. Natural adult anatomy and modest normal body proportions. Draw from the crown of her head to mid-thigh, her body fully contained with generous transparent room around hair and elbows. Three-quarter front view, gaze towards the viewer and slightly to screen right, suitable for a dialogue portrait on the left. Dark chestnut hair in a short practical ponytail with a few rain-damp wisps at the temples. A simple muted dusty rust-orange waterproof hiking shell over an off-white shirt, dark charcoal trousers, small muted dark teal backpack straps. One hand rests loosely around a backpack shoulder strap at waist height, the other arm hangs relaxed, both hands natural and complete. Expression neutral but alert and approachable, slightly parted lips as if ready to answer. Clear strong hand-inked anime contours, angular but friendly facial planes, restrained two-to-three value cel shading with subtle painted texture, the detailed Chinese anime adventure game style used for everyday adults. Clean shape design and crisp controlled line weight. Soft overcast cool light with a hint of warm bounce, balanced neutral skin tones. No doll look, no big round child eyes, no huge head, no glossy plastic, no glamour styling, no chibi, no fantasy accessories. Isolated single character, no scenery, no ground shadow, no lettering, no border or UI. No white silhouette outline. Preserve genuine transparency.",
+    "cleanup": "Edit this one supplied Xiaoxu character sprite precisely in place. Keep the SAME person, SAME head and body position, SAME hands, clothing, backpack, pose, clear drawing contours, neutral expression and colors. The only change is to make a clean professional cutout: erase every part of the brown smoky / blurry glow around her silhouette completely. Every pixel outside the opaque inked character should be entirely transparent, including between her arms and backpack. No shadow or colored fog should remain outside the contour, no fringe, no backlight aura. Preserve hair wisps and crisp natural anti-aliased edges, isolated on true alpha. Do not reframe or redraw the figure, do not add a background or white stroke. Exact same 1024 by 1536 canvas and registration.",
+    "worried": "Edit the supplied transparent Xiaoxu sprite as an alternate expression cel. EXACT same 1024x1536 canvas, woman, pose, head angle, hair silhouette, clothes, backpack, arm and hand positions, color palette and linework, genuine clear alpha outside the figure. Change ONLY her eyes, eyebrows and mouth into mild practical concern, as a young hiking friend looking at the rain-dark path ahead. Slightly raised inner eyebrows, alert eyes glancing a little to screen right, lips softly closed or a tiny concerned opening. Kind and thinking, not afraid, no tears, no frown caricature, no blush. Natural understated adult Chinese anime expression. Keep nose, jaw, ear, neck and outline anchored to the original. Do not change her body or add a backdrop, do not zoom or move the figure. Single registered expression variation on transparent background.",
+    "smile": "Edit the supplied transparent Xiaoxu sprite as an alternate expression cel. EXACT same 1024x1536 canvas, woman, pose, head angle, hair silhouette, clothes, backpack, arms, hands, color palette and strong clean anime linework. Change ONLY inner eyes, eyebrows and mouth: a small amused friendly smile while teasing a hiking friend. A gently lifted mouth corner, a narrow glimpse of upper teeth, subtly smiling eyes and relaxed eyebrows. Warm and adult, restrained everyday humor; do not make an exaggerated grin or close both eyes, no blush marks, no beauty retouch. Keep the nose, jaw, cheek edges, ear, neck and silhouette perfectly registered. This is a replacement face cel for the same dialogue portrait. Genuine transparency outside the character; no fog, glow, backdrop, border, text or camera movement. Do not change the clothing or body.",
+    "zhouWarm": "Precisely edit the supplied cropped anime portrait as a replacement welcoming-expression cel for Elder Zhou, a modern elderly Chinese carpenter. Same exact square crop and pixel registration, face outline, nose, ear, neck, hairstyle, warm side light, blue-grey jacket and rainy window. Change only eyes, eyebrows and inner mouth to look more kindly and gently welcoming. Relax the steep knitted eyebrow angle, soften the inner brow, make the upper eyelids feel unhurried, natural tender eye creases, slightly lift the mouth corners into an understated closed smile. Keep his mature cheekbone planes, wrinkles, gray hair and weathered character; he should still look like the same practical elderly man. He is greeting a rain-soaked young visitor. No bigger eyes, no cosmetic de-aging, no saintly glow, no drooping caricature, no broad laugh, no doll face. Preserve all other pixels as closely as possible and do not move the head, reframe, zoom, add objects or text. Return one opaque square frame, identical composition."
+  },
+  "sourceDirectory": "C:/Users/13412/.codex/generated_images/01a1ae64-a551-72a2-a9f9-26569f52ac43",
+  "sources": {
+    "normal": "exec-04cc6528-5f04-4e4c-bd82-09c59965af0e.png",
+    "cleanup": "exec-94abb7e2-8225-4a60-a361-62a83a04d45f.png",
+    "worried": "exec-75b3bfea-ea83-46d9-9d09-4facef26060c.png",
+    "smile": "exec-7ea379c1-a1a6-4b38-99ae-22c13b994d3b.png",
+    "zhouWarm": "exec-7e6456cd-d9e3-408e-8971-423005009a92.png"
+  },
+  "assets": {
+    "normal": {
+      "path": "assets/campaign-2d/xiaoxu/normal.webp",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 164786,
+      "sha256": "8c5e6ace10e2c1d9ddf05298ffae966dddb5f88fe497dddad1788cf3fac84dd7"
+    },
+    "worried": {
+      "path": "assets/campaign-2d/xiaoxu/worried.webp",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 164710,
+      "sha256": "953b6c448567dd4bdcaf192d701033879e2696cb9fdf5c7c9966a08b012f584d"
+    },
+    "smile": {
+      "path": "assets/campaign-2d/xiaoxu/smile.webp",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 164936,
+      "sha256": "d11e833ef1d34cb82c4bb7de5517532515b21db65755aa863fbc64983f6f818a"
+    }
+  },
+  "spriteContract": {
+    "canvas": [
+      768,
+      1152
+    ],
+    "bodyAndAlpha": "same base sprite; only brows, eyes and mouth vary",
+    "avatarObjectPosition": "57% 12%",
+    "faceCenterNormalized": [
+      0.558,
+      0.176
+    ],
+    "faceCropXYWH": [
+      292,
+      88,
+      239,
+      224
+    ],
+    "cleanupAttempt": "The PNG RGB stores a dark outside gradient, but outside-alpha samples are 0. The original clean alpha was retained."
+  },
+  "zhouWarm": {
+    "path": "assets/campaign-2d/expressions/zhou-warm.webp",
+    "sourceCanvas": [
+      1920,
+      1080
+    ],
+    "rectXYWH": [
+      292,
+      200,
+      81,
+      92
+    ],
+    "size": [
+      162,
+      184
+    ],
+    "skinBias": [
+      -6.0,
+      1.0,
+      2.0
+    ],
+    "bytes": 24688,
+    "sha256": "65974aaf7fed4c778180d4ae3857afa1564cc61ef1660e57ccd8f282c28ed287",
+    "appliesTo": "room-table-night-0 through 4"
+  },
+  "qa": {
+    "contactSheet": "output/context-0139/art-xiaoxu/xiaoxu-three-expressions.jpg",
+    "zhouComparison": "output/context-0139/art-xiaoxu/zhou-warm-comparison.png",
+    "fullScene": "output/context-0139/art-xiaoxu/zhou-warm-full.webp"
+  }
+}

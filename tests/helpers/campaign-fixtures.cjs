@@ -1,0 +1,6 @@
+const P=require('../../dist/puzzle-core.js');require('../../dist/bench-puzzle.js');
+const E=require('../../dist/experience.js'),C=require('../../dist/cave-data.js'),D=require('../../dist/campaign-data.js');
+function solved(id,mode){const l=P.LEVELS.find(l=>l.id===id);function route(r){if(mode==='assemble'?!r.length:r.length===l.pieces.filter(p=>!p.fixed).length)return [];for(const m of (mode==='assemble'?P.availableInsertions:P.availableMoves)(l,r)){const tail=route(mode==='assemble'?r.filter(x=>x!==m.piece):[...r,m.piece]);if(tail)return[{kind:mode==='assemble'?'insert':'extract',piece:m.piece,direction:m.direction},...tail];}return null;}return{version:1,level:id,mode,history:route(mode==='assemble'?l.pieces.filter(p=>!p.fixed).map(p=>p.id):[]),action:'extract'};}
+function learned(){const s=D.fresh();s.phase='night';s.openingSeen=true;for(const t of D.tasks){s.done.push(t.id);s.runs[t.id]=solved(t.level,t.mode);}return s;}
+function caveDone(count=8){const s=learned();s.phase='cave';s.scene='cave';for(const n of C.nodes.slice(0,count)){s.cave.completed.push(n.id);s.runs['cave:'+n.id]=solved(n.level,'dismantle');s.cave.runs[n.id+':dismantle']=s.runs['cave:'+n.id];}return s;}
+module.exports={P,E,C,D,solved,learned,caveDone};

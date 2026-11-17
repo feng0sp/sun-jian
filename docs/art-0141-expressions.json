@@ -1,0 +1,511 @@
+{
+  "mode": "built-in image_gen edits",
+  "postprocess": "Encoding/resizing only; no programmatic redraw or compositing of production images.",
+  "assets": [
+    {
+      "key": "surprised",
+      "target": "dist/assets/campaign-2d/traveler/indoor-surprised.webp",
+      "original": "dist/assets/campaign-2d/traveler/indoor.webp",
+      "size": [
+        1024,
+        1536
+      ],
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b47d-d1c9-7881-b860-d3dacbd11c3d\\exec-8b3dae6a-3e85-4951-a3f8-aeb4065795dc.png",
+      "prompt": "Edit the attached exact existing full-body game sprite, do not redesign him. SAME Chinese male college student, same black short hair, same gray-blue jacket and white shirt, no backpack, same notebook and hands, same feet, body pose, scale, and every body/head coordinate. Preserve the 1024x1536 transparent canvas and transparency. Only change the facial expression inside the face: he has just heard his own name at a small craft competition, restrained happy surprise. Slightly raised eyebrows, subtly widened eyes, mouth slightly open as he starts to say 'really, me?'. He remains clearly an adult young man, natural handsome hard-edged anime linework matching the original, no exaggerated comic mouth, no blush, no tears. Everything outside the facial features is invariant, keep the exact current silhouette and hairline. This is an expression swap frame intended to overlay perfectly in an existing game, not a new illustration. NO background, NO letters.",
+      "mode": "RGBA",
+      "bytes": 167444,
+      "sha256": "2c196ccecf7cadcdb519bf91d988a17f8c5ae381ff04f690d149b1c5047aaf7f",
+      "anchors": [
+        {
+          "rect": [
+            442,
+            25,
+            100,
+            50
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.92522
+        },
+        {
+          "rect": [
+            392,
+            337,
+            70,
+            85
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.99634
+        },
+        {
+          "rect": [
+            383,
+            439,
+            70,
+            75
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.97681
+        },
+        {
+          "rect": [
+            386,
+            1388,
+            100,
+            50
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.93593
+        }
+      ],
+      "alpha_bbox": [
+        57,
+        12,
+        996,
+        1512
+      ],
+      "original_alpha_bbox": [
+        25,
+        12,
+        934,
+        1512
+      ],
+      "recommendedFaceRect": [
+        420,
+        65,
+        215,
+        190
+      ]
+    },
+    {
+      "key": "relieved",
+      "target": "dist/assets/campaign-2d/traveler/indoor-relieved.webp",
+      "original": "dist/assets/campaign-2d/traveler/indoor.webp",
+      "size": [
+        1024,
+        1536
+      ],
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b47d-d1c9-7881-b860-d3dacbd11c3d\\exec-a71ef208-c5f7-4ca8-a1f0-9b9150806ed8.png",
+      "prompt": "Edit the attached exact existing full-body game sprite, do not redesign him. SAME Chinese male college student, same black short hair, same gray-blue jacket and white shirt, no backpack, same notebook and hands, same feet, body pose, scale, and every body/head coordinate. Preserve the 1024x1536 transparent canvas and transparency. Only change the facial expression inside the face. Keep the exact silhouette, hairline, neck, background alpha, lighting and hard-edged anime linework. This is a registered expression swap frame, not a new illustration. No text, tears, blush, exaggerated comic mouth. A relieved, sincere small smile after the tension of a first competition lets go. Eyebrows soften, eyes remain open and focused toward the same point, lower eyelids relax, mouth corners rise a little in a natural closed-mouth smile. He looks happy and a little bashful, NOT sad or exhausted.",
+      "mode": "RGBA",
+      "bytes": 174280,
+      "sha256": "164b11540351119f9a58fe7b2a860117d57568708857d225928656fd1a15bf22",
+      "anchors": [
+        {
+          "rect": [
+            442,
+            25,
+            100,
+            50
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.931
+        },
+        {
+          "rect": [
+            392,
+            337,
+            70,
+            85
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.99578
+        },
+        {
+          "rect": [
+            383,
+            439,
+            70,
+            75
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.98045
+        },
+        {
+          "rect": [
+            386,
+            1388,
+            100,
+            50
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.93521
+        }
+      ],
+      "alpha_bbox": [
+        31,
+        14,
+        1000,
+        1516
+      ],
+      "original_alpha_bbox": [
+        25,
+        12,
+        934,
+        1512
+      ],
+      "recommendedFaceRect": [
+        420,
+        65,
+        215,
+        190
+      ]
+    },
+    {
+      "key": "smile",
+      "target": "dist/assets/campaign-2d/traveler/indoor-smile.webp",
+      "original": "dist/assets/campaign-2d/traveler/indoor.webp",
+      "size": [
+        1024,
+        1536
+      ],
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b47d-d1c9-7881-b860-d3dacbd11c3d\\exec-bdf27155-8518-472a-ba70-d68a5f24d645.png",
+      "prompt": "Edit the attached exact existing full-body game sprite, do not redesign him. SAME Chinese male college student, same black short hair, same gray-blue jacket and white shirt, no backpack, same notebook and hands, same feet, body pose, scale, and every body/head coordinate. Preserve the 1024x1536 transparent canvas and transparency. Only change the facial expression inside the face. Keep the exact silhouette, hairline, neck, background alpha, lighting and hard-edged anime linework. This is a registered expression swap frame, not a new illustration. No text, tears, blush, exaggerated comic mouth. A naturally happy, clean, warm young man's smile as he thanks a friend. Eyes brighten and soften slightly, mouth corners rise clearly, lips gently part at most, no exaggerated toothy grin. Confident but modest genuine joy.",
+      "mode": "RGBA",
+      "bytes": 173254,
+      "sha256": "288adbc22656e71fedc40075eafa668dbd11d15bd6fd6e3c5a2c4e4e75312721",
+      "anchors": [
+        {
+          "rect": [
+            442,
+            25,
+            100,
+            50
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.93198
+        },
+        {
+          "rect": [
+            392,
+            337,
+            70,
+            85
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.9931
+        },
+        {
+          "rect": [
+            383,
+            439,
+            70,
+            75
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.98702
+        },
+        {
+          "rect": [
+            386,
+            1388,
+            100,
+            50
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.92631
+        }
+      ],
+      "alpha_bbox": [
+        41,
+        13,
+        1002,
+        1512
+      ],
+      "original_alpha_bbox": [
+        25,
+        12,
+        934,
+        1512
+      ],
+      "recommendedFaceRect": [
+        420,
+        65,
+        215,
+        190
+      ]
+    },
+    {
+      "key": "stool-proud",
+      "target": "dist/assets/campaign-2d/contest-014/stool-after-proud.webp",
+      "original": "dist/assets/campaign-2d/contest-014/stool-after.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b47d-d1c9-7881-b860-d3dacbd11c3d\\exec-29b6bb41-df4a-4d4b-bb97-9b7a4bc0950d.png",
+      "prompt": "Precise local expression edit of the attached finished anime game scene. This is a registered overlay frame: keep the EXACT existing camera, 16:9 composition, every character's body position, furniture geometry, all background objects, light, floor reflections, shadows, lines and colors. Do not move, reframe, resize, add or remove anything. Change ONLY the elderly white-haired man Zhou Bo's eyebrows, eyes, and mouth inside his face. He is the standing man on the right, wearing a plain washed gray-blue shirt/jacket and dark trousers. His young student has just won third place, and he is quietly very happy for him. A warm proud gentle smile, slightly softened eyes and relaxed raised inner cheeks. Keep his age, facial wrinkles, strong anime contours and exact head/hair silhouette. NO tears, glow, blush or exaggerated expression, and no facial changes to either young woman. Everything outside his face must remain identical to the supplied painting. Output full scene at the same 1920x1080 16:9 framing.",
+      "mode": "RGB",
+      "bytes": 445258,
+      "sha256": "181189ca72e8ebfc6d177af3797a08d43b2e82aa58ab5e694196dd9f4d50fc7d",
+      "anchors": [
+        {
+          "rect": [
+            164,
+            12,
+            120,
+            60
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.99775
+        },
+        {
+          "rect": [
+            37,
+            324,
+            100,
+            100
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.98098
+        },
+        {
+          "rect": [
+            1740,
+            248,
+            100,
+            100
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.98776
+        },
+        {
+          "rect": [
+            92,
+            846,
+            100,
+            100
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.99281
+        }
+      ],
+      "faceRect": [
+        1262,
+        45,
+        132,
+        144
+      ],
+      "recommendedFaceRect": [
+        1262,
+        45,
+        132,
+        144
+      ]
+    },
+    {
+      "key": "table-proud",
+      "target": "dist/assets/campaign-2d/contest-014/table-after-proud.webp",
+      "original": "dist/assets/campaign-2d/contest-014/table-after.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b47d-d1c9-7881-b860-d3dacbd11c3d\\exec-95aa5d18-481f-4520-87d5-6b011416d837.png",
+      "prompt": "Precise local expression edit of the attached finished anime game scene. This is a registered overlay frame: keep the EXACT existing camera, 16:9 composition, every character's body position, furniture geometry, all background objects, light, floor reflections, shadows, lines and colors. Do not move, reframe, resize, add or remove anything. Change ONLY the elderly white-haired man Zhou Bo's eyebrows, eyes, and mouth inside his face. He is the standing man on the right, wearing a plain washed gray-blue shirt/jacket and dark trousers. His young student has just won third place, and he is quietly very happy for him. A warm proud gentle smile, slightly softened eyes and relaxed raised inner cheeks. Keep his age, facial wrinkles, strong anime contours and exact head/hair silhouette. NO tears, glow, blush or exaggerated expression, and no facial changes to either young woman. Everything outside his face must remain identical to the supplied painting. Output full scene at the same 1920x1080 16:9 framing.",
+      "mode": "RGB",
+      "bytes": 441478,
+      "sha256": "f4136f29322e478905390502b4d7d720ea0e66d7f994a9c342b17a150209a5c3",
+      "anchors": [
+        {
+          "rect": [
+            164,
+            12,
+            120,
+            60
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.99774
+        },
+        {
+          "rect": [
+            37,
+            324,
+            100,
+            100
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.97379
+        },
+        {
+          "rect": [
+            1740,
+            248,
+            100,
+            100
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.9919
+        },
+        {
+          "rect": [
+            92,
+            846,
+            100,
+            100
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.9909
+        }
+      ],
+      "faceRect": [
+        1350,
+        75,
+        140,
+        155
+      ],
+      "recommendedFaceRect": [
+        1350,
+        75,
+        140,
+        155
+      ]
+    },
+    {
+      "key": "shelf-proud",
+      "target": "dist/assets/campaign-2d/contest-014/shelf-after-proud.webp",
+      "original": "dist/assets/campaign-2d/contest-014/shelf-after.webp",
+      "size": [
+        1920,
+        1080
+      ],
+      "source": "C:\\Users\\13412\\.codex\\generated_images\\01a1b47d-d1c9-7881-b860-d3dacbd11c3d\\exec-5b608d76-4237-4184-b684-c8cbd00f4a58.png",
+      "prompt": "Precise local expression edit of the attached finished anime game scene. This is a registered overlay frame: keep the EXACT existing camera, 16:9 composition, every character's body position, furniture geometry, all background objects, light, floor reflections, shadows, lines and colors. Do not move, reframe, resize, add or remove anything. Change ONLY the elderly white-haired man Zhou Bo's eyebrows, eyes, and mouth inside his face. He is the standing man on the right, wearing a plain washed gray-blue shirt/jacket and dark trousers. His young student has just won third place, and he is quietly very happy for him. A warm proud gentle smile, slightly softened eyes and relaxed raised inner cheeks. Keep his age, facial wrinkles, strong anime contours and exact head/hair silhouette. NO tears, glow, blush or exaggerated expression, and no facial changes to either young woman. Everything outside his face must remain identical to the supplied painting. Output full scene at the same 1920x1080 16:9 framing.",
+      "mode": "RGB",
+      "bytes": 456528,
+      "sha256": "adeda94d356f736e6d2aecf46cfdbf069c12906a3d49ad005bc9417b2de372f0",
+      "anchors": [
+        {
+          "rect": [
+            164,
+            12,
+            120,
+            60
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.99776
+        },
+        {
+          "rect": [
+            37,
+            324,
+            100,
+            100
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.97119
+        },
+        {
+          "rect": [
+            1740,
+            248,
+            100,
+            100
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.99214
+        },
+        {
+          "rect": [
+            92,
+            846,
+            100,
+            100
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "ncc": 0.99336
+        }
+      ],
+      "faceRect": [
+        1545,
+        85,
+        140,
+        150
+      ],
+      "recommendedFaceRect": [
+        1545,
+        85,
+        140,
+        150
+      ]
+    }
+  ],
+  "registration": "Independent NCC of unchanged hair/clothes/background anchors, 7px search radius. NCC is diagnostic, not a claim of exact pixel identity.",
+  "limits": [
+    "Generated painting edits can have minor antialiasing/color differences outside the requested facial region. Keep original paintings as the fallback.",
+    "Portrait canvas/pose and scene layout retained; exact anchor offsets below.",
+    "Male full-frame alpha bounding boxes differ in low-opacity halo padding; unchanged visible hair/clothes/shoes anchors have zero measured translation. For strict edge stability use the original body beneath a face-clipped variant."
+  ],
+  "diagnosticComparison": "output/dialogue-0141/art/all-faces-before-after.jpg"
+}

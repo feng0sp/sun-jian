@@ -1,0 +1,11 @@
+process.env.TEST_OUTPUT||='output/awards-0143/demos';
+const {record,ready}=require('./record-performance-0138.cjs'),{armAudioCapture}=require('../tests/helpers/capture-audio.cjs');
+const {base,path}=require('../tests/finale-state.test.cjs'),{chromium}=require('playwright'),fs=require('node:fs');
+const out=process.env.TEST_OUTPUT,url=process.env.TEST_URL||'http://127.0.0.1:4173/';
+const button=(p,t)=>p.locator('#campaign-panel-actions').getByRole('button',{name:t,exact:false}).click();
+async function read(p){for(let i=0;i<22&&await p.locator('#campaign-conversation').isVisible();i++){await p.waitForTimeout(Math.min(4200,Math.max(1700,(await p.locator('#campaign-line').innerText()).length*100)));await p.locator('#campaign-next').click();}}
+(async()=>{fs.mkdirSync(out,{recursive:true});const b=await chromium.launch({channel:'chrome'}),p=await b.newPage({viewport:{width:1280,height:720}});try{
+ const s=base(),c=s.continuation;Object.assign(c,{productionStarted:true,workChoice:'stool',resting:false,inspected:['panel','moving','service'],recordsReady:true,packed:true,arrivalSeen:true,contestRegistered:true,presented:true,judged:true,judgeMet:true});for(const slot of ['entryRun','contestRun','serviceDemoRun','serviceReturnRun'])c[slot]=path('entry-shoe-stool',slot==='serviceDemoRun'?'dismantle':'assemble');s.settings.sound=true;
+ await armAudioCapture(p);await p.goto(url+'?practice=1');await p.evaluate(s=>localStorage.setItem('sun-jian-campaign-v1',JSON.stringify(s)),s);await p.goto(url+'?journey=1');await ready(p);await p.keyboard.press('Shift');await p.waitForFunction(()=>JourneyAtmosphere.snapshot().running);
+ const info=await record(p,'正式领奖与远程报喜',async()=>{await p.waitForTimeout(1500);await button(p,'听公布结果');await read(p);await p.waitForTimeout(1500);await button(p,'领取证书');await p.waitForTimeout(5500);await p.screenshot({path:out+'/领奖证书.png'});await button(p,'和大家拍张合影');await p.waitForTimeout(4500);await p.screenshot({path:out+'/领奖合影.png'});await button(p,'收好合影');await read(p);await p.screenshot({path:out+'/完整旅程完成.png'});},{minimumFrames:8});fs.writeFileSync(out+'/verification.json',JSON.stringify(info,null,2));console.log(JSON.stringify({movie:info.movie,seconds:info.seconds}));
+ }finally{await b.close();}})().catch(e=>{console.error(e);process.exitCode=1});

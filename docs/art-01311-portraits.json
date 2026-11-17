@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "release": "0.13.11",
+  "createdAtUTC": "2026-11-06T11:36:12Z",
+  "scope": "男主旅行/室内立绘、村口正式送别、返家学习场景。仅新增素材和本清单，未修改游戏脚本、存档或发布。",
+  "productionMethod": "OpenAI 内置 image_gen.imagegen；没有使用 CLI/API 回退，也没有手绘或脚本修图。Pillow 仅用于转 WebP、常规输出缩放与元数据检查。",
+  "artDirection": "现代山村与普通现代住处；硬朗但自然的动漫轮廓、成组明暗、自然人体比例。保留同一个男大学生和女性小许身份。",
+  "preservedInputs": [
+    {
+      "path": "dist/assets/cave/traveler.png",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "sha256": "d5a19ad16ce88133bcd0e902b8821940603a20eab85fa24d93e1a7061435f84c",
+      "role": "用户确认的男主身份与旅行服装原图，未修改"
+    },
+    {
+      "path": "dist/assets/campaign-2d/xiaoxu/normal.webp",
+      "dimensions": [
+        768,
+        1152
+      ],
+      "sha256": "8c5e6ace10e2c1d9ddf05298ffae966dddb5f88fe497dddad1788cf3fac84dd7",
+      "role": "既有小许女性角色参考，未修改"
+    },
+    {
+      "path": "dist/assets/campaign-2d/village-day.webp",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "role": "送别固定村口相机、房屋与石阶方向"
+    },
+    {
+      "path": "dist/assets/campaign-2d/room-day.webp",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "role": "周伯身份与既有动漫背景线条/光色参考"
+    },
+    {
+      "path": "dist/assets/campaign-2d/shelter-wide-complete.webp",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "role": "送别远景中已修好长凳的设计参考，未修改"
+    }
+  ],
+  "assets": [
+    {
+      "id": "traveler-normal-01311",
+      "path": "dist/assets/campaign-2d/traveler/normal.webp",
+      "purpose": "我发言时的旅行版男主/头像源，与室内版共用相同裁切。",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "bytes": 196486,
+      "sha256": "bb911c198c6c68f2df93663c33d4d3350782414bea2791fef04a7e09a10091a1",
+      "origin": "既有 traveler.png 直接转 WebP，无新增绘制。",
+      "conversion": {
+        "format": "WebP",
+        "quality": 95,
+        "method": 6,
+        "resize": false,
+        "alpha": "保留源 alpha"
+      },
+      "qa": [
+        "原图未覆盖",
+        "浏览器浅底实际合成无可见脏边",
+        "脸、发型、背包、衣服和手记均沿用原图"
+      ]
+    },
+    {
+      "id": "traveler-indoor-01311",
+      "path": "dist/assets/campaign-2d/traveler/indoor.webp",
+      "purpose": "放包后的同一个男主室内版本；移除背包与双肩带。",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "bytes": 163140,
+      "sha256": "3c451b19fc501fbe25483c0b2d4e92628d54d6d6c403c9833ca7a6ca9f0c66ce",
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b083-44b4-7c92-a34d-344c189cda64/exec-267ff4a3-0a4a-4253-92cb-5ed9bd91ad65.png",
+      "sourceReferences": [
+        "dist/assets/cave/traveler.png"
+      ],
+      "generationSteps": [
+        {
+          "purpose": "保留人物身份，移除包及肩带",
+          "prompt": "EDIT TARGET: the attached original full-body male traveler sprite from the game 榫间. Make a single production sprite, retaining the exact same recognisable Chinese male college-student character: clean neat short dark hair, the same mature youthful face and jaw, eye shape, natural proportions, gray-blue rolled-sleeve outdoor shirt-jacket over an off-white T shirt, dark trousers, hiking shoes, tan paper notebook in his right hand (on the viewer's left), and the same relaxed three-quarter pose and gaze towards screen right. Make only the indoor change: remove the entire olive hiking backpack behind his shoulders and torso, remove BOTH backpack shoulder straps, hanging webbing, buckles and all bag remnants. Where the straps used to cross the chest, reconstruct the original gray-blue jacket folds, seams and front pockets naturally. Do not change the face, hairstyle, head angle, expression, clothing identity, hand anatomy, notebook, stance or the framing. Keep him fully contained head to shoes, same 2:3 portrait proportions as the input, generous transparent margin, crisp clean hard-edged anime illustration with clear cel-shaded planes matching the original; no soft chibi/cartoon redesign. Genuinely transparent background (alpha), NO dark halo, no colored background, no ground, no vignette, no cast shadow outside the figure. This is the same man after setting down his hiking bag inside the house. No words, no logos.",
+          "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b083-44b4-7c92-a34d-344c189cda64/exec-027c86bc-7ea7-45dd-9f22-7c8f939335a5.png",
+          "transparentBackground": true
+        },
+        {
+          "purpose": "透明边缘清理复核，不改变人物",
+          "prompt": "Clean up ONLY the alpha/background of this exact character sprite. The approved character and all visible artwork within his silhouette MUST remain identical: exact face, hair, head angle, jacket, white T shirt, paper notebook, hands, trousers, shoes, pose and size. Keep the indoor no-backpack condition: no backpack or shoulder straps. Remove EVERY trace of the black/gray/brown soft vignette, glow and background shadow around him, including the large dark gradient on the left, right, behind his legs and underneath the shoes. Output a clean game sprite cutout on a GENUINELY TRANSPARENT ALPHA background; pixels outside the hair/clothing/hand/shoe silhouette must be fully transparent, not dark translucent. Only natural narrow anti-aliasing at the silhouette edge. No colored matte, no gradient, no soft halo, no drop shadow, no ground contact shadow. The opaque character should remain solid, not translucent. Keep the whole figure within the same 1024x1536 / 2:3 canvas with the same margins. This is an alpha cleanup task, not an illustration redesign.",
+          "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b083-44b4-7c92-a34d-344c189cda64/exec-267ff4a3-0a4a-4253-92cb-5ed9bd91ad65.png",
+          "transparentBackground": true
+        }
+      ],
+      "conversion": {
+        "format": "WebP",
+        "quality": 95,
+        "method": 6,
+        "resize": false,
+        "alpha": "保留生成 alpha"
+      },
+      "qa": [
+        "检查脸部、头发、眼神、衣服、手记、手部和站姿身份一致",
+        "肩背与胸前没有背包、肩带、扣件残留",
+        "实际 Chrome 浅底合成无可见外部光晕；单图查看器显示的透明 RGB 不作为可见边缘判断",
+        "源图与新图内部 alpha 主要为 252—254，保留原始透明信息，没有用脚本阈值改边缘"
+      ]
+    },
+    {
+      "id": "goodbye-village-01311",
+      "path": "dist/assets/campaign-2d/goodbye-village-01311.webp",
+      "purpose": "修凳后正式离村，第一人称玩家看见周伯门前送别、小许在石阶下等候。",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "generatedDimensions": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "bytes": 830752,
+      "sha256": "2bf59843bfec06349b9fbe45b4405838ce611ba9681bb8d449efd477248c6614",
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b083-44b4-7c92-a34d-344c189cda64/exec-c2edc11a-7247-4ea0-9386-41c9de7ba07f.png",
+      "sourceReferences": [
+        "dist/assets/campaign-2d/village-day.webp",
+        "dist/assets/campaign-2d/room-day.webp",
+        "dist/assets/campaign-2d/xiaoxu/normal.webp",
+        "dist/assets/campaign-2d/shelter-wide-complete.webp"
+      ],
+      "generationSteps": [
+        {
+          "purpose": "同构图门前送别与两个人物",
+          "prompt": "Create one coherent 16:9 production game background EDIT of reference image 1, the existing daytime village entrance illustration for 榫间. Keep the SAME fixed camera, house placement, doorway on the upper left, stone steps descending from that doorway, downhill village road, rain shelter on the right, mountain terraces, power lines and vegetation. Preserve the house and steps geometry, the quiet morning-after-rain palette, warm natural sunlight, wet paving and reflections. This scene is a modest farewell the morning after the visitor repaired the village bench. Add exactly TWO fully painted figures integrated into this scene, not separate pasted portrait cutouts: (1) Zhou Bo, the SAME elderly Chinese retired carpenter in reference image 2, gray swept short hair, angular but kind mature face, washed gray-blue plain work jacket over ordinary gray undershirt, dark trousers and dark cloth shoes. He stands naturally at his open doorway on the top stone landing, about the size implied by the doorway, smiling gently and giving a small relaxed farewell gesture. His feet must rest visibly on the landing and his soft contact/cast shadows must follow the existing sunlight. (2) Xiaoxu, the SAME young Chinese woman from reference image 3, chestnut short ponytail, dusty rust-orange hiking shell, cream shirt, dark hiking trousers and hiking shoes, small dark teal backpack. She is a few steps downhill from the landing, near the left-middle road, turned slightly back toward Zhou and the first-person viewer as if waiting to leave together. Natural adult proportions, modest friendly expression, both feet planted on appropriate stone levels with accurate contact shadows. The figures should remain environmental scale (roughly 25 to 35 percent of canvas height), not huge foreground cutouts, and should not hide the doorway or the road. The protagonist is the first-person viewer and MUST NOT be drawn in this background: no third person, no duplicate male student, no visible player hands or body. Render background and people as ONE image with unified hard-edged anime line weight, grouped cel-shaded planes and natural material detail, matching the already established game rather than photographic figures or soft chibi. Preserve all major objects from image 1, the road and foreground remain free for UI overlays. Add no text, signs, subtitles, logos, UI, symbols or new buildings. This is an original contemporary Chinese mountain village, not an ancient costume setting.",
+          "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b083-44b4-7c92-a34d-344c189cda64/exec-58dd6eda-02c4-4250-b0e8-afec5c5a28b6.png",
+          "transparentBackground": false
+        },
+        {
+          "purpose": "修复前景雨棚无已修长凳的连续性",
+          "prompt": "EDIT TARGET is reference image 1, the farewell scene outside Zhou Bo's house. Make exactly one small continuity correction: the village long wooden bench repaired earlier in the story should now be visible inside the rain shelter on the RIGHT side of the road. Use reference image 2 only as a design reference for the finished long bench: warm brown substantial timber, two sturdy end trestles, full wide wooden seat, lower cross rail and visible joinery. Paint a single completed bench at the correct distant scale under the right shelter roof, behind the nearer pillars, grounded on that shelter's paved landing with correct perspective and soft contact shadow. The bench should fit naturally between shelter posts parallel to its side, not project into the road, and remain much smaller than the foreground woman. Keep the foreground stone posts as part of the shelter construction; do not create a second bench or floating seat. Preserve EVERYTHING ELSE in the first image exactly: the two people, faces, clothing, gestures, backpacks, house doorway, stairs, foliage, mountains, electric wires, the wet road, camera angle, cropping and colors. In particular keep the kindly elderly man at the left doorway, the orange-jacketed young woman near the steps, and no male protagonist drawn in the scene. Do not copy the man from reference 2, do not add any extra person. Same clean hard-edged anime style and integrated natural morning light. No text, UI or logos.",
+          "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b083-44b4-7c92-a34d-344c189cda64/exec-c2edc11a-7247-4ea0-9386-41c9de7ba07f.png",
+          "transparentBackground": false
+        }
+      ],
+      "conversion": {
+        "format": "WebP",
+        "quality": 94,
+        "method": 6,
+        "resize": "1920×1080 Lanczos；生成图约16:9，微小纵横比例差不足0.1%"
+      },
+      "qa": [
+        "周伯站在门前平台，鞋底接石阶、投影方向一致",
+        "小许为既有橘红外套女性徒步者，背包和身体在同一画面光色中",
+        "主角未画入背景，避免与对话立绘重复",
+        "保留左侧房屋、门口、石阶、下坡路和右侧雨棚主要构图",
+        "右侧雨棚内有完成的宽座长凳；没有重复额外人物",
+        "面部、手势、脚部、行李和接触阴影逐项目视检查"
+      ]
+    },
+    {
+      "id": "home-study-01311",
+      "path": "dist/assets/campaign-2d/home-study-01311.webp",
+      "purpose": "返家后第一个周末过渡；将普通日常住处与后续开放工坊分开。",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "generatedDimensions": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "bytes": 292480,
+      "sha256": "feabbb00fb7c77acc3e2a4eac598752874a978a4bda6b98185e1597f45ba6e2e",
+      "generatedSource": "C:/Users/13412/.codex/generated_images/01a1b083-44b4-7c92-a34d-344c189cda64/exec-57db565d-50d1-41ee-b0e6-e652b5b07ae9.png",
+      "sourceReferences": [
+        {
+          "path": "dist/assets/campaign-2d/room-day.webp",
+          "role": "仅作既有动漫线条与日光画法参考；不复制木作坊陈设或人物"
+        }
+      ],
+      "prompt": "Create a new 16:9 wide game background, 1920x1080 design, for the modern Chinese narrative game 榫间. Reference image 1 is ONLY the established anime illustration style, clear decisive contours, grouped light/shadow planes, believable material textures, quiet natural daylight; DO NOT copy its village workshop, tools, elderly character or furniture. NEW SCENE: the clean ordinary study corner of a Chinese male college student's family home on his first weekend back from a hiking trip. No people or body parts are visible: first-person viewer. A simple contemporary pale wood writing desk occupies the foreground/lower middle. On the desk, naturally placed and clearly readable as objects, lie a tan small paper travel notebook opened to blank/sketchy pages, a slim three-panel blue-gray event leaflet unfolded with only abstract graphic blocks and small non-legible lines (NO actual text/letters/numbers), a mechanical pencil, and a plain ceramic mug. A small closed laptop sits at the far edge; a modest desk lamp is off in daylight. Window to the side reveals soft leafy trees and distant ordinary contemporary residential buildings, NOT the mountain village. Simple off-white walls, a small bookcase with a few textbooks/binders without readable spines, understated gray-blue curtains, a chair partly tucked under the desk, and a small potted plant. Adult student space, tidy and lived-in, simple and approachable, neither luxurious nor childish. Natural late morning window light lays soft-edged shadows across the desktop; a quiet fresh, slightly warm neutral atmosphere. Keep a broad uncluttered patch of desktop for UI and narrative, and the far left quarter relatively simple for a dialogue portrait overlay. Camera is a stationary first-person medium-wide view at natural seated/standing viewing height, not an overhead flat lay. All objects belong to one coherent painting and share correct scale, perspective, contact shadows and line weight. No carpentry bench, no tool wall, no chisels or saws, no timber stocks, no school classroom, no old man, no girl, no protagonist figure, no photographs, no 3D low-poly look, no chibi, no UI, no decorative captions or logo. The notebook and leaflet link this ordinary home to the travel story and the upcoming beginner woodworking exchange contest, but the visual must remain an ordinary student home study.",
+      "transparentBackground": false,
+      "conversion": {
+        "format": "WebP",
+        "quality": 94,
+        "method": 6,
+        "resize": "1920×1080 Lanczos"
+      },
+      "qa": [
+        "无人物，男主由游戏 UI 展示",
+        "现代普通书桌、住宅窗景、手记与折页，无工坊工具和木料架",
+        "无可读字、赛事等级文字或会误导剧情的标识",
+        "左侧留空便于对话立绘，重要纸本物件位于中下区域",
+        "笔记本、折页、杯、台灯和电脑的尺度与桌面接触合理"
+      ]
+    }
+  ],
+  "cropRecommendations": {
+    "coordinateSystem": "原始源图像素；x,y,width,height，裁切只是 UI 显示建议，不修改人物文件。",
+    "travelerAvatar": {
+      "sourceDimensions": [
+        1024,
+        1536
+      ],
+      "faceIncludingHairXYWH": [
+        393,
+        8,
+        255,
+        235
+      ],
+      "squareXYWH": [
+        385,
+        5,
+        270,
+        270
+      ],
+      "note": "包含发顶到下巴；可按头像边框略增左右余量。normal 与 indoor 使用同值。"
+    },
+    "travelerDialogue": {
+      "sourceDimensions": [
+        1024,
+        1536
+      ],
+      "roughHalfBodyXYWH": [
+        235,
+        0,
+        565,
+        1020
+      ],
+      "note": "统一头部/眼线优先；以此裁切做半身容器，底部可以遮罩至手记/腰部附近，避免完整人物 contain 时头部太小。"
+    },
+    "xiaoxuDialogue": {
+      "sourceDimensions": [
+        768,
+        1152
+      ],
+      "roughHalfBodyXYWH": [
+        55,
+        20,
+        625,
+        1132
+      ],
+      "note": "此为粗略包围范围，原图脚部不完整；建议通过同一容器内的渲染缩放/位移将眼线和头部大小对齐男主，而非全幅等宽 contain。"
+    }
+  },
+  "qaEvidence": [
+    "output/polish-01311/portraits/sprite-preview.html",
+    "output/polish-01311/portraits/sprite-alpha-browser.png"
+  ],
+  "integrationNotes": [
+    "本素材任务未修改 JS/CSS；父代理负责接入说话人映射、昼夜状态与存档。",
+    "normal.webp 不覆盖原 traveler.png，小许三种表情原图保持不变。",
+    "室内版在已放包且尚未重新背包时使用；旅行/送别时恢复 normal。",
+    "送别插画内小许已在场；对话 UI 是否临时收起她的额外立绘由主控决定。",
+    "屋内和雨棚的其他背包状态由并行 scene_art 任务负责，本任务未覆盖。",
+    "所有最终素材已经保存到项目内；generated_images 路径仅作为来源与审计记录，不是运行时依赖。",
+    "本清单只记录图片生产与目视检查，不代表已完成游戏全流程和三尺寸布局验收。"
+  ]
+}
+

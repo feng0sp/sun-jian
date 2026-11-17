@@ -1,0 +1,8 @@
+node_modules/
+artifacts/
+output/
+*.tar.gz
+*.zip
+test-results/
+.DS_Store
+Thumbs.db

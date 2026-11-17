@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#28372f">
+  <meta name="description" content="榫间，一款关于榫卯结构的空间解谜游戏。观察木作，辨认方向，解开一榫一卯之间的秘密。">
+  <title>榫间 · 一榫一卯，皆有来处</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="stylesheet" href="style.css?v=0.14.3">
+  <link rel="stylesheet" href="visual.css?v=0.14.3">
+  <link rel="stylesheet" href="inspection.css?v=0.14.3">
+  <link rel="stylesheet" href="story.css?v=0.14.3">
+  <link rel="stylesheet" href="replay.css?v=0.14.3">
+  <link rel="stylesheet" href="cave.css?v=0.14.3">
+  <script defer src="vendor/three.min.js"></script>
+  <script defer src="vendor/OrbitControls.js"></script>
+  <script defer src="puzzle-core.js?v=0.14.3"></script>
+  <script defer src="assembly-guide.js?v=0.14.3"></script>
+  <script defer src="bench-puzzle.js?v=0.14.3"></script>
+  <script defer src="entry-furniture.js?v=0.14.3"></script>
+  <script defer src="service-puzzle.js?v=0.14.3"></script>
+  <script defer src="context-puzzles.js?v=0.14.3"></script>
+  <script defer src="wood-mesh.js"></script>
+  <script defer src="wood-finish.js?v=0.14.3"></script>
+  <script defer src="drag-controls.js?v=0.14.3"></script>
+  <script defer src="assembly-drag.js?v=0.14.3"></script>
+  <script defer src="experience.js"></script>
+  <script defer src="motion-record.js?v=0.14.3"></script>
+  <script defer src="game.js?v=0.14.3"></script>
+  <script defer src="story-talk.js?v=0.14.3"></script>
+  <script defer src="story-data.js?v=0.14.3"></script>
+  <script defer src="room-integration.js?v=0.14.3"></script>
+  <script defer src="story-scene.js?v=0.14.3"></script>
+  <script defer src="inspection.js?v=0.14.3"></script>
+  <script defer src="replay.js?v=0.14.3"></script>
+  <script defer src="story-shelf.js?v=0.14.3"></script>
+  <script defer src="story.js?v=0.14.3"></script>
+  <script defer src="first-person.js?v=0.14.3"></script>
+  <script defer src="cave-data.js?v=0.14.3"></script>
+  <script defer src="campaign-supplies.js?v=0.14.3"></script>
+  <script defer src="cave-scene.js?v=0.14.3"></script>
+  <script defer src="cave.js?v=0.14.3"></script>
+  <link rel="stylesheet" href="campaign.css?v=0.14.3">
+  <script defer src="zhou-character.js?v=0.14.3"></script>
+  <script defer src="campaign-field-notes.js?v=0.14.3"></script>
+  <script defer src="campaign-interludes.js?v=0.14.3"></script>
+  <script defer src="campaign-flow.js?v=0.14.3"></script>
+  <script defer src="campaign-awards.js?v=0.14.3"></script>
+  <script defer src="campaign-finale.js?v=0.14.3"></script>
+  <script defer src="campaign-continuation.js?v=0.13.11"></script>
+  <script defer src="campaign-objects.js?v=0.14.3"></script>
+  <script defer src="campaign-data.js?v=0.14.3"></script>
+  <script defer src="campaign-save-transfer.js?v=0.14.3"></script>
+  <script defer src="journey-weather.js?v=0.14.3"></script>
+  <script defer src="dialogue-sound.js?v=0.14.3"></script>
+  <script defer src="assets/audio/music-celebration-0143.js?v=0.14.3"></script>
+  <script defer src="journey-atmosphere.js?v=0.14.3"></script>
+  <script defer src="campaign-expression.js?v=0.14.3"></script>
+  <script defer src="sample-close-art.js?v=0.14.3"></script>
+  <script defer src="sample-wide-art.js?v=0.14.3"></script>
+  <script defer src="campaign-illustrated.js?v=0.14.3"></script>
+  <script defer src="campaign-story.js?v=0.14.3"></script>
+  <script defer src="bench-sketch-data.js?v=0.14.3"></script>
+  <script defer src="campaign-sketch.js?v=0.14.3"></script>
+  <script defer src="square-check.js?v=0.14.3"></script>
+  <script defer src="campaign-design.js?v=0.14.3"></script>
+  <script defer src="companion-dialogue.js?v=0.14.3"></script>
+  <script defer src="campaign.js?v=0.14.3"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="榫间首页">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 6h11v11h11v11H17v6H6V23h11V12H6zM28 6h6v11h-6z" fill="currentColor"/></svg>
+      <span class="brand-name">榫间</span><span class="brand-sub">THE ART OF JOINING</span>
+    </a>
+    <div class="header-right"><button id="open-story" class="header-button">旅途故事 <span>↗</span></button><span class="edition">木作结构实验室 <i></i> VOL. 01</span><button id="sound" class="sound-toggle" aria-label="开启木作音效" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4zM17 9l4 6M21 9l-4 6"/></svg><span>音效关</span></button><button id="help" class="header-button" aria-label="查看操作说明">玩法说明 <span>↗</span></button></div>
+  </header>
+  <section id="story-root" hidden aria-label="旅途支线：雨歇之前">
+    <div class="story-top"><div><span class="story-chapter">旅途支线</span><span id="story-task-label">雨歇之前 · 溪桥村</span></div><div class="story-top-actions"><button id="story-back" hidden>← 回到小屋</button><button id="story-replay-opening">重看接待</button><button id="story-log">回看对白</button><button id="story-notebook">随行手记 <span id="story-note-count">0 / 3</span></button><button id="story-exit">自由练习 ↗</button></div></div>
+    <div id="story-world">
+      <div id="workshop-view" aria-label="溪桥村周伯家的木工作业角，可点击样木与周伯交谈"></div>
+      <div class="story-scene-title"><div class="eyebrow">溪桥村 · 雨夜借宿</div><h1>雨歇之前</h1><p id="story-location-label">山里的一场雨，屋里的一点小事。</p></div>
+      <div class="story-objective"><span id="story-progress">刚到溪桥村</span><p id="story-objective-text">找个地方，等雨小一些。</p><button id="story-continue-task" hidden>继续整理 →</button></div>
+      <div class="story-location"><span><span id="story-place-text">溪桥村 · 周伯家的木工作业角</span></span><span>点击物件，走近看看</span></div>
+      <div id="story-renderer-error" class="story-renderer-error" hidden><h2>三维显示暂不可用</h2><p>场景与对白仍可阅读。整理样件时，可用构件列表和方向按钮；开启硬件加速可恢复三维观察。</p><button id="story-dismiss-graphics">继续看故事</button><button id="story-fallback-exit" class="primary-button">回到自由练习 →</button></div>
+    </div>
+    <div id="story-dialogue" class="story-dialogue" hidden role="region" aria-label="人物对话"><div class="story-speaker"><span id="story-speaker">周伯</span><small>周伯家的小屋</small></div><p id="story-line" aria-live="polite"></p><div id="story-choices" class="story-choices" role="group" aria-label="选择回应"></div><div class="story-dialogue-actions"><button id="story-skip">跳过这段对话</button><button id="story-next">继续 <span>→</span></button></div></div>
+    <p id="story-aside" class="story-aside" hidden role="status"></p>
+    <div id="story-transition" aria-hidden="true"></div>
+  </section>
+  <main class="workbench">
+    <aside class="chapter-panel">
+      <div class="panel-eyebrow"><span class="small-dot"></span> 榫卯解谜 / JOINERY PUZZLES</div>
+      <h1>一榫一卯，<br>皆有来处。</h1>
+      <p class="intro">木与木的相遇，<br>不用一枚钉，也有千般解法。</p>
+      <div class="tutorial-heading"><span>两步入门</span><span id="tutorial-count">0 / 2</span></div><div id="tutorials" class="tutorials"></div><button id="skip-current-tutorial" class="tutorial-skip" hidden>跳过教学，进入主线 →</button>
+      <div class="chapters-label"><span>主线探索</span><span id="chapter-count">00 / 08</span></div>
+      <nav id="chapters" aria-label="选择关卡"></nav>
+      <div class="chapter-note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h7l2 2 2-2h7v15h-7l-2 2-2-2H3zM12 7v15"/></svg><p>先观察，再尝试。<br>每一次松动，都有它的道理。</p></div>
+      <div class="sidebar-footer"><span>不施钉 · 不用胶</span><span>榫卯之间</span></div>
+    </aside>
+
+    <section class="play-area" aria-label="榫卯三维解谜工作台">
+      <div class="stage-heading"><div><div class="eyebrow">STRUCTURE STUDY <span id="study-number">01</span></div><h2 id="level-title">初识 · 直榫</h2><p id="level-subtitle">从一条轴线，理解一榫一卯。</p></div><div class="stage-heading-right"><span class="difficulty" id="difficulty">入门</span><div class="mode-switch" role="group" aria-label="游戏模式"><button id="mode-dismantle" aria-pressed="true">拆开</button><button id="mode-assemble" aria-pressed="false">合回</button></div></div></div>
+      <div class="stage" id="stage">
+        <div id="viewport" aria-label="可旋转的榫卯模型；也可在右侧选择构件"></div>
+        <div class="stage-topline"><span><i class="live-dot"></i> 可交互结构</span><span id="assembly-count">01 个可动构件</span></div>
+        <div id="axis-guide" aria-hidden="true"><span data-axis="x">X</span><span data-axis="y">Y</span><span data-axis="z">Z</span></div>
+        <div id="piece-markers" aria-hidden="true"></div><div id="grip-dot" hidden aria-hidden="true"></div><div id="drag-status" class="drag-status" hidden aria-live="polite"></div>
+        <div id="direction-preview" class="direction-preview" hidden aria-hidden="true"></div>
+
+        <div class="view-instruction"><span class="mouse-icon"></span> 拖木件拆解 <span class="divider"></span> 拖空白旋转 <span class="divider"></span> 双指缩放</div>
+        <div class="model-tag"><span id="family">直榫</span><span>结构练习</span></div>
+        <div id="renderer-error" class="renderer-error" hidden><h3>暂时无法显示三维模型</h3><p>请使用支持 WebGL 的 Chrome 或 Edge 浏览器，并开启硬件加速。右侧仍可选择构件体验拆解规则。</p></div>
+      </div>
+      <div class="workbench-tools" role="group" aria-label="观察与辅助操作"><button id="xray" class="stage-tool" aria-pressed="false" title="透视观察内部结构"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8l9-5 9 5v9l-9 5-9-5zM3 8l9 5 9-5M12 13v9M7.5 5.5l9 5v9"/></svg><span>透视</span></button><button id="reset-camera" class="stage-tool" title="回到默认视角"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5v5h5M5.5 9a8 8 0 1 1 0 6"/></svg><span>归位视角</span></button><button id="quick-undo" class="stage-tool" disabled><span aria-hidden="true">↶</span> 撤销</button><button id="quick-hint" class="stage-tool"><span aria-hidden="true">✧</span> 线索</button></div>
+      <div class="stage-bottom"><p id="goal"><span>本关目标</span> 抽出榫头，保留卯座。</p><div class="stage-stats"><span>已拆 <b id="removed-count">0 / 1</b></span><span>观察 <b id="elapsed">00:00</b></span></div></div>
+      <div class="feedback" id="feedback" role="status" aria-live="polite"><span class="feedback-mark">○</span><span id="feedback-text">选择一块木构件，试着找到它的退出方向。</span></div>
+      <div id="help-nudge" class="help-nudge" hidden><span>需要一点线索吗？</span><button id="nudge-open">看一眼</button><button id="nudge-dismiss" aria-label="忽略提示建议">×</button></div>
+      <div class="hint-box" id="hint-box" hidden><div class="hint-heading"><span id="hint-speaker" hidden>周伯</span><span id="hint-stage">观察线索</span><button id="close-hint">收起提示 ×</button></div><p id="hint-text"></p><button id="hint-next" hidden>再说具体一点 →</button></div>
+    </section>
+
+    <aside class="inspector">
+      <div class="inspector-title"><h3 id="workbench-title">拆解工作台</h3><span>WORKBENCH</span></div>
+      <div class="piece-section"><p class="section-caption"><span>01</span> 选择一块木构件</p>
+      <div id="piece-list" class="piece-list"></div>
+      <div class="selected-note" id="selected-note">先选木，再辨方向。</div></div>
+      <div class="direction-section"><p class="section-caption direction-caption"><span>02</span> <span id="direction-instruction">沿一个方向抽出</span></p>
+      <div id="movement-choice" class="movement-choice" hidden><span>本次动作</span><div role="group" aria-label="移动方式"><button id="action-extract" aria-pressed="true">完整抽出</button><button id="action-step" aria-pressed="false">移动一格</button></div></div>
+      <p class="drag-instruction" id="drag-instruction">按住木件，沿想试的方向拖动。<br>碰到就停；未取下则回到原位。</p><details id="precise-controls"><summary>精确操作 <span>方向按钮 / 键盘</span></summary>
+      <div class="directions" id="directions" aria-label="抽出方向">
+        <button data-direction="yp"><span class="direction-icon">↑</span><span>向上 <small>Y+</small></span></button>
+        <button data-direction="yn"><span class="direction-icon">↓</span><span>向下 <small>Y−</small></span></button>
+        <button data-direction="xn"><span class="direction-icon">←</span><span>向左 <small>X−</small></span></button>
+        <button data-direction="xp"><span class="direction-icon">→</span><span>向右 <small>X+</small></span></button>
+        <button data-direction="zp"><span class="direction-icon">↙</span><span>向前 <small>Z+</small></span></button>
+        <button data-direction="zn"><span class="direction-icon">↗</span><span>向后 <small>Z−</small></span></button>
+      </div>
+      <p class="axis-note">名称对应木件的 X / Y / Z 轴，箭头随视角转动。<br>悬停或聚焦按钮，先看看移动方向。</p></details></div>
+      <div class="inspector-actions"><button id="hint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M8 14a6 6 0 1 1 8 0l-1 3H9z"/></svg> 看一眼提示</button><div><button id="undo" disabled>↶ 撤销</button><button id="restart">↻ 重试</button></div></div>
+      <button class="collected" id="open-atlas" aria-label="查看结构手记"><span class="collection-icon">卯</span><span><span class="eyebrow">你的结构收藏 <span class="atlas-link">↗</span></span><span id="collection-text">尚未解开一处结构</span></span></button>
+    </aside>
+  </main>
+  <footer class="page-footer"><span id="local-save">进度保存在本机 · 游客直接玩</span><button id="export-playtest" title="仅导出此浏览器本地的试玩记录">导出内测记录 ↓</button></footer>
+
+  <dialog id="welcome-dialog" class="modal welcome-modal">
+    <div class="eyebrow">榫间 · 旅途故事</div><h2>雨歇之前，借住一晚。</h2><p class="modal-intro">徒步途中遇雨，走进溪桥村周伯家的小屋。<br>坐坐、喝杯热水，听周伯讲木作。<br>愿意动手时，从一处接缝开始。</p><div class="welcome-actions"><button id="start-story" class="primary-button">走进小屋 <span>→</span></button><button id="skip-tutorial" class="quiet-button">自由练习 · 直接探索</button><button id="start-tutorial" class="quiet-button">两步入门 · 熟悉操作</button></div>
+  </dialog>
+  <dialog id="help-dialog" class="modal">
+    <button class="modal-close" data-close="help-dialog" aria-label="关闭说明">×</button><div class="eyebrow">A LITTLE GUIDANCE</div><h2>让木头，告诉你答案。</h2><p class="modal-intro">“拆开”模式抽出所有可动构件；“合回”模式把它们装回原位。部分关卡会保留固定的卯座。</p>
+    <ol class="help-steps"><li><b>观察</b><p>拖空白或固定承座旋转，右键也能旋转；滚轮缩放，手机双指旋转和缩放。透视可以看见藏在内部的榫头和木销。</p></li><li><b>选木</b><p>点击模型里的木构件，或在右侧列表中选择。合回时，半透明木块表示待装位置。</p></li><li><b>辨向</b><p>按住可动木件拖动，它会沿结构轴向跟手移动，碰到阻挡就停住。完全退出就完成拆解，无需松手确认；未退出时松手会平滑回位，回位途中也可以重新抓住。保持按住，拖回抓取起点后可以换一条轴再试。需要时可展开“精确操作”。合回时，按钮表示木块进入卯位的移动方向。</p></li></ol><p class="experiment-help">借位实验还可以“移动一格”：先借出一点空间，再完整抽出其他木件。</p>
+    <div class="keyboard-help"><span>键盘操作</span><p>1—6 选木 · W / S 上下 · A / D 左右 · Q / E 前后<br>H 提示 · I 拿近看 · Z 撤销 · R 重试 · V 透视<br>小屋全景：按住 H 显示物件名称</p></div><button class="primary-button" data-close="help-dialog">开始观察 <span>→</span></button>
+  </dialog>
+  <dialog id="complete-dialog" class="modal complete-modal">
+    <button class="modal-close" data-close="complete-dialog" aria-label="关闭过关手记">×</button><div class="completion-seal">解</div><div class="eyebrow">STRUCTURE UNDERSTOOD</div><h2>你让结构松开了。</h2><p id="complete-title" class="complete-title"></p><p id="complete-insight" class="complete-insight"></p><div id="complete-stats" class="complete-stats"></div><details class="route-details"><summary>回看我的操作路径</summary><div id="complete-route" class="complete-route"></div></details><div class="complete-actions"><button id="replay-complete" class="quiet-button">再解一次</button><button id="next-level" class="primary-button">下一处结构 <span>→</span></button></div><button id="reverse-complete" class="reverse-complete">试着合回这处结构 →</button>
+  </dialog>
+  <dialog id="atlas-dialog" class="modal atlas-modal">
+    <button class="modal-close" data-close="atlas-dialog" aria-label="关闭结构手记">×</button><div class="eyebrow">A COLLECTION OF STRUCTURES</div><h2>一次观察，一页手记。</h2><p class="modal-intro">两步入门与八关主线，从接点观察到整体推理。选择一页，继续练习。</p><div id="atlas-grid" class="atlas-grid"></div><p class="atlas-footnote">结构简图用于理解构件关系。双销、木钥及木匣为组合结构练习。初锁与鲁班关根据传统互锁形式设计，采用可逐件直线拆解的槽口。</p>
+  </dialog>
+<dialog id="story-log-dialog" class="modal story-log-modal" aria-labelledby="story-log-title"><button class="modal-close" id="story-log-close" aria-label="收起对白">×</button><div class="eyebrow">雨歇之前 · 这一路的交谈</div><h2 id="story-log-title">刚才，说到哪儿了？</h2><p class="story-log-intro">只记下已经看过的对白和亲自选过的话题。</p><div id="story-log-entries" tabindex="0" aria-label="已看过的对白"></div><button id="story-log-return" class="primary-button">回到刚才 →</button></dialog>
+<dialog id="story-notebook-dialog" class="modal story-notebook-modal"><button class="modal-close" data-close="story-notebook-dialog" aria-label="收起手记">×</button><div class="eyebrow">随行手记 · 溪桥村</div><h2>雨天，在周伯家。</h2><p id="story-note-date" class="story-note-date"></p><div id="story-note-tabs" class="story-note-tabs" role="group" aria-label="选择手记"></div><div id="story-note-model" aria-label="拖动旋转结构示意"></div><h3 id="story-note-title"></h3><p id="story-note-method"></p><p id="story-note-memory"></p><small>结构学习样件 · 拖动示意模型旋转观察</small></dialog>
+  <dialog id="story-end-dialog" class="modal story-end-modal"><div class="eyebrow">溪桥村 · 晚饭前</div><h2>今晚，就在这里歇下。</h2><p>第一件样木重新合上，你把三条观察方法记进本子。窗外还落着雨，周伯招呼你准备吃晚饭。和同伴约好了明早村口见，今晚可以慢慢歇一歇。</p><div class="story-end-notes"><span>直榫 · 找卯口</span><span>半榫 · 看交叠</span><span>穿销 · 认约束</span></div><p class="story-fiction">人物、地点及传承经历均为虚构；不对应真实非遗项目或传承人。木作样件用于理解结构。</p><div class="complete-actions"><button id="story-end-world" class="quiet-button">留在小屋</button><button id="story-end-practice" class="primary-button">自由练习 →</button></div></dialog>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "date": "2026-11-05",
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit / illustration-story. Edit reference workshop background, preserving camera, room layout, all furniture, foreground assembly table, warm afternoon window light, color palette and crisp anime linework. Add Lin Lan, a modern Chinese woman aged about 26-30, a fellow beginner woodworking hobbyist, standing naturally behind the foreground assembly table in the LEFT THIRD. She has short tied-back dark hair, natural realistic anime proportions, angular clear brow/nose/jaw planes, attentive mildly amused friendly expression, modest muted olive overshirt over cream T-shirt, dark trousers and a plain navy work apron. Both hands natural and relaxed, one on the table edge and the other holding a small plain notebook. Ground her physically in the room, with table correctly occluding lower body. Character rendering has firm cel-shaded planes and crisp contours matching the wooden furniture, no soft doll face, no chibi, no glamour pose. Leave center-right and lower middle tabletop empty for puzzle UI. Maintain full-bleed wide composition. No text, logos, symbols, game UI, extra people or floating objects.",
+  "reference": "dist/assets/campaign-2d/workshop-study.webp",
+  "asset": "dist/assets/campaign-2d/workshop-linlan.webp",
+  "role": "Lin Lan at the same modern workshop, edited composition; no miniature puzzle models in the painted scene."
+}

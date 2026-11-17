@@ -1,0 +1,7 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: illustration-story. Asset: wide 16:9 background for Chinese modern joinery puzzle adventure 榫间. Draw a quiet modest contemporary community woodworking workshop in a Chinese city on a weekend afternoon, first person eye height. Hard-edged anime background painting, crisp ink-like outlines, natural believable perspective, careful textured warm timber, muted teal shadows, warm soft window light, restrained painterly highlights. A large solid woodworking assembly table occupies lower center with entirely empty central surface reserved for game UI, a closed blank kraft notebook and pencil at far right, two small plain timber offcuts in shallow wooden tray at far left. In the background modest toolboard, wood stock shelves, a visible modern socket and ordinary ceiling lamp; clean and lived-in, not museum. No people, no text, no logos, no floating pieces, no tiny 3D looking toys, no medieval or fantasy decor, not photorealistic, not chibi. Calm game background with slightly softened background contrast and precise material edges. Full-bleed illustration, no UI panels or borders.",
+  "asset": "dist/assets/campaign-2d/workshop-study.webp",
+  "date": "2026-11-05",
+  "scope": "New original workshop illustration; no people or real institution logos."
+}

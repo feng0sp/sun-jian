@@ -1,0 +1,32 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs');
+const {P,D,C,learned,solved}=require('./helpers/campaign-fixtures.cjs');
+const F=require('../dist/campaign-flow.js');
+const base=process.env.TEST_URL||'http://127.0.0.1:4173/',out=process.env.TEST_OUTPUT||'output/journey-0135/edges';fs.mkdirSync(out,{recursive:true});
+function fixture(ids=[]){const s=learned();s.phase='cave';s.scene='cave';s.frame='store-door';s.settings.reducedMotion=true;for(const id of ids){const n=C.nodes.find(n=>n.id===id);s.cave.completed.push(id);s.runs['cave:'+id]=solved(n.level,'dismantle');}return s;}
+// Content responds to either order and never invents a remotely present speaker.
+for(const [id,done,expect]of [['rack-frame',['mouth-latch'],'还差装配草图'],['stone-box',['mouth-latch'],'还差替换料'],['stone-box',['mouth-latch','rack-frame'],'齐了'],['rack-frame',['mouth-latch','stone-box'],'齐了']]){
+ const task={id:'cave:'+id,mode:'dismantle'};assert(F.completion(task,fixture(done)).next.includes(expect));
+}
+(async()=>{const browser=await chromium.launch({channel:'chrome'}),p=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
+const snap=()=>p.evaluate(()=>CampaignJourney.snapshot()),ready=()=>p.waitForFunction(()=>window.CampaignJourney&&!CampaignJourney.snapshot().scene.loading&&!CampaignJourney.snapshot().scene.imageError);
+async function seed(s){await p.goto(base+'?practice=1');await p.evaluate(s=>localStorage.setItem('sun-jian-campaign-v1',JSON.stringify(s)),s);await p.goto(base+'?journey=1');await ready();}
+async function finishLast(){const s=await p.evaluate(()=>SunJian.snapshot()),l=P.LEVELS.find(l=>l.id===s.level),m=P.availableMoves(l,s.removed)[0];assert(m);await p.locator('[data-piece="'+m.piece+'"]').click();await p.locator('#precise-controls').evaluate(e=>e.open=true);await p.locator('[data-direction="'+m.direction+'"]').click();await p.locator('#campaign-completion').waitFor({state:'visible'});}
+try{
+ // Pull the actual door pin with the mouse, finish the joint, then reconsider and undo.
+ await seed(fixture());await p.locator('[data-hotspot="cave:mouth-latch"]').click();let s=await p.evaluate(()=>SunJian.snapshot());const m=P.availableMoves(P.LEVELS.find(l=>l.id==='pinned'),s.removed)[0];await p.locator('[data-piece="'+m.piece+'"]').click();let xy=await p.evaluate(id=>SunJian.screen().pieces[id],m.piece),end=xy.directions[m.direction].end;
+ await p.mouse.move(xy.start.x,xy.start.y);await p.mouse.down();await p.mouse.move(end.x,end.y,{steps:20});await p.mouse.up();await p.waitForFunction(()=>SunJian.snapshot().history.length===1&&!SunJian.snapshot().busy);
+ await finishLast();assert.equal(await p.locator('.campaign-completion-speaker').textContent(),'旧木料库');assert((await p.locator('#campaign-completion p').textContent()).includes('门能推开'));
+ assert.deepEqual((await snap()).state.cave.completed,[],'completion preview does not certify before returning');
+ await p.locator('[data-completion-observe]').click();await p.locator('#campaign-undo').click();assert.equal((await p.evaluate(()=>SunJian.snapshot())).history.length,1);await finishLast();
+ for(const [w,h]of [[1280,720],[1440,900],[1920,1080]]){await p.setViewportSize({width:w,height:h});const b=await p.locator('#campaign-completion').boundingBox();assert(b.x>=0&&b.y>=0&&b.x+b.width<=w+1&&b.y+b.height<=h+1);await p.screenshot({path:out+'/door-complete-'+w+'.png'});}
+ await p.locator('[data-completion-return]').dblclick();await ready();assert.deepEqual((await snap()).state.cave.completed,['mouth-latch']);assert.equal((await snap()).view,'world');assert.equal(await p.locator('.illustrated-exits [data-exit=store-middle]').getAttribute('class'),'current');
+ // Refresh during a winning close-up restores the completed proof and exposes the next route.
+ const box=fixture(['mouth-latch','rack-frame']);box.frame='store-sky';box.runs['cave:stone-box']=solved('wooden-box','dismantle');box.runs['cave:stone-box'].history.pop();await seed(box);await p.locator('[data-hotspot="cave:stone-box"]').click();await finishLast();assert((await p.locator('.campaign-completion-next').textContent()).includes('齐了'));await p.reload();await ready();assert(D.canReturn((await snap()).state));assert(await p.locator('.return-materials.current').isVisible());
+ // Notebook practice remains separate and the completion text does not open distant doors.
+ await p.locator('#campaign-notes').click();await p.locator('[data-study="exit-knot:dismantle"]').click();const main=JSON.stringify((await snap()).state.runs);await p.locator('#campaign-put').click();await ready();
+ const replay=await snap();replay.state.replays['cave:exit-knot:dismantle']=solved('burr-six','dismantle');replay.state.replays['cave:exit-knot:dismantle'].history.pop();await seed(replay.state);await p.locator('#campaign-notes').click();await p.locator('[data-resume-study="cave:exit-knot:dismantle"]').click();await finishLast();assert.equal(await p.locator('.campaign-completion-speaker').textContent(),'随行手记');assert((await p.locator('#campaign-completion p').textContent()).includes('进度保持原样'));await p.keyboard.press('Escape');assert.equal((await snap()).view,'puzzle');await p.locator('#campaign-put').click();await ready();assert.equal(JSON.stringify((await snap()).state.runs),main);assert(!(await snap()).state.cave.completed.includes('exit-knot'));
+ // A village return points home, and unfinished work does not suggest leaving the workbench.
+ const night=learned();night.frame='workbench';await seed(night);assert(await p.locator('[data-exit=room].current').isVisible());await p.locator('[data-exit=room]').click();await ready();assert(await p.locator('[data-hotspot=rest].current').isVisible());
+ await p.locator('[data-exit=village]').click();await ready();assert(await p.locator('[data-exit=room].current').isVisible());
+ assert.deepEqual(errors,[]);fs.writeFileSync(out+'/result.json',JSON.stringify({version:'0.13.5',actualDoorPinDrag:true,completionUndoRepeat:true,doubleClickSingleCommit:true,refreshAfterWinningMove:true,optionalReplayIsolation:true,bothMaterialOrders:true,routeCues:true,threeDesktopSizes:true,errors},null,2));console.log('PASS cave completion, actual pin drag, undo/re-complete, refresh, independent replay and route cues');
+}catch(e){await p.screenshot({path:out+'/failure.png'});throw e;}finally{await browser.close();}})().catch(e=>{console.error(e);process.exit(1)});

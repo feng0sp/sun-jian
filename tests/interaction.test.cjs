@@ -1,0 +1,1 @@
+require('./drag.test.cjs');

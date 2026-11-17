@@ -1,0 +1,18 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs');
+const {caveDone}=require('./helpers/campaign-fixtures.cjs');
+const base=process.env.TEST_URL||'http://127.0.0.1:4173/',out=process.env.TEST_OUTPUT||'output/qa-0125';fs.mkdirSync(out,{recursive:true});
+async function seed(p,s){await p.goto(base+'?practice=1');await p.evaluate(s=>localStorage.setItem('sun-jian-campaign-v1',JSON.stringify(s)),s);await p.goto(base+'?journey=1');await p.waitForFunction(()=>!CampaignJourney.snapshot().scene.loading);}
+async function move(p,id,d){await p.locator('[data-piece="'+id+'"]').click();await p.locator('#precise-controls').evaluate(e=>e.open=true);await p.locator('[data-direction="'+d+'"]').click();await p.waitForFunction(()=>!SunJian.snapshot().busy);}
+const snap=p=>p.evaluate(()=>SunJian.snapshot());
+(async()=>{const b=await chromium.launch({channel:'chrome',headless:true}),p=await b.newPage({viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));try{
+let s=caveDone(1);s.frame='store-sky';await seed(p,s);await p.locator('[data-hotspot="cave:exit-knot"]').click();await p.locator('#xray').click();
+for(let i=0;i<2;i++){
+const before=await snap(p);await p.locator('#quick-hint').click();assert.equal((await snap(p)).hint,1);assert.equal((await snap(p)).focused,false);assert.equal((await snap(p)).demo,false);assert(await p.locator('#hint-speaker').isHidden());if(!i)assert.doesNotMatch(await p.locator('#hint-text').innerText(),/刚才|拿开|剩下/);
+await p.locator('#hint-next').click();assert.equal((await snap(p)).hint,2);assert((await snap(p)).focused);await p.locator('#close-hint').click();let after=await snap(p);assert.deepEqual(after.history,before.history);assert.deepEqual(after.camera,before.camera);assert.deepEqual(after.target,before.target);assert.equal(after.xray,before.xray);
+await p.locator('#quick-hint').click();assert.equal((await snap(p)).hint,3);assert((await snap(p)).demo);await p.waitForTimeout(1700);after=await snap(p);assert.deepEqual(after.history,before.history);assert.deepEqual(after.removed,before.removed);assert.deepEqual(after.poses,before.poses);await p.screenshot({path:out+'/burr-hint-'+i+'.png'});await p.locator('#close-hint').click();assert.equal((await snap(p)).demo,false);
+if(i===0){await move(p,'bar-6','zp');assert.equal((await snap(p)).hint,0);}
+}
+await p.locator('#campaign-undo').click();assert.equal((await snap(p)).hint,0);await p.locator('#quick-hint').click();assert.equal((await snap(p)).hint,1);await p.keyboard.press('Escape');assert.equal((await p.evaluate(()=>CampaignJourney.snapshot())).view,'world');
+s=caveDone();s.phase='bench';s.scene='village';s.frame='shelter';await seed(p,s);await p.locator('[data-hotspot=bench]').click();await move(p,'left-pin','zn');const before=await snap(p);await p.locator('#quick-hint').click();await p.locator('#hint-next').click();assert.match(await p.locator('#hint-text').innerText(),/撤销/);assert.deepEqual((await snap(p)).history,before.history);await p.locator('#close-hint').click();await p.locator('#campaign-undo').click();assert.equal((await snap(p)).history.length,0);assert.equal((await snap(p)).hint,0);
+assert.deepEqual(errors,[]);fs.writeFileSync(out+'/hints-verification.json',JSON.stringify({threeOptInLevels:true,noAbsentZhou:true,restoreCameraAndXray:true,demoKeepsHistoryAndPoses:true,successAndUndoResetHint:true,earlyPinRecoveryExplained:true,errors},null,2));console.log('PASS opt-in hints, local speaker, exact camera restoration, non-mutating demo and premature-pin recovery explanation');
+}catch(e){await p.screenshot({path:out+'/hints-failure.png'}).catch(()=>{});throw e;}finally{await b.close();}})().catch(e=>{console.error(e);process.exit(1)});
