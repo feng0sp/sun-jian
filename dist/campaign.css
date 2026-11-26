@@ -43,6 +43,11 @@ body.campaign-puzzle[data-campaign-surface=bench] .stage{background-image:url('a
 .hotspot-mark{width:27px;height:27px;border:1px solid #e9d6a880;background:#16323a99;border-radius:50%;display:grid;place-items:center;color:#f0d9aa;opacity:0;transition:opacity .15s;font:16px system-ui}
 .illustrated-hotspot.current .hotspot-mark,.illustrated-hotspot:focus-visible .hotspot-mark,.illustrated-hotspot:hover .hotspot-mark,.show-hotspots .hotspot-mark{opacity:1}
 .illustrated-hotspot.current .hotspot-mark{box-shadow:0 0 0 5px #e1bf731a}.illustrated-hotspot.experienced .hotspot-mark{color:#c3d9c8}
+.contest-poster-paper{display:flex;width:76%;height:87%;flex-direction:column;justify-content:center;gap:.18em;align-items:center;padding:5%;color:#463322;background:linear-gradient(150deg,#eed5a1,#d9b078);border:1px solid #967043;border-radius:1px;box-shadow:2px 5px 9px #23130985;transform:rotate(-2deg) skewY(3deg);text-align:center;font-family:"Noto Serif SC",serif;position:relative}
+.contest-poster-paper::before{content:"";position:absolute;top:-4%;left:37%;width:26%;height:7%;background:#b38758dd;transform:rotate(-8deg)}
+.contest-poster-paper strong{font-size:clamp(9px,1.12vw,18px);line-height:1.14}
+.contest-poster-paper small{font-size:clamp(7px,.63vw,12px);line-height:1.25}
+.illustrated-hotspot.current:not(:focus-visible):not(:hover):has(.contest-poster-paper) .hotspot-name{opacity:1}
 .hotspot-name{position:absolute;bottom:15%;left:50%;transform:translate(-50%,100%);white-space:nowrap;background:#17343bea;border:1px solid #c3bc9955;border-radius:3px;padding:6px 11px;opacity:0;pointer-events:none;font-size:12px;transition:opacity .15s}
 .illustrated-hotspot:hover .hotspot-name,.illustrated-hotspot:focus-visible .hotspot-name,.show-hotspots .hotspot-name{opacity:1}.input-paused .hotspot-name,.input-paused .hotspot-mark{opacity:0!important}
 .illustrated-exits{min-height:47px;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;padding:8px 18px;background:#10262e;z-index:2}
@@ -182,7 +187,7 @@ body.campaign-puzzle .view-instruction{background:#f4f0dfdd;color:#29434a;border
 @keyframes expression-appear{from{opacity:0}to{opacity:1}}
 /* Move the painted flecks of sunlight on the bare wall in the window reveal. */
 .workshop-leaf-shadow{position:absolute;inset:0;pointer-events:none;opacity:0;
- background:url('assets/campaign-2d/workshop-study.webp') center/100% 100% no-repeat;
+ background:var(--workshop-leaf-art,none) center/100% 100% no-repeat;
  mask-image:radial-gradient(ellipse 3.2% 5% at 34.3% 17.9%,#000 22%,transparent 96%),radial-gradient(ellipse 2.4% 2.7% at 28.1% 8.5%,#000 12%,transparent 98%)}
 @keyframes workshop-leaves{0%,100%{transform:translate(0,0)}32%{transform:translate(.16%,.22%)}68%{transform:translate(-.11%,.11%)}}
 .workshop-painting.lit .workshop-leaf-shadow{opacity:.88;animation:workshop-leaves 8.3s ease-in-out infinite}
@@ -201,7 +206,6 @@ body.campaign-puzzle .view-instruction{background:#f4f0dfdd;color:#29434a;border
 #campaign-root[data-continuation-stage=home] #campaign-continuation-backdrop{background:radial-gradient(ellipse at 30% 35%,#536b68,#1c333b)}
 
 
-body.campaign-puzzle[data-campaign-surface=workshop] .stage{background-image:url('assets/campaign-2d/workshop-study.webp')!important}
 body.campaign-puzzle[data-campaign-surface=door] .stage{background-image:url('assets/campaign-2d/store-door-closed-0139.webp')!important}
 .square-check-diagram{display:block;width:min(100%,480px);margin:12px auto}
 .square-check-tool{transform:translate(-32px,-27px) rotate(-6deg);transform-origin:105px 92px;transition:transform .35s ease}
@@ -242,4 +246,84 @@ body.campaign-puzzle[data-campaign-surface=door] .stage{background-image:url('as
 .award-certificate{padding:24px 28px;border:1px solid #c4a36a;border-radius:5px;background:#efe6ce;color:#344950;box-shadow:0 7px 22px #071d2633}.award-certificate small{color:#65766e}.award-certificate .finale-rank{color:#9d7042;margin:12px 0}.award-certificate .finale-rank span{color:#344950}.award-certificate p{color:#344950!important;font-size:16px!important;margin:8px 0!important}
 .finale-options{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}.finale-options article{padding:18px;border:1px solid #8b9d9580;border-radius:10px;background:#34525b55}.finale-options h3{color:#e4c18c;font-size:20px;margin:0 0 8px}.finale-options small{color:#aabfbc}.finale-checks{padding:10px 20px;border-left:2px solid #d2b078;background:#23434b}.finale-rank{display:flex;align-items:center;gap:24px;color:#e9ca94;font-size:72px;font-weight:600;margin:18px 0}.finale-rank span{font-size:18px;font-weight:400;color:#ede9da}
 body.campaign-puzzle[data-campaign-surface=contest] .stage{background-image:url('assets/campaign-2d/puzzle-table.webp')!important}
+.workshop-models{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.workshop-models figure{margin:0;overflow:hidden;border:1px solid #a6b19b66;border-radius:8px;background:#203b40}
+.workshop-models figure.current{border-color:#d6b689}
+.workshop-models img{display:block;width:100%;height:auto;aspect-ratio:24/13;object-fit:contain;background:#58615b}
+.workshop-models figcaption{padding:7px 10px;font-size:.82rem;line-height:1.4;color:#e5dcc5}
+.heritage-workshop-note{display:grid;grid-template-columns:minmax(110px,28%) 1fr;gap:14px;align-items:center;margin:14px 0}
+.heritage-workshop-note img{width:100%;height:auto;border-radius:5px;background:#58615b}
+.heritage-workshop-note h4,.heritage-workshop-note p{margin:0}
+body.campaign-puzzle[data-campaign-surface=workshop] .stage{background-image:linear-gradient(165deg,#d9d1b943,#8b7b6852),url('assets/campaign-2d/workshop-study.webp')!important}
+.guided-assembly #piece-list.guided-lock-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+.guided-lock-list .piece{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:7px;row-gap:1px;text-align:left}
+.guided-lock-list .piece-symbol{grid-row:1/3}
+.guided-lock-list .piece-name small{display:none}
+.guided-assembly #piece-list.guided-lock-list .piece-status{display:block;grid-column:2;margin:0;font-size:10px}
+.guided-assembly #piece-list.guided-lock-list .piece:disabled .piece-status{color:#645848}
 @media(max-width:1280px){.finale-options{gap:9px}.finale-options article{padding:12px}.finale-options h3{font-size:18px}}
+.campaign-heritage {
+ margin: 0 0 18px;
+ padding: 12px 16px;
+ border: 1px solid #cfb88966;
+ border-radius: 7px;
+ background: #192f3680;
+}
+.campaign-heritage summary {
+ cursor: pointer;
+ color: #f2d6a0;
+ font-size: 15px;
+ font-weight: 600;
+ line-height: 1.6;
+}
+.campaign-heritage summary:focus-visible {
+ outline: 2px solid #f2d6a0;
+ outline-offset: 4px;
+}
+.campaign-heritage .heritage-cards {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+ gap: 10px;
+}
+.campaign-heritage article {
+ padding: 11px 12px;
+ background: #ffffff08;
+ border: 1px solid #d7dccd22;
+ border-radius: 5px;
+}
+.campaign-heritage h3 { margin: 0 0 6px; font-size: 15px; color: #f2d6a0; }
+.campaign-heritage article p { margin: 0; font-size: 13px; }
+.campaign-heritage .heritage-memory { margin-top: 8px; color: #b9ddcc; }
+.campaign-heritage .heritage-sources { margin: 14px 0 0; }
+.campaign-heritage .heritage-sources article { margin-top: 8px; }
+.campaign-heritage .heritage-address { overflow-wrap: anywhere; user-select: text; color: #b8cbbf; }
+
+.chapter-select-grid {
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr));
+ gap:10px;
+ margin:18px 0 0;
+}
+#campaign-root .chapter-select-grid button {
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ gap:6px;
+ min-height:82px;
+ text-align:left;
+ padding:12px 14px;
+}
+.chapter-select-grid strong { color:#efdbb1; }
+.chapter-select-grid span { color:#d6dfd5; font-size:13px; line-height:1.55; }
+.dev-chapter-label{display:flex;align-items:center;gap:12px;margin:16px 0;color:#ecd9b4}
+.dev-chapter-label select{max-width:78%;padding:8px 12px;border:1px solid #869d93;border-radius:5px;background:#20373c;color:#ffefd3;font:inherit}
+#campaign-root #campaign-dev-points button{min-height:45px;justify-content:center}
+#campaign-root #campaign-dev-toggle[aria-pressed=true]{border-color:#c6af80;color:#f1d7a7}
+.practice-library { margin-top:18px; }
+.practice-library .campaign-note-grid {
+ grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));
+}
+.practice-library h3 { color:#efdbb1; font-size:15px; margin:0 0 7px; }
+.practice-library h4 { color:#efebd9; margin:0 0 7px; line-height:1.3; }
+.practice-actions { display:flex; gap:6px; flex-wrap:wrap; }
+#campaign-root .practice-actions button { padding:6px 10px; }

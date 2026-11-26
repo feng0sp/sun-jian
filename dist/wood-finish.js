@@ -31,15 +31,24 @@
   function paintedGrain(THREE,color){
     if(paintedCache.has(color))return paintedCache.get(color);
     const canvas=document.createElement('canvas');canvas.width=canvas.height=256;const ctx=canvas.getContext('2d');ctx.fillStyle=color;ctx.fillRect(0,0,256,256);
-    // Sparse drawn fibres stay continuous over a component, without photographic pores.
-    for(let i=0;i<13;i++){ctx.beginPath();ctx.lineWidth=i%3===0?1.1:.65;ctx.strokeStyle=i%3===0?'rgba(72,43,24,.14)':'rgba(255,235,192,.17)';for(let y=0;y<=256;y+=8){const x=i*22-6+Math.sin(y*.016+i*.8)*3.5;y?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();}
+    // Wide, quiet grain bands and finer fibres follow the long direction of the piece.
+    for(let i=0;i<34;i++){
+      const wide=i%4===0,phase=i*2.399;
+      ctx.beginPath();ctx.lineWidth=wide?2.6+i%3:.5+i%3*.3;
+      ctx.strokeStyle=wide?'rgba(68,39,23,.15)':i%2?'rgba(248,219,173,.12)':'rgba(76,45,29,.16)';
+      for(let y=0;y<=256;y+=4){
+        const x=i*7.85-4+Math.sin(y*Math.PI/128+phase)*3.3+Math.sin(y*Math.PI/64+phase*.6)*1.25;
+        y?ctx.lineTo(x,y):ctx.moveTo(x,y);
+      }
+      ctx.stroke();
+    }
     const map=new THREE.CanvasTexture(canvas);map.encoding=THREE.sRGBEncoding;map.wrapS=map.wrapT=THREE.RepeatWrapping;paintedCache.set(color,map);return map;
   }
   function material(THREE,part,axis,anisotropy=1,illustrated=false){
     const color=illustrated?'#'+part.color.slice(1).match(/../g).map((h,i)=>Math.max(0,Math.min(255,Math.round(parseInt(h,16)*.95+[5,0,-7][i]))).toString(16).padStart(2,'0')).join(''):tone(part.color,part.fixed);
     let m;
     if(illustrated){
-      if(!toonRamp){toonRamp=new THREE.DataTexture(new Uint8Array([80,80,80,140,140,140,204,204,204,255,255,255]),4,1,THREE.RGBFormat);toonRamp.minFilter=toonRamp.magFilter=THREE.NearestFilter;toonRamp.generateMipmaps=false;toonRamp.needsUpdate=true;}
+      if(!toonRamp){toonRamp=new THREE.DataTexture(new Uint8Array([51,51,51,101,101,101,157,157,157,205,205,205,236,236,236,255,255,255]),6,1,THREE.RGBFormat);toonRamp.minFilter=toonRamp.magFilter=THREE.LinearFilter;toonRamp.generateMipmaps=false;toonRamp.needsUpdate=true;}
       m=new THREE.MeshToonMaterial({map:paintedGrain(THREE,color),gradientMap:toonRamp,color:0xffffff,side:THREE.DoubleSide});
     }else{const grain=textures(THREE,color,anisotropy);m=new THREE.MeshPhysicalMaterial({map:grain.map,bumpMap:grain.detail,bumpScale:.018,roughnessMap:grain.detail,roughness:.72,metalness:0,clearcoat:.10,clearcoatRoughness:.65,color:0xffffff,side:THREE.DoubleSide});}
     m.onBeforeCompile=shader=>{
@@ -50,18 +59,25 @@
       shader.fragmentShader='varying vec3 vWoodPosition;\nvarying vec3 vWoodNormal;\nuniform vec3 uWoodAxis;\nuniform vec3 uEndGrainColor;\n'+shader.fragmentShader;
       shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
         vec2 endPlane = uWoodAxis.x > 0.5 ? vWoodPosition.yz : (uWoodAxis.y > 0.5 ? vWoodPosition.xz : vWoodPosition.xy);
-        float radial = length(endPlane * vec2(1.0, 0.79) + vec2(4.7, 3.9));
-        float ripple = 0.017 * sin(dot(endPlane, vec2(4.4, 5.1)));
-        float ring = pow(0.5 + 0.5 * sin((radial + ripple) * 37.0), 8.0);
-        float endFace = smoothstep(0.70, 0.94, abs(dot(normalize(vWoodNormal), uWoodAxis)));
-        diffuseColor.rgb = mix(diffuseColor.rgb, uEndGrainColor * (0.99 - 0.028 * ring), endFace);
+        float radial = length(endPlane * vec2(1.0, 0.76) + vec2(1.7, 2.9));
+        float ripple = 0.026 * sin(dot(endPlane, vec2(4.4, 5.1)));
+        float ring = pow(0.5 + 0.5 * sin((radial + ripple) * 28.0), 6.0);
+        float endFace = smoothstep(0.72, 0.96, abs(dot(normalize(vWoodNormal), uWoodAxis)));
+        float endTone = 0.92 - 0.22 * ring + 0.028 * sin(radial * 11.0);
+        diffuseColor.rgb = mix(diffuseColor.rgb, uEndGrainColor * endTone, endFace);
       `);
     };
-    m.customProgramCacheKey=()=> illustrated?'sun-jian-painted-wood-v2':'sun-jian-waxed-wood-v2';return m;
+    m.customProgramCacheKey=()=> illustrated?'sun-jian-painted-wood-v3':'sun-jian-waxed-wood-v3';return m;
   }
+  function piece(level,part){
+    if(level!=='burr-six')return part;
+    const colors=['#ac7646','#bd8552','#85603d','#97704d','#b18d60','#c19c70'];
+    return {...part,color:colors[Number(part.id.slice(4))-1]||part.color};
+  }
+  const chamfer=level=>['dovetail','burr-six','pinned','rain-shelter-bench'].includes(level)||level.startsWith('entry-') ? .048 : .035;
   function ink(hex){
     const linear=hex.slice(1).match(/../g).map(v=>{const c=parseInt(v,16)/255;return c<=.04045?c/12.92:Math.pow((c+.055)/1.055,2.4);});
     return linear[0]*.2126+linear[1]*.7152+linear[2]*.0722<.24?'#fff4dc':'#49331f';
   }
-  root.WoodFinish={material,tone,ink};
+  root.WoodFinish={material,tone,ink,piece,chamfer};
 })(window);

@@ -9,7 +9,7 @@ const {D}=require('./helpers/campaign-fixtures.cjs');
   const files=fs.readdirSync('dist/assets/campaign-2d').filter(n=>n.endsWith('.webp'));
   const loaded=await p.evaluate(async files=>{const results=[];for(const f of files){const r=await fetch('assets/campaign-2d/'+f);const b=await r.blob();results.push([f,r.ok,b.size]);}return results;},files);
   assert(loaded.every(([,ok,size])=>ok&&size>10000),'all local painted assets available');
-  await p.locator('#campaign-practice').click();const s=D.fresh();s.phase='learning';s.openingSeen=true;s.frame='workbench';
+  const s=D.fresh();s.phase='learning';s.openingSeen=true;s.frame='workbench';
   await p.evaluate(s=>localStorage.setItem('sun-jian-campaign-v1',JSON.stringify(s)),s);await p.goto('sun-jian://app/index.html?journey=1');
   await p.waitForFunction(()=>CampaignJourney.snapshot().scene.available&&!CampaignJourney.snapshot().scene.loading);assert.equal(await p.locator('#campaign-world canvas:not(.journey-rain)').count(),0);
   if(await p.locator('.illustrated-hotspots [data-hotspot=\"frame:workbench\"]').count())await p.locator('.illustrated-hotspots [data-hotspot=\"frame:workbench\"]').click();await p.locator('.illustrated-hotspots [data-hotspot=straight]').click();await p.waitForFunction(()=>CampaignJourney.snapshot().view==='puzzle');assert.equal(await p.evaluate(()=>SunJian.snapshot().renderer),true);

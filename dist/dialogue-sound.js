@@ -12,7 +12,7 @@
  };
  function plan(speaker,text){
   if(typeof speaker!=='string'||typeof text!=='string'||!text.trim())return null;
-  const actor=/^(周伯|老人|屋内)/.test(speaker)?'zhou':/^小许/.test(speaker)?'xiaoxu':/^林岚/.test(speaker)?'linlan':/^我(?:$|[（(])/.test(speaker)?'player':/^工作人员/.test(speaker)?'staff':/^评审/.test(speaker)?'judge':null;
+  const actor=/^(周伯|老人|屋内)/.test(speaker)?'zhou':/^(?:陈晴|小许)/.test(speaker)?'xiaoxu':/^林岚/.test(speaker)?'linlan':/^我(?:$|[（(])/.test(speaker)?'player':/^工作人员/.test(speaker)?'staff':/^评审/.test(speaker)?'judge':null;
   if(!actor)return null;
   const channel=/消息/.test(speaker)?'message':'live';
   return {actor,channel,...colors[channel==='message'?'message':actor]};

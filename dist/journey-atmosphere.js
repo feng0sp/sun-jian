@@ -267,14 +267,33 @@
       group.offset%=source.loopEnd;group.startedAt=ctx.currentTime+.035;group.loading=false;source.start(group.startedAt,group.offset);
     },()=>{if(current===group){group.loading=false;group.error=true;}});
   }
-  function celebration(){
-    if(!wantsSound()||ctx?.state!=='running')return false;
-    const token=current;
-    for(const id of ['jingle','applause'])decodeMusic(id,true).then(buffer=>{
-      if(current!==token||!wantsSound()||ctx.state!=='running')return;
-      const source=ctx.createBufferSource(),gain=ctx.createGain(),data=root.JourneyCelebrationFx[id];source.buffer=buffer;gain.gain.value=data.recommendedGain;source.connect(gain);gain.connect(master);const entry={source,gain};celebrationVoices.add(entry);
-      source.onended=()=>{source.disconnect();gain.disconnect();celebrationVoices.delete(entry);};source.start(ctx.currentTime+(id==='applause'?.12:0));
-    }).catch(()=>{});return true;
+  function celebration() {
+    if (!wantsSound() || ctx?.state !== 'running') return false;
+    const token = current;
+    const cues = [{id:'jingle', delay:0}, {id:'applause', delay:.12}];
+    Promise.allSettled(cues.map(async cue => decodeMusic(cue.id, true))).then(results => {
+      if (current !== token || !wantsSound() || ctx.state !== 'running') return;
+      const startAt = ctx.currentTime + .02;
+      results.forEach((result, index) => {
+        if (result.status !== 'fulfilled') return;
+        const {id, delay} = cues[index];
+        const source = ctx.createBufferSource();
+        const gain = ctx.createGain();
+        source.buffer = result.value;
+        gain.gain.value = root.JourneyCelebrationFx[id].recommendedGain;
+        source.connect(gain);
+        gain.connect(master);
+        const entry = {source, gain};
+        celebrationVoices.add(entry);
+        source.onended = () => {
+          source.disconnect();
+          gain.disconnect();
+          celebrationVoices.delete(entry);
+        };
+        source.start(startAt + delay);
+      });
+    });
+    return true;
   }
   function rememberScore(group) {
     if (!group || !ctx) return;

@@ -1,10 +1,18 @@
-# 榫间 榫卯解谜游戏
+# 榫间 · 榫卯叙事解谜游戏
 
 以木作结构为主题的中文解谜游戏。玩家通过二维场景探索推进故事，在独立的三维特写中观察、拆解和装配木件。
 
 **技术栈：JavaScript · Three.js · HTML/CSS · Node.js 测试 · Playwright**
 
-![榫间游戏界面](docs/screenshots/overview.png)
+![榫间：无钉无胶，相扣相生](docs/showcase/cover.png)
+
+## 0.15.5 参赛版
+
+大学生陈屿在溪桥村借宿时跟周伯学习木作，从修好一条长凳，到用自己的作品参加新人组比赛。玩家在二维场景中探索，在独立的三维工作台上转动、透视和拆合木件。备赛途中可以参观榫卯文化博物馆，八件展品都配有可操作的教学模型。旅行笔记可以重访接头和木作传习故事，自由练习支持按物件选择拆解或拼装。
+
+| 人物与旅程 | 六木成锁 | 游戏特色玩法 |
+| --- | --- | --- |
+| [![人物与旅程](docs/showcase/01-story.jpg)](docs/showcase/01-story.jpg) | [![六木成锁](docs/showcase/02-joinery.jpg)](docs/showcase/02-joinery.jpg) | [![游戏特色玩法](docs/showcase/03-gameplay.jpg)](docs/showcase/03-gameplay.jpg) |
 
 ## 当前内容
 
@@ -69,6 +77,6 @@ node tests/mode-save-isolation.test.cjs
 
 ## 版本与素材
 
-本展示版本整理自已有项目的已提交源码，保留历史开发说明；具体来源提交及整理后的修正记录见验证文档。素材和代码开发中使用了 AI 辅助，不将工具生成内容描述为全部手工完成。
+当前版本整理自 0.15.5 桌面版使用的源码与参赛定稿。已在本地复核基础解谜、主线存档、续篇迁移、八件博物馆展品和 61 处开发者跳转。初始展示版的验证记录保留在 docs/SHOWCASE_VALIDATION.md。素材和代码开发中使用了 AI 辅助，不将工具生成内容描述为全部手工完成。
 
 Three.js 授权保留在 [`dist/vendor/THREE-LICENSE.txt`](dist/vendor/THREE-LICENSE.txt)，雨声素材记录见 [`docs/rain-0139-licenses.json`](docs/rain-0139-licenses.json)。未包含本地存档、Sites 账号配置、构建缓存和旧发布压缩包。

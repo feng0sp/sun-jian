@@ -15,11 +15,11 @@
  const optionalCaveIds=['route-case','folding-screen','cabinet-knot','narrow-latch','exit-knot'];
  const Continuation=root.CampaignContinuation||(typeof require==='function'?require('./campaign-continuation.js'):null);
  const Objects=root.CampaignObjects||(typeof require==='function'?require('./campaign-objects.js'):null);
- const storyRevision=12;
- const emotionRevisedTalk=new Set(['continuationDeparture','continuationEntry','continuationPeer','continuationServiceReflection','continuationFinalArrival','continuationFinalJudge','continuationFinalRecords','continuationFinalAfter','continuationFinalZhou']);
- const revisedTalk=new Set(['continuationDeparture','continuationWorkshop']);
- const priorRevisedTalk=new Set(['opening','villageArrival','stay','zhou','heritage','teacherMemory','invite','earlySample','travelMessage','continuationMeetup','continuationDeparture','continuationWorkshop','continuationPurpose','continuationPeer','continuationServiceReflection']);
- const fresh=()=>({version:2,storyRevision,playerName:'陈屿',playerNameConfirmed:false,continuation:Continuation.fresh(),roomObjects:{},doorRecoveryPending:false,nightBenchSeen:false,interlude:null,interludesDone:[],frame:'mountain-rain',prologue:{stage:'mountain',invited:false,bagPlaced:false,legacy:false},openingSeen:false,spoken:[],pendingReflection:null,companionUpdated:false,suppliesCollected:false,leavePracticeReminderSeen:false,phase:'arrival',scene:'village',village:{position:[0,1.65,8],yaw:0,pitch:0},cave:{version:1,position:[0,1.65,3],yaw:0,pitch:0,completed:[],runs:{},seenIntro:true,finished:false},done:[],runs:{},replays:{},talk:null,visited:['arrival'],observed:[],fieldNotes:[],completionSeen:{},completionPresented:[],benchRecoveryPending:false,finished:false,playMs:0,records:[],settings:{sound:false,sensitivity:1,volume:.65,musicVolume:1,ambienceVolume:1,quality:'medium',reducedMotion:false,dialogueSound:true},feedback:{}});
+ const storyRevision=16;
+ const soloRevisedTalk=new Set(['opening','villageArrival','arrival','stay','travelMessage',
+  'continuationMeetup','continuationGoodbye','continuationEntry','continuationPurpose',
+  'continuationFinalJudge','continuationFinalResult','continuationFinalAfter','continuationFinalMemory']);
+ const fresh=()=>({version:2,storyRevision,playerName:'陈屿',playerNameConfirmed:false,continuation:Continuation.fresh(),roomObjects:{},doorRecoveryPending:false,nightBenchSeen:false,interlude:null,interludesDone:[],frame:'mountain-rain',prologue:{stage:'mountain',invited:false,bagPlaced:false,legacy:false},openingSeen:false,spoken:[],topics:[],pendingReflection:null,companionUpdated:false,suppliesCollected:false,leavePracticeReminderSeen:false,phase:'arrival',scene:'village',village:{position:[0,1.65,8],yaw:0,pitch:0},cave:{version:1,position:[0,1.65,3],yaw:0,pitch:0,completed:[],runs:{},seenIntro:true,finished:false},done:[],runs:{},replays:{},talk:null,visited:['arrival'],observed:[],fieldNotes:[],completionSeen:{},completionPresented:[],benchRecoveryPending:false,finished:false,playMs:0,records:[],settings:{sound:false,sensitivity:1,volume:.65,musicVolume:1,ambienceVolume:1,quality:'medium',reducedMotion:false,dialogueSound:true},feedback:{}});
  const hasNode=(s,id)=>Array.isArray(s.cave?.completed)&&s.cave.completed.includes(id);
  const canReturn=s=>requiredCaveIds.every(id=>hasNode(s,id));
  function canEnterFrame(s,id){
@@ -98,7 +98,14 @@
    s.openingSeen=v.openingSeen===true||s.prologue.legacy||s.prologue.stage!=='mountain'||s.phase!=='arrival';s.spoken=list(v.spoken).filter(x=>typeof x==='string'&&x.length<80).slice(-80);s.pendingReflection=['learning','night'].includes(s.phase)?recoveredLesson||(tasks.some(t=>t.id===v.pendingReflection)&&s.done.includes(v.pendingReflection)?v.pendingReflection:null):null;s.companionUpdated=phases.indexOf(s.phase)>=5;s.suppliesCollected=phases.indexOf(s.phase)>=7;
    s.fieldNotes=Field.restore(v.fieldNotes);s.completionSeen=typeof v.completionSeen==='object'&&v.completionSeen&&!Array.isArray(v.completionSeen)?Object.fromEntries(Object.entries(v.completionSeen).filter(([k,val])=>k.length<100&&typeof val==='string'&&val.length<200).slice(-50)):{};s.completionPresented=Array.isArray(v.completionPresented)?v.completionPresented.filter(id=>tasks.some(t=>t.id===id)):[];s.benchRecoveryPending=v.benchRecoveryPending===true||Object.values(stored).some(r=>r?.level==='rain-shelter-bench'&&E.restoreSession(JSON.stringify(r),P)&&Guide.normalize(P.LEVELS.find(l=>l.id===r.level),r,r.mode,P,E).recovered);
    s.topics=list(v.topics).filter(x=>typeof x==='string'&&x!=='close'&&x.length<50).slice(-50);
-   const sameLines=v.storyRevision===storyRevision;
+   const revision15Talk=['opening','continuationMeetup'];
+   const revisedTalk=['welcomeInside','unpack','stay','morning','travelMessage','returned','chairJoint','chairSit',
+    'continuationFinalZhou','continuationFinalMemory'];
+   const talkId=v.talk?.id;
+   const sameLines=v.storyRevision===storyRevision||(!revisedTalk.includes(talkId)&&(
+    v.storyRevision===15||
+    (v.storyRevision===14&&!revision15Talk.includes(talkId))||
+    (v.storyRevision===13&&!soloRevisedTalk.has(talkId))));
    s.talk=v.talk&&typeof v.talk.id==='string'&&v.talk.id.length<100&&Number.isInteger(v.talk.line)?{id:v.talk.id,line:sameLines?Math.max(0,v.talk.line):0}:null;
    if(s.prologue.legacy&&s.talk?.id==='opening')s.talk=null;
    s.visited=phases.filter((id,i)=>i<=phases.indexOf(s.phase)&&(savedVisited.includes(id)||id===s.phase||id==='arrival'));s.observed=['bench','chair','cup','tools','zhou'].filter(id=>savedObserved.includes(id));s.benchChecked=s.phase==='complete'||phases.indexOf(s.phase)>=9&&v.benchChecked===true;s.finished=s.phase==='complete';s.playMs=Number.isFinite(v.playMs)?Math.max(0,v.playMs):0;s.records=list(v.records).slice(-100);s.leavePracticeReminderSeen=v.leavePracticeReminderSeen===true;
@@ -131,8 +138,8 @@
   if(s.phase==='depart')return frame==='trail'?'沿石路走到尽头，看看旧库的门闩。':'沿屋旁石路，到旧木料库取料。';
   if(s.phase==='return')return atHome?'料和草图都带回来了，和周伯说一声。':'小车停好了，回小屋喊周伯一起来。';
   if(s.phase==='bench')return atBench?'照着草图，把长凳合好。':'去雨棚，周伯在长凳旁等你。';
-  if(s.phase==='farewell')return atBench?(s.benchChecked?'坐下试试，等小许过来。':'请长凳旁的周伯检查一下接缝。'):'回雨棚，看看刚合好的长凳。';
-  return s.phase==='cave'?caveGoal(s):s.phase==='complete'?(frame==='bench-seat'?'雨停了，在这里等小许。':atBench?'长凳修好了，再坐一会儿吧。':'随意看看，也可以回雨棚坐一会儿。'):'';
+  if(s.phase==='farewell')return atBench?(s.benchChecked?'在雨棚坐一会儿，看看凳子用起来怎样。':'请长凳旁的周伯检查一下接缝。'):'回雨棚，看看刚合好的长凳。';
+  return s.phase==='cave'?caveGoal(s):s.phase==='complete'?(frame==='bench-seat'?'雨停了，在这里歇歇脚。':atBench?'长凳修好了，再坐一会儿吧。':'随意看看，也可以回雨棚坐一会儿。'):'';
  }
  function caveGoal(s){if(!hasNode(s,'mouth-latch'))return '看看库门的木闩，先把门打开。';if(!hasNode(s,'rack-frame')&&!hasNode(s,'stone-box'))return '找到绑着浅色布带的料，还有装配草图。';if(!hasNode(s,'rack-frame'))return '打开料架前的挡框，取出替换料。';if(!hasNode(s,'stone-box'))return '看看石台上的木匣，草图收在里面。';return '料和草图齐了，可以推车回村，也可以再试试样件。';}
  const api={storyRevision,tasks,phases,frames,requiredCaveIds,optionalCaveIds,fresh,restore,objective,nextObjective:objective,canReturn,canEnterFrame,defaultFrame};root.CampaignData=api;if(typeof module!=='undefined')module.exports=api;

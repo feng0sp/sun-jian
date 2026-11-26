@@ -5,7 +5,7 @@ const node=id=>C.nodes.find(n=>n.id===id);
 function add(s,id){const n=node(id);s.runs['cave:'+id]=solved(n.level,'dismantle');s.cave.completed.push(id);return s;}
 function inStore(){const s=learned();s.phase='cave';s.scene='cave';s.frame='store-door';return s;}
 let s=D.fresh(),r=restore(s);
-assert.equal(r.version,2);assert.equal(r.storyRevision,12);assert.equal(r.frame,'mountain-rain');assert(!D.canReturn(r));assert.equal(r.leavePracticeReminderSeen,false);
+assert.equal(r.version,2);assert.equal(r.storyRevision,D.storyRevision);assert.equal(r.frame,'mountain-rain');assert(!D.canReturn(r));assert.equal(r.leavePracticeReminderSeen,false);
 assert.equal(D.requiredCaveIds.length,3);assert.equal(D.optionalCaveIds.length,5);assert.equal(new Set([...D.requiredCaveIds,...D.optionalCaveIds]).size,8);
 // The rack and sketch box are independent: both completion orders must survive reload.
 for(const order of [['mouth-latch','rack-frame','stone-box'],['mouth-latch','stone-box','rack-frame']]){

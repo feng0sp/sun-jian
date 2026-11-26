@@ -26,7 +26,7 @@
   const guidePanel=document.createElement('section');guidePanel.id='assembly-guide';guidePanel.hidden=true;guidePanel.setAttribute('aria-live','polite');guidePanel.innerHTML='<strong></strong><p></p>';$('piece-list').before(guidePanel);
   const takebackButton=document.createElement('button');takebackButton.id='guided-takeback';takebackButton.className='quiet-button';takebackButton.hidden=true;takebackButton.onclick=takeBackPin;guidePanel.after(takebackButton);
   staging.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(!state.selected||!assembling())return;assemblyDrag?.cancel();stagePart(state.selected,b.dataset.approach);updateMaterials();});
-  function stagePart(id,direction){const part=level().pieces.find(p=>p.id===id);if(!part||!available(id)||!assembling())return;const a=woodAxis(part);direction=guide()?AssemblyGuide.direction(guide(),id):(direction||['xn','yn','zn'][a]);assemblyHand={id,direction,range:P.insertionRange(level(),state.removed,id,direction)};assemblyPose=null;staging.hidden=false;staging.classList.toggle('guided',!!guide());staging.querySelector('p').textContent=guide()?AssemblyGuide.step(guide(),state.removed)?.instruction||'三件都已合好。':'拿起散件，选择从哪一侧靠近，再拖入接点。';staging.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.approach===direction)));}
+  function stagePart(id,direction){const part=level().pieces.find(p=>p.id===id);if(!part||!available(id)||!assembling())return;const a=woodAxis(part);direction=guide()?AssemblyGuide.direction(guide(),id,state.removed):(direction||['xn','yn','zn'][a]);assemblyHand={id,direction,range:P.insertionRange(level(),state.removed,id,direction)};assemblyPose=null;staging.hidden=false;staging.classList.toggle('guided',!!guide());staging.querySelector('p').textContent=guide()?AssemblyGuide.step(guide(),state.removed)?.instruction||'木件都已合好。':'拿起散件，选择从哪一侧靠近，再拖入接点。';staging.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.approach===direction)));}
   const runData=()=>({version:1,level:level().id,mode:state.mode,history:JSON.parse(JSON.stringify(state.history)),action:state.action,...(guide()?.id===AssemblyGuide.bench.id?{guideRevision:1}:guide()?{guideId:guide().id}:{}),trial:JSON.parse(JSON.stringify(trial))});
   function storyEvent(type){window.dispatchEvent(new CustomEvent('joint:story-'+type,{detail:{taskId:storyContext?.taskId,run:runData()}}));}
   const woodTones=new Set();
@@ -88,22 +88,27 @@
     $('piece-list').classList.toggle('many',pieces.length>3);$('piece-list').classList.toggle('six',pieces.length===6);
     $('piece-list').replaceChildren(...pieces.map(p=>{
       const removed=state.removed.includes(p.id),locked=guide()&&(assembling()?removed:!removed)&&!guideAllows(p.id),selectable=available(p.id),selected=state.selected===p.id&&selectable;
-      const button=document.createElement('button');button.className='piece'+(!selectable?' removed':'')+(assembling()&&removed?' pending':'')+(selected?' selected':'');button.dataset.piece=p.id;const chip=window.WoodFinish?WoodFinish.tone(p.color,p.fixed):p.color;button.style.setProperty('--piece-wood',chip);button.style.setProperty('--piece-ink',window.WoodFinish?WoodFinish.ink(chip):'#49331f');button.disabled=!selectable||state.busy;button.setAttribute('aria-pressed',selected);button.innerHTML=`<span class="piece-symbol">${p.symbol}</span><span class="piece-name">${p.name}<small>构件 ${p.symbol}</small></span><span class="piece-status">${locked?(assembling()?(guide().lockedText||(guide().id===AssemblyGuide.bench.id?'装好座板后可用':'先装好榫头')):'先取下两枚木销'):!selectable?(assembling()?'已归位':'已抽出'):selected?'已选中':assembling()?'待归位':'可动'}</span>`;button.onclick=()=>select(p.id);return button;
+      const button=document.createElement('button');button.className='piece'+(!selectable?' removed':'')+(assembling()&&removed?' pending':'')+(selected?' selected':'');button.dataset.piece=p.id;const chip=window.WoodFinish?WoodFinish.tone(WoodFinish.piece(level().id,p).color,p.fixed):p.color;button.style.setProperty('--piece-wood',chip);button.style.setProperty('--piece-ink',window.WoodFinish?WoodFinish.ink(chip):'#49331f');button.disabled=!selectable||state.busy;if(locked)button.title=AssemblyGuide.blockedText(guide(),state.removed,p.id,state.mode);button.setAttribute('aria-pressed',selected);button.innerHTML=`<span class="piece-symbol">${p.symbol}</span><span class="piece-name">${p.name}<small>构件 ${p.symbol}</small></span><span class="piece-status">${locked?(assembling()?(guide().lockedText||(guide().id===AssemblyGuide.bench.id?'装好座板后可用':'先装好榫头')):'先取下木销'):!selectable?(assembling()?'已归位':'已抽出'):selected?'已选中':assembling()?'待归位':'可动'}</span>`;button.onclick=()=>select(p.id);return button;
     }));
     if(focusedPiece){const button=[...$('piece-list').children].find(b=>b.dataset.piece===focusedPiece&&!b.disabled);button?.focus({preventScroll:true});}
     const pending=pieces.filter(p=>state.removed.includes(p.id)).length;
     $('removed-count').textContent=`${assembling()?pieces.length-pending:pending} / ${pieces.length}`;
     $('assembly-count').textContent=String(assembling()?pending:pieces.length-pending).padStart(2,'0')+(assembling()?' 个待装构件':' 个可动构件');
     const current=level().pieces.find(p=>p.id===state.selected);
-    $('selected-note').textContent=current&&available(current.id)?(assembling()?(guide()?'来路已摆好，沿箭头将木件推入接点。':'半透明木块标示待装位置。选择木块进入这个位置的移动方向。'):current.description):'先选木，再辨方向。';
-    document.querySelectorAll('[data-direction]').forEach(b=>{b.disabled=!current||state.busy||!available(current.id)||!!(guide()&&assembling()&&b.dataset.direction!==AssemblyGuide.direction(guide(),current.id));b.classList.remove('hinted');});
+    $('selected-note').textContent=current&&available(current.id)?(assembling()?(guide()?guidedEntryInstruction():'半透明木块标示待装位置。选择木块进入这个位置的移动方向。'):current.description):'先选木，再辨方向。';
+    document.querySelectorAll('[data-direction]').forEach(b=>{b.disabled=!current||state.busy||!available(current.id)||!!(guide()&&assembling()&&b.dataset.direction!==AssemblyGuide.direction(guide(),current.id,state.removed));b.classList.remove('hinted');});
     $('undo').disabled=state.history.length<=guideFloor()||state.busy;
     $('hint').disabled=state.busy||(assembling()?state.removed.length===0:pending===pieces.length);
     syncQuickActions();
-    const step=guide()?AssemblyGuide.step(guide(),state.removed,state.mode):null;
+    const step=guide()?AssemblyGuide.step(guide(),state.removed,state.mode,level()):null;
     const recover=assembling()&&guide()?AssemblyGuide.takeback(level(),guide(),state.removed,state.history,P):null;
     takebackButton.hidden=!recover;takebackButton.disabled=state.busy;takebackButton.textContent=recover?'↶ 取回'+(level().pieces.find(p=>p.id===recover.piece)?.name||'穿销'):'';
-    guidePanel.hidden=!guide();guidePanel.querySelector('strong').textContent=step?.label||(assembling()?'已经合好':'已经拆开');guidePanel.querySelector('p').textContent=recover&&state.removed.includes('tenon')?'穿销先装入了，挡住了榫头。点“取回穿销”，再按顺序合回。':step?.instruction||guide()?.doneText||(guide()?.id===AssemblyGuide.bench.id?'两根横梁由周伯预装。可以随时撤销或放回场景。':'接头已合好。可以放回场景，也可以取回穿销再观察。');
+    $('piece-list').classList.toggle('guided-lock-list',!!guide()?.hideBlockedGhosts);
+    guidePanel.hidden=!guide();
+    if(guide()){
+      guidePanel.querySelector('strong').textContent=step?.label||(assembling()?'已经合好':'已经拆开');
+      guidePanel.querySelector('p').textContent=recover&&state.removed.includes('tenon')?'穿销挡住了榫头。先点“取回穿销”，再合榫头。':step?.instruction||AssemblyGuide.completionText(guide(),state.mode);
+    }
     document.body.classList.toggle('guided-assembly',!!guide());
     $('movement-choice').hidden=!state.experiment;$('action-extract').setAttribute('aria-pressed',state.action==='extract');$('action-step').setAttribute('aria-pressed',state.action==='step');$('action-extract').disabled=state.busy;$('action-step').disabled=state.busy;
     $('direction-instruction').textContent=assembling()?'沿一个方向装入':state.action==='step'?'沿一个方向借位':'沿一个方向抽出';
@@ -118,12 +123,24 @@
     $('quick-hint').setAttribute('aria-label',(spoken?['向周伯请教观察线索','请周伯解释接点约束','请周伯示范一个动作','再看周伯示范']:['查看观察线索','查看约束解释','演示一个动作','重新演示一个动作'])[state.hint]);
     $('hint').lastChild.textContent=spoken?' 问问周伯':' 看一眼提示';$('hint-speaker').hidden=!spoken;$('close-hint').textContent=spoken?'我再试试 ×':'收起提示 ×';$('hint-next').hidden=!storyContext;$('hint-next').disabled=$('hint').disabled;$('hint-next').textContent=state.hint<2?'再说具体一点 →':state.hint===2?(spoken?'您示范一次 →':'演示一步 →'):'再看一次 →';
   }
+  function guidedEntryInstruction(){
+    return renderer?'沿箭头把木件推入接点。':'在“精确操作”里按亮起的方向按钮归位。';
+  }
   function select(id,fromDrag=false){
-    if(state.busy||!available(id))return;
+    if(state.busy)return;
+    if(!available(id)){if(guide()?.hideBlockedGhosts&&state.removed.includes(id))setFeedback(AssemblyGuide.blockedText(guide(),state.removed,id),'blocked');return;}
     const part=level().pieces.find(p=>p.id===id);
     if(!part)return;
     if(part.fixed){setFeedback('这是固定的卯座。观察它的开口，选择列表中的可动构件。');return;}
-    if(!fromDrag){drag?.cancel();assemblyDrag?.cancel();}closeHint();clearDirectionPreview();state.selected=id;if(assembling())stagePart(id);renderPieces();updateMaterials();if(guide()&&assembling()){defaultCamera(true);showDirectionPreview(AssemblyGuide.direction(guide(),id));}setFeedback(`已选中${part.name}。${assembling()?(guide()?'来路已经摆好，沿箭头拖入就行。':'散件已拿起。沿来路拖入；也可以换一侧靠近或使用精确操作。'):'沿槽拉脱即取下；未脱榫时可以拖回或松手回位。'}`);
+    if(!fromDrag){drag?.cancel();assemblyDrag?.cancel();}
+    closeHint();clearDirectionPreview();state.selected=id;
+    if(assembling())stagePart(id);
+    renderPieces();updateMaterials();
+    if(guide()&&assembling()){defaultCamera(true);restoreAssemblyCue();}
+    const instruction=assembling()
+      ?(guide()?guidedEntryInstruction():'散件已拿起。可以沿来路拖入、换一侧靠近或使用精确操作。')
+      :'沿接点拉出木件。短拉后松手，木件会回位。';
+    setFeedback(`已选中${part.name}。${instruction}`);
   }
   function clearDirectionPreview(){
     if(previewArrow&&scene){scene.remove(previewArrow);previewArrow.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)o.material.dispose();});previewArrow=null;}
@@ -137,21 +154,27 @@
       icon.textContent=foreshortened?(camera.position.clone().sub(origin).dot(new THREE.Vector3(...d.vector))>0?'⊙':'⊗'):'↑';icon.setAttribute('aria-hidden','true');icon.style.transform=foreshortened?'none':'rotate('+(Math.atan2(dy,dx)*180/Math.PI+90)+'deg)';icon.classList.toggle('foreshortened',foreshortened);button.dataset.screenAngle=foreshortened?'depth':String(Math.atan2(dy,dx));button.title=d.label+'（'+d.axis+'）'+(foreshortened?' · 接近视线方向，转动视角再确认':' · 箭头按当前视角显示');
     });
   }
+  function restoreAssemblyCue(){
+    if(!previewRoute&&guide()&&assemblyHand)showDirectionPreview(assemblyHand.direction);
+  }
   function showDirectionPreview(id){
     if(!renderer||!state.selected||state.busy||!available(state.selected))return;
     clearDirectionPreview();const d=P.DIRECTIONS.find(d=>d.id===id),part=level().pieces.find(p=>p.id===state.selected);if(!d||!part)return;
     const bound=new THREE.Box3();part.shapes.forEach(s=>s.vertices.forEach(v=>bound.expandByPoint(new THREE.Vector3(...v))));const center=bound.getCenter(new THREE.Vector3()).add(new THREE.Vector3(...(state.offsets[part.id]||[0,0,0]))),size=bound.getSize(new THREE.Vector3()),vector=new THREE.Vector3(...d.vector);
     const half=Math.abs(vector.x)*size.x/2+Math.abs(vector.y)*size.y/2+Math.abs(vector.z)*size.z/2;
-    // This is a neutral direction cue for every axis, never a prediction of a legal move.
-    const color=d.vector[0]?0x9d674b:d.vector[1]?0x677e50:0x6f8599;
-    const origin=center.clone().addScaledVector(vector,assembling()?-(half+1.03):half+.13);
-    previewArrow=new THREE.Group();const arrow=new THREE.ArrowHelper(vector,origin,.9,color,.23,.12);previewArrow.add(arrow);
-    const incoming=assembling()?P.insertionRange(level(),state.removed,part.id,id):null;
+    const guidedEntry=!!guide()&&assembling();
+    const color=guidedEntry?0x24645d:d.vector[0]?0x9d674b:d.vector[1]?0x677e50:0x6f8599;
+    const incoming=assembling()?(assemblyHand?.id===part.id&&assemblyHand.direction===id
+      ?assemblyHand.range:P.insertionRange(level(),state.removed,part.id,id)):null;
     const start=incoming?center.clone().add(new THREE.Vector3(...incoming.start)):center.clone().addScaledVector(vector,half+.1),end=center.clone().addScaledVector(vector,assembling()?0:half+1.15);
-    const path=new THREE.Line(new THREE.BufferGeometry().setFromPoints([start,end]),new THREE.LineDashedMaterial({color,transparent:true,opacity:.55,dashSize:.12,gapSize:.09,depthTest:false,depthWrite:false}));path.computeLineDistances();previewArrow.add(path);
+    const arrowLength=incoming?Math.min(.9,incoming.distance*.6):.9;
+    const origin=incoming?start.clone().lerp(end,.5).addScaledVector(vector,-arrowLength/2):start;
+    previewArrow=new THREE.Group();
+    previewArrow.add(new THREE.ArrowHelper(vector,origin,arrowLength,color,arrowLength*.26,arrowLength*.14));
+    const path=new THREE.Line(new THREE.BufferGeometry().setFromPoints([start,end]),new THREE.LineDashedMaterial({color,transparent:true,opacity:guidedEntry?.76:.55,dashSize:.12,gapSize:.09,depthTest:false,depthWrite:false}));path.computeLineDistances();previewArrow.add(path);
     previewArrow.traverse(o=>{o.renderOrder=10;if(o.material){o.material.depthTest=false;o.material.depthWrite=false;}});scene.add(previewArrow);
-    previewTip=origin.clone().addScaledVector(vector,.45);
-    if(incoming){const opposite=P.DIRECTIONS.find(x=>x.vector.every((v,i)=>v===-d.vector[i]));previewRoute={direction:id,start,end,sourceAxis:opposite.axis};entryCue.hidden=false;$('entry-source').querySelector('b').textContent=guide()?'拿起这一件':'来路 '+opposite.axis;$('direction-preview').classList.add('entry-caption');$('direction-preview').textContent=guide()?'沿箭头推入 · 接近归位时吸附':'从 '+opposite.axis+' 侧进入，'+d.label+'（'+d.axis+'） · 这里只看方向，点击再试合';}
+    previewTip=origin.clone().addScaledVector(vector,arrowLength/2);
+    if(incoming){const opposite=P.DIRECTIONS.find(x=>x.vector.every((v,i)=>v===-d.vector[i]));previewRoute={direction:id,start,end,sourceAxis:opposite.axis};entryCue.hidden=false;$('entry-source').querySelector('b').textContent=guide()?part.name:'来路 '+opposite.axis;$('direction-preview').classList.add('entry-caption');$('direction-preview').textContent=guide()?'沿箭头推入 · 接近归位时吸附':'从 '+opposite.axis+' 侧进入，'+d.label+'（'+d.axis+'） · 这里只看方向，点击再试合';}
     else $('direction-preview').textContent=(state.action==='step'?'向这一侧借位 · ':'向这一侧抽出 · ')+d.axis+(state.action==='step'?' · 一格':'');
     $('direction-preview').hidden=false;renderDirty=true;
   }
@@ -170,7 +193,7 @@
   }
   function woodAxis(part){return part.grainAxis??({tenon:1,pin:2,crosspin:0,upper:2,lower:0,key:1,'lift-key':1,slider:0,slide:0,lid:0,front:0,back:0,left:2,right:2,base:0,rail:0,guide:0,bottom:0})[part.id]??0;}
   function woodMaterial(part){
-    if(window.WoodFinish)return WoodFinish.material(THREE,part,woodAxis(part),renderer?.capabilities.getMaxAnisotropy()||1,!!storyContext);
+    if(window.WoodFinish)return WoodFinish.material(THREE,WoodFinish.piece(level().id,part),woodAxis(part),renderer?.capabilities.getMaxAnisotropy()||1,!!storyContext);
     const axis=woodAxis(part),material=new THREE.MeshStandardMaterial({map:grainTexture(part.color),color:0xffffff,roughness:.53,metalness:0,side:THREE.DoubleSide});
     material.onBeforeCompile=shader=>{
       shader.uniforms.uWoodAxis={value:new THREE.Vector3(axis===0?1:0,axis===1?1:0,axis===2?1:0)};
@@ -192,14 +215,8 @@
   function geometry(part){
     const cacheKey=level().id+':'+part.id;
     let surface=surfaceCache.get(cacheKey);
-    if(!surface){const faces=WoodMesh.surfaces(part.shapes,.035);surface={faces,edges:WoodMesh.edges(faces)};surfaceCache.set(cacheKey,surface);}
-    const positions=[],normals=[],uvs=[],grainAxis=woodAxis(part);
-    for(const face of surface.faces){
-      const n=face.normal,axis=Math.abs(n[0])>Math.abs(n[1])&&Math.abs(n[0])>Math.abs(n[2])?0:Math.abs(n[1])>Math.abs(n[2])?1:2;
-      const across=[0,1,2].find(a=>a!==axis&&a!==grainAxis)??((grainAxis+1)%3);
-      for(let j=1;j<face.vertices.length-1;j++)for(const v of [face.vertices[0],face.vertices[j],face.vertices[j+1]]){positions.push(...v);normals.push(...n);uvs.push(v[across]*.38,v[grainAxis]*.22);}
-    }
-    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));g.setAttribute('normal',new THREE.Float32BufferAttribute(normals,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));
+    if(!surface){const faces=WoodMesh.surfaces(part.shapes,window.WoodFinish?.chamfer(level().id)??.035);surface={faces,edges:WoodMesh.edges(faces)};surfaceCache.set(cacheKey,surface);}
+    const g=WoodMesh.geometry(THREE,surface.faces,woodAxis(part));
     const lines=new THREE.BufferGeometry();lines.setAttribute('position',new THREE.Float32BufferAttribute(surface.edges.flat(),3));return {g,lines};
   }
   function disposeAssembly(){
@@ -223,7 +240,12 @@
     if(disc){disc.position.y=bottom-.073;disc.scale.set(radius/3.6,1,radius/3.6);}
     if(ring){ring.position.y=bottom-.029;ring.scale.setScalar(radius/3.6);}
     if(workmat){workmat.position.y=bottom-.035;workmat.scale.set(width+1.9,depth+1.9,1);}
-    if(contactShadow){contactShadow.position.y=bottom-.027;contactShadow.scale.set(width*1.3,depth*1.3,1);}
+    if(contactShadow){
+      const center=new THREE.Box3().setFromPoints(all.map(v=>new THREE.Vector3(...v))).getCenter(new THREE.Vector3());
+      contactShadow.position.set(center.x,bottom-.024,center.z);contactShadow.scale.set(width*1.12,depth*1.18,1);
+      contactShadow.material.opacity=storyContext?1:.68;
+    }
+    if(ground)ground.material.opacity=storyContext?.20:.10;
     updateMaterials();
   }
   function updateMaterials(){
@@ -231,11 +253,12 @@
     else if(!assemblyHand||assemblyHand.id!==state.selected)stagePart(state.selected);
     for(const [id,model]of models){
       const selected=id===state.selected&&available(id),ghost=assembling()&&state.removed.includes(id),held=assemblyHand?.id===id&&ghost,faded=hintView?!hintView.related.includes(id):state.xray&&!selected;
-      model.group.visible=assembling()||!state.removed.includes(id);
+      const hiddenGhost=ghost&&guide()?.hideBlockedGhosts&&!held&&!hintView&&!state.xray&&!guideAllows(id);
+      model.group.visible=(assembling()||!state.removed.includes(id))&&!hiddenGhost;
       if(assemblyHand?.id===id&&ghost)model.group.position.fromArray(assemblyPose||assemblyHand.range.start);
       else if(dragPreview?.id!==id&&dragReturn?.id!==id&&(!state.animation||state.animation.piece!==id))model.group.position.set(...(state.offsets[id]||[0,0,0]));
       const transparent=held?false:faded||ghost;if(model.material.transparent!==transparent)model.material.needsUpdate=true;model.material.transparent=transparent;model.material.opacity=held?1:ghost?(selected?(storyContext?.72:.62):(storyContext?.22:.14)):faded?.18:1;model.material.depthWrite=!transparent;model.material.emissive.set(selected?0x8b4a25:0x000000);model.material.emissiveIntensity=selected?.065:0;
-      const focused=hintView?.related.includes(id),hover=id===hovered&&available(id);model.outlineMaterial.color.set(selected?0xa45128:focused||hover?0x526b43:0x5d4835);model.outlineMaterial.opacity=selected?.9:focused?.65:hover?.46:ghost?.32:state.xray?.28:storyContext?.30:.055;model.outlineMaterial.depthTest=!(selected||focused||hover);
+      const focused=hintView?.related.includes(id),hover=id===hovered&&available(id);model.outlineMaterial.color.set(selected?0xa45128:focused||hover?0x526b43:0x5d4835);model.outlineMaterial.opacity=selected?.9:focused?.65:hover?.46:ghost?.29:state.xray?.28:storyContext?.21:.055;model.outlineMaterial.depthTest=!(selected||focused||hover);
       model.group.traverse(o=>{if(o.isMesh)o.castShadow=!ghost||held;});
       if(held)model.outlineMaterial.depthTest=!state.xray;
     }
@@ -248,12 +271,13 @@
     const bounds=new THREE.Box3();level().pieces.forEach(p=>p.shapes.forEach(s=>s.vertices.forEach(v=>bounds.expandByPoint(new THREE.Vector3(...v).add(new THREE.Vector3(...(guide()&&assemblyHand?.id===p.id?assemblyHand.range.start:[0,0,0])))))));
     const center=bounds.getCenter(new THREE.Vector3()),radius=bounds.getSize(new THREE.Vector3()).length()/2;
     // Fit long benches to their silhouette, with both staged seat and destination.
-    if(level().id==='rain-shelter-bench'&&guide()){
+    if((level().id==='rain-shelter-bench'&&guide())||storyContext&&['dovetail','burr-six'].includes(level().id)){
       const points=[];level().pieces.forEach(p=>p.shapes.forEach(s=>s.vertices.forEach(v=>{
         const point=new THREE.Vector3(...v);points.push(point);
         if(assemblyHand?.id===p.id)points.push(point.clone().add(new THREE.Vector3(...assemblyHand.range.start)));
       })));
-      const facing=preserve===true?camera.position.clone().sub(controls.target).normalize():new THREE.Vector3(7.7,6.3,8.8).normalize();
+      const initial=level().id==='dovetail'?[7,7.4,9.5]:level().id==='burr-six'?[8.5,7,10]:[7.7,6.3,8.8];
+      const facing=preserve===true?camera.position.clone().sub(controls.target).normalize():new THREE.Vector3(...initial).normalize();
       const right=new THREE.Vector3(0,1,0).cross(facing).normalize(),up=facing.clone().cross(right);
       const vertical=THREE.MathUtils.degToRad(camera.fov/2),horizontal=Math.atan(Math.tan(vertical)*camera.aspect);
       let distance=.5;
@@ -269,17 +293,17 @@
     try{
       renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.97;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;renderer.autoClear=false;
       $('viewport').append(renderer.domElement);scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(36,1,.1,80);controls=new THREE.OrbitControls(camera,renderer.domElement);controls.enableDamping=false;controls.dampingFactor=.085;controls.enablePan=false;controls.minDistance=7;controls.maxDistance=19;controls.maxPolarAngle=Math.PI*.48;controls.minPolarAngle=Math.PI*.08;defaultCamera();
-      scene.add(new THREE.HemisphereLight(0xfffbef,0x9b9b84,.85));
-      const light=new THREE.DirectionalLight(0xfff5e8,1.05);light.position.set(-4,14,8);light.castShadow=true;light.shadow.mapSize.set(1024,1024);light.shadow.camera.left=-8;light.shadow.camera.right=8;light.shadow.camera.top=8;light.shadow.camera.bottom=-8;light.shadow.camera.near=.5;light.shadow.camera.far=35;light.shadow.bias=-.0007;light.shadow.normalBias=.025;light.shadow.radius=8;scene.add(light);
-      const fill=new THREE.DirectionalLight(0xdfe8ed,.45);fill.position.set(6,4,-4);scene.add(fill);
-      const rim=new THREE.DirectionalLight(0xffe3b8,.30);rim.position.set(-5,4,-6);scene.add(rim);
+      scene.add(new THREE.HemisphereLight(0xfff7ea,0x806a56,.62));
+      const light=new THREE.DirectionalLight(0xfff3dc,1.14);light.position.set(-4,14,8);light.castShadow=true;light.shadow.mapSize.set(1024,1024);light.shadow.camera.left=-8;light.shadow.camera.right=8;light.shadow.camera.top=8;light.shadow.camera.bottom=-8;light.shadow.camera.near=.5;light.shadow.camera.far=35;light.shadow.bias=-.0007;light.shadow.normalBias=.013;light.shadow.radius=8;scene.add(light);
+      const fill=new THREE.DirectionalLight(0xe4eaf3,.31);fill.position.set(6,4,-4);scene.add(fill);
+      const rim=new THREE.DirectionalLight(0xffe3b8,.25);rim.position.set(-5,4,-6);scene.add(rim);
       ground=new THREE.Mesh(new THREE.PlaneGeometry(120,120),new THREE.ShadowMaterial({opacity:.10}));ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
       disc=new THREE.Mesh(new THREE.CylinderGeometry(3.6,3.6,.085,96),new THREE.MeshStandardMaterial({color:new THREE.Color(0xd2c3a2).convertSRGBToLinear(),roughness:.94,transparent:true,opacity:.32,depthWrite:false}));disc.receiveShadow=true;scene.add(disc);
       ring=new THREE.Mesh(new THREE.RingGeometry(3.48,3.495,96),new THREE.MeshBasicMaterial({color:0xb19b70,transparent:true,opacity:.24,side:THREE.DoubleSide}));ring.rotation.x=-Math.PI/2;scene.add(ring);
       const cloth=document.createElement('canvas');cloth.width=cloth.height=512;const ink=cloth.getContext('2d');ink.fillStyle='#72877c';ink.beginPath();if(ink.roundRect)ink.roundRect(1,1,510,510,9);else ink.rect(1,1,510,510);ink.fill();
       for(let i=8;i<505;i+=4){ink.strokeStyle=i%8===0?'#f0eadc08':'#1d3c3909';ink.lineWidth=.6;ink.beginPath();ink.moveTo(i,4);ink.lineTo(i,508);ink.moveTo(4,i);ink.lineTo(508,i);ink.stroke();}ink.setLineDash([3,5]);ink.strokeStyle='#e2dfbf70';ink.lineWidth=1.2;ink.strokeRect(12,12,488,488);
       const clothTexture=new THREE.CanvasTexture(cloth);clothTexture.encoding=THREE.sRGBEncoding;clothTexture.anisotropy=4;workmat=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshStandardMaterial({map:clothTexture,roughness:1,metalness:0,transparent:true,alphaTest:.1,side:THREE.DoubleSide}));workmat.rotation.x=-Math.PI/2;workmat.receiveShadow=true;workmat.visible=false;scene.add(workmat);
-      const shadowCanvas=document.createElement('canvas');shadowCanvas.width=shadowCanvas.height=128;const shadowContext=shadowCanvas.getContext('2d'),gradient=shadowContext.createRadialGradient(64,64,4,64,64,64);gradient.addColorStop(0,'rgba(67,48,27,.17)');gradient.addColorStop(.55,'rgba(67,48,27,.09)');gradient.addColorStop(1,'rgba(67,48,27,0)');shadowContext.fillStyle=gradient;shadowContext.fillRect(0,0,128,128);
+      const shadowCanvas=document.createElement('canvas');shadowCanvas.width=shadowCanvas.height=128;const shadowContext=shadowCanvas.getContext('2d'),gradient=shadowContext.createRadialGradient(64,64,4,64,64,64);gradient.addColorStop(0,'rgba(46,27,14,.42)');gradient.addColorStop(.55,'rgba(46,27,14,.19)');gradient.addColorStop(1,'rgba(67,48,27,0)');shadowContext.fillStyle=gradient;shadowContext.fillRect(0,0,128,128);
       contactShadow=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(shadowCanvas),transparent:true,depthWrite:false}));contactShadow.rotation.x=-Math.PI/2;scene.add(contactShadow);
       axisScene=new THREE.Scene();axisCamera=new THREE.PerspectiveCamera(38,1,.1,100);const axes=new THREE.AxesHelper(1.3),axisColors=[0x956047,0x647c50,0x677f94],colorAttribute=axes.geometry.getAttribute('color');for(let i=0;i<colorAttribute.count;i++){const c=new THREE.Color(axisColors[Math.floor(i/2)]);colorAttribute.setXYZ(i,c.r,c.g,c.b);}colorAttribute.needsUpdate=true;axisScene.add(axes);
       raycaster=new THREE.Raycaster();controls.addEventListener('change',()=>{renderDirty=true;});
@@ -288,11 +312,16 @@
         const vertical=THREE.MathUtils.degToRad(camera.fov/2),oldAngle=Math.min(vertical,Math.atan(Math.tan(vertical)*camera.aspect)),nextAspect=rect.width/rect.height,nextAngle=Math.min(vertical,Math.atan(Math.tan(vertical)*nextAspect)),ratio=Math.sin(oldAngle)/Math.sin(nextAngle),offset=camera.position.clone().sub(controls.target);
         renderer.setSize(rect.width,rect.height,false);camera.aspect=nextAspect;camera.updateProjectionMatrix();camera.position.copy(controls.target).addScaledVector(offset,ratio);controls.minDistance*=ratio;controls.maxDistance*=ratio;controls.update();camera.updateMatrixWorld();renderDirty=true;
       };new ResizeObserver(resize).observe($('viewport'));resize();
-      assemblyDrag=AssemblyDrag.install({canvas:renderer.domElement,camera,T:THREE,disabled:()=>!gameVisible||!assembling()||state.busy||!!document.querySelector('dialog[open]'),pick:pickAt,hand:()=>assemblyHand,
-        start:()=>{closeHint();trial.started=true;controls.enabled=false;},finish:()=>{controls.enabled=true;},reduced:()=>reducedMotion,range:(id,direction,requested)=>P.previewInsertion(level(),state.removed,id,direction,requested),
+      assemblyDrag=AssemblyDrag.install({canvas:renderer.domElement,camera,T:THREE,disabled:()=>!gameVisible||!assembling()||state.busy||!!document.querySelector('dialog[open]'),pick:pickAt,hand:()=>assemblyHand,guided:()=>!!guide(),
+        start:()=>{closeHint();trial.started=true;controls.enabled=false;},finish:()=>{controls.enabled=true;},reduced:()=>reducedMotion,
+        // The staged path stays valid until the board changes. The commit still checks collision.
+        range:(id,direction,requested)=>assemblyHand?.id===id&&assemblyHand.direction===direction
+          ?P.previewInsertionRange(assemblyHand.range,requested):null,
         apply:(id,direction,status)=>{if(!assemblyHand||assemblyHand.id!==id)return;const d=P.DIRECTIONS.find(d=>d.id===direction);assemblyPose=status.start.map((v,i)=>v+d.vector[i]*status.distance);models.get(id).group.position.fromArray(assemblyPose);if(status.blocked)flash={id:status.blocker,until:performance.now()+500,held:false};$('drag-status').hidden=false;dragText(status.blocked?'碰到'+status.blockerName+'了 · 松手退回，或撤销调整顺序':'沿接点推入 · 接近归位时会吸附');renderDirty=true;},
-        restore:()=>{assemblyPose=null;$('drag-status').hidden=true;updateMaterials();},ambiguous:()=>setFeedback('沿当前来路拖动。可以先换一侧靠近；方向太接近时，转动视角再看。'),
-        blocked:()=>blockedAttempt('drag',null,false),commit:(id,direction)=>{assemblyPose=null;state.selected=id;tryExtract(direction,'assembly-drag',true);}
+        restore:()=>{assemblyPose=null;$('drag-status').hidden=true;updateMaterials();},
+        ambiguous:()=>setFeedback(guide()?'顺着箭头推。箭头太短时，转一面或用精确操作。':'顺着木件的来路推。也可以换一侧靠近或转动视角。'),
+        blocked:()=>{const {blocker,blockerName}=assemblyHand.range;blockedAttempt('drag',blocker,false);setFeedback(`碰到了${blockerName}。木件会退回，可以换个方向或撤销上一步。`,'blocked');},
+        commit:(id,direction)=>{assemblyPose=null;state.selected=id;tryExtract(direction,'assembly-drag',true);}
       });
       drag=JointDrag.install({canvas:renderer.domElement,camera,controls,THREE,
         hover:id=>{if(hovered!==id){hovered=id;updateMaterials();document.querySelectorAll('[data-piece]').forEach(b=>b.classList.toggle('hovered',b.dataset.piece===id));}},
@@ -316,7 +345,7 @@
   function pickAt(x,y){
     if(!raycaster||state.busy||!assembly)return null;
     const rect=renderer.domElement.getBoundingClientRect();raycaster.setFromCamera(new THREE.Vector2((x-rect.left)/rect.width*2-1,-(y-rect.top)/rect.height*2+1),camera);
-    const hits=raycaster.intersectObjects(assembly.children,true).filter(h=>h.object.isMesh&&h.object.visible&&(assembling()||!state.removed.includes(h.object.userData.partId)));
+    const hits=raycaster.intersectObjects(assembly.children,true).filter(h=>h.object.isMesh&&h.object.visible&&h.object.parent.visible&&(assembling()||!state.removed.includes(h.object.userData.partId)));
     if(!hits.length)return null;
     const hit=state.xray||assembling()?hits.find(h=>!level().pieces.find(p=>p.id===h.object.userData.partId)?.fixed&&available(h.object.userData.partId))||hits[0]:hits[0];return {id:hit.object.userData.partId,point:hit.point};
   }
@@ -325,7 +354,7 @@
     const grip=$('grip-dot');grip.hidden=!grabPoint;if(grabPoint){const m=models.get(grabPoint.id),q=grabPoint.local.clone().add(m.group.position).project(camera);grip.style.left=(q.x+1)*rect.width/2+'px';grip.style.top=(1-q.y)*rect.height/2+'px';grip.dataset.blocked=String(!!dragPreview?.blocked);}
     for(const p of movable()){
       let label=markerNodes.get(p.id);if(!label){label=document.createElement('span');label.textContent=p.symbol;$('piece-markers').append(label);markerNodes.set(p.id,label);}
-      label.hidden=state.removed.includes(p.id)&&!assembling()||!!p.labelOccludedBy&&!state.removed.includes(p.labelOccludedBy)&&!state.xray&&state.selected!==p.id;if(label.hidden)continue;
+      label.hidden=!models.get(p.id)?.group.visible||!!p.labelOccludedBy&&!state.removed.includes(p.labelOccludedBy)&&!state.xray&&state.selected!==p.id;if(label.hidden)continue;
       const m=models.get(p.id);if(!m)continue;const box=new THREE.Box3();p.shapes.forEach(s=>s.vertices.forEach(v=>box.expandByPoint(new THREE.Vector3(...v))));const a=woodAxis(p),point=box.getCenter(new THREE.Vector3());if(p.labelAnchor)point.set(...p.labelAnchor);else point.setComponent(a,box.max.getComponent(a)+.08);point.add(m.group.position).project(camera);
       label.className='model-label'+(state.selected===p.id?' selected':hovered===p.id?' hovered':'');label.style.left=(point.x+1)*rect.width/2+'px';label.style.top=(1-point.y)*rect.height/2+'px';label.style.zIndex=state.selected===p.id?'2':'1';
     }
@@ -364,10 +393,11 @@
     for(const [name,pos,color]of [['x',[1.5,0,0],'#b07860'],['y',[0,1.5,0],'#6f9062'],['z',[0,0,1.5],'#7d8ca0']]){const v=new THREE.Vector3(...pos).project(axisCamera),label=$('axis-guide').querySelector(`[data-axis="${name}"]`);label.style.left=((v.x+1)*corner/2+2)+'px';label.style.top=((-v.y+1)*corner/2-5)+'px';label.style.color=color;}
   }
   function tryExtract(direction,input='button',direct=false){
-    if(!gameVisible||!state.selected||state.busy||!available(state.selected))return;
+    if(!gameVisible||!state.selected||state.busy)return;
+    if(!available(state.selected)){if(guide()&&assembling())setFeedback(AssemblyGuide.blockedText(guide(),state.removed,state.selected),'blocked');return;}
     const pulled=input==='drag'&&direct?dragPreview:null;
     if(!pulled){drag?.cancel();assemblyDrag?.cancel();}closeHint();const id=state.selected,isShift=state.experiment&&state.action==='step',d=P.DIRECTIONS.find(d=>d.id===direction),piece=level().pieces.find(p=>p.id===id);if(!d)return;
-    if(guide()&&assembling()&&direction!==AssemblyGuide.direction(guide(),id)){setFeedback('沿箭头将木件推入即可，来路已经摆好。');return;}
+    if(guide()&&assembling()&&direction!==AssemblyGuide.direction(guide(),id,state.removed)){setFeedback('沿箭头将木件推入即可，来路已经摆好。');return;}
     const result=isShift?P.canTranslate(level(),state.removed,id,direction,level().step,state.offsets):(assembling()?P.canInsert:P.canExtract)(level(),state.removed,id,direction,state.offsets);clearDirectionPreview();
     if(!result.ok){if(pulled)drag?.cancel();const contact=assembling()?P.insertionRange(level(),state.removed,id,direction):null;blockedAttempt(input,contact?.blocker||result.piece,!(contact?.blocker&&renderer&&!reducedMotion));if(contact?.blocker)previewFitting(id,direction,contact);if(input!=='drag')movementNotice(piece.name+'碰到了'+(contact?.blockerName||result.name)+' · 换个方向试试');setFeedback(`${piece.name}在这个方向会碰到${contact?.blockerName||result.name}。${assembling()?'可以换方向；若提前锁定，请撤销再安排归位顺序。':'观察这个接点，试着解除约束。'}`,'blocked');return;}
     if(pulled){stopRubbing();if(!isShift&&!reducedMotion)takeAway(models.get(id).group);grabPoint=null;$('grip-dot').hidden=true;dragPreview=null;$('drag-status').hidden=true;}
@@ -435,7 +465,8 @@
     $('mode-dismantle').setAttribute('aria-pressed',!assembling());$('mode-assemble').setAttribute('aria-pressed',assembling());$('mode-assemble').disabled=experimental;$('workbench-title').textContent=assembling()?'归位工作台':'拆解工作台';$('direction-instruction').textContent=assembling()?'沿一个方向装入':'沿一个方向抽出';$('removed-count').previousSibling.textContent=assembling()?'已合 ':'已拆 ';
     updateGoal();renderChapters();renderPieces();buildModel();defaultCamera();setFeedback(experimental?'完整抽出有时会受阻。试着先移动一格，为另一件木让出空间。':assembling()?'半透明模型表示待装位置。选择构件，判断装入方向和先后。':level().category==='tutorial'?(level().id==='straight'?'按住浅色木件向上拉。短拉松手会平滑回位，拉脱结构就完成拆解。':'按住上方搭木试探。被挡住时会高亮接点，转动空白处观察上下关系。'):'按住一块木构件，沿它的结构轴试探。拖空白处可以转动观察。');updateTimer();if(storyContext){setFeedback(assembling()?'选中木件，对准卯口，再选择归位方向。':'按住木件拖动；拉脱即可取下，短拉松手会回位。');$('skip-current-tutorial').hidden=true;}saveSession();
     if(restored){setFeedback(`已续上${level().title}的${assembling()?'合回':'拆解'}进度，可以接着操作或撤销上一步。`,'success');if(restored.completed&&!storyContext)showCompletion();}
-    if(storyContext?.openingText)setFeedback(storyContext.openingText,restored?'success':'');else if(guide())setFeedback(guide().steps?.[0]?.instruction||(guide().id===AssemblyGuide.bench.id?'横梁已经预装。按步骤选件，沿箭头推入。':'先装甲·榫头，再装乙·穿销。沿箭头推入接点即可。'));
+    if(storyContext?.openingText)setFeedback(storyContext.openingText,restored?'success':'');
+    else if(guide())setFeedback(AssemblyGuide.step(guide(),state.removed,state.mode,level())?.instruction||AssemblyGuide.completionText(guide(),state.mode));
   }
   function cancelGuidedTakeback(){if(!guidedTakeback)return;const a=guidedTakeback;models.get(a.piece)?.group.position.copy(a.from);guidedTakeback=null;state.busy=false;renderDirty=true;}
   function takeBackPin(){
@@ -446,22 +477,43 @@
   }
   function undo(){
     if(state.history.length<=guideFloor()||state.busy)return;drag?.cancel();assemblyDrag?.cancel();closeHint();
-    if($('complete-dialog').open)$('complete-dialog').close();const last=state.history.pop();if(last.kind==='shift'){state.offsets[last.piece]=last.from;state.action='step';}else if(assembling())state.removed.push(last.piece);else state.removed=state.removed.filter(p=>p!==last.piece);state.selected=last.piece;state.completedAt=null;trial.completedMs=null;progressChanged();renderPieces();updateMaterials();if(guide())defaultCamera(true);saveSession();setFeedback(last.kind==='shift'?'已撤销借位，构件回到上一步的位置。':assembling()?'已移开上一步归位的构件。再观察一次它的进入方向。':'已放回上一步的构件。再观察一次它的方向。');
+    clearDirectionPreview();
+    if($('complete-dialog').open)$('complete-dialog').close();const last=state.history.pop();if(last.kind==='shift'){state.offsets[last.piece]=last.from;state.action='step';}else if(assembling())state.removed.push(last.piece);else state.removed=state.removed.filter(p=>p!==last.piece);state.selected=last.piece;state.completedAt=null;trial.completedMs=null;progressChanged();renderPieces();updateMaterials();
+    if(guide()){defaultCamera(true);restoreAssemblyCue();}
+    saveSession();setFeedback(last.kind==='shift'?'已撤销借位，构件回到上一步的位置。':assembling()?'已移开上一步归位的构件。再观察一次它的进入方向。':'已放回上一步的构件。再观察一次它的方向。');
   }
   function stopDemo(){if(!demo)return;scene.remove(demo.group);demo.group.traverse(o=>{if(o.material)o.material.dispose();});demo=null;renderDirty=true;}
   function closeHint(){stopFitting();stopDemo();if(hintView){if(camera){camera.position.copy(hintView.position);controls.target.copy(hintView.target);controls.update();camera.updateMatrixWorld();}state.xray=hintView.xray;hintView=null;$('xray').setAttribute('aria-pressed',state.xray);updateMaterials();}$('hint-box').hidden=true;}
+  function cancelInteraction(){
+    if(!gameVisible)return false;
+    const dragging=drag?.active()||assemblyDrag?.active()||!!dragReturn;
+    const hintBox=$('hint-box');
+    if(!dragging&&!fitting&&hintBox.hidden)return false;
+    const focusWasInHint=hintBox.contains(document.activeElement);
+    drag?.cancel();
+    assemblyDrag?.cancel();
+    closeHint();
+    restoreAssemblyCue();
+    if(dragging)setFeedback('木件已回到拖动前的位置。可继续操作，再按 Esc 返回。');
+    if(focusWasInHint){
+      const quickHint=$('quick-hint');
+      (quickHint.getClientRects().length?quickHint:$('hint')).focus({preventScroll:true});
+    }
+    return true;
+  }
   function tellHint(text){$('hint-text').textContent=text;if(storyContext)window.dispatchEvent(new CustomEvent('joint:story-hint',{detail:{taskId:storyContext.taskId,stage:state.hint,text}}));}
   function hint(){
     if(state.busy||$('hint').disabled)return;drag?.cancel();assemblyDrag?.cancel();clearDirectionPreview();closeHint();state.hint=Math.min(3,state.hint+1);trial.hintLevel=Math.max(trial.hintLevel,state.hint);trial.started=true;$('help-nudge').hidden=true;
     syncQuickActions();saveSession();
     $('hint-box').classList.toggle('is-zhou',!!storyContext&&storyContext.helpVoice!=='notebook'&&!storyContext.taskId?.startsWith('study:cave:'));$('hint-box').hidden=false;if(storyContext)requestAnimationFrame(()=>{if(storyContext&&!$('hint-box').hidden)$('hint-box').scrollIntoView({block:'nearest',inline:'nearest'});});$('hint-stage').textContent=['','1 / 3 · 观察线索','2 / 3 · 解释约束','3 / 3 · 演示一步'][state.hint];
-    if(state.hint===1&&guide()){tellHint(AssemblyGuide.step(guide(),state.removed,state.mode)?.instruction||(assembling()?'三件都已经合好了。':'三件都已经拆开，横梁留在原处。'));return;}
+    if(state.hint===1&&guide()){tellHint(AssemblyGuide.step(guide(),state.removed,state.mode,level())?.instruction||AssemblyGuide.completionText(guide(),state.mode));return;}
     if(state.hint===1){const spoken={straight:'先看浅色木件和卯口相贴的那一圈。转着看看，哪些面贴住了，哪儿还留着空。',lap:'盯着中间交叠的地方看。两根各让出一块，哪儿压着哪儿，从侧面更容易看清。',pinned:'别光看大的。那根小销穿过了哪些地方？看不清，就转到侧面看看。',dovetail:'这道槽，前后看着一样宽吗？顺着两边斜面看看，再试着动。','shoulder-lap':'你看，中间既有搭接，又有穿过去的小件。先认清它们分别碰着谁。','burr-three':'三根交在一块，容易看花。先选一根，沿着它的边看一圈，找找缺口。'};tellHint(storyContext?(assembling()?'先别急着放。把槽口和肩面认清，想想哪件放进去以后，会挡住别人的路。':!state.removed.length&&(spoken[level().id]||P.observation(level(),state.removed))||(state.removed.length===1?'拿开一件以后，再看看剩下的接点。刚才被遮住的地方，现在露出来了吗？':'再看看剩下的接点。刚才被遮住的地方，现在露出来了吗？')):(assembling()?'观察每件木的槽口与肩面：哪些接点需要留出进入空间，哪些小件会把出口封住？':P.observation(level(),state.removed)));return;}
     const context=P.hintContext(level(),state.removed,state.mode,state.offsets);
     if(!context.move){tellHint(context.text);$('hint-next').hidden=true;return;}
     if(state.hint===2){tellHint(context.text+' 关闭线索后回到原来的观察状态。');if(renderer){hintView={position:camera.position.clone(),target:controls.target.clone(),xray:state.xray,related:context.related};const box=new THREE.Box3();context.related.forEach(id=>{const p=level().pieces.find(p=>p.id===id);p?.shapes.forEach(s=>s.vertices.forEach(v=>box.expandByPoint(new THREE.Vector3(...v).add(new THREE.Vector3(...(state.offsets[id]||[0,0,0]))))));});if(!box.isEmpty()){const target=box.getCenter(new THREE.Vector3()),delta=target.clone().sub(controls.target);camera.position.add(delta);controls.target.copy(target);controls.update();}updateMaterials();}return;}
     const move=context.move,p=level().pieces.find(p=>p.id===move.piece),d=P.DIRECTIONS.find(d=>d.id===move.direction);
-    tellHint(`半透明副本演示${p.name}${d.label}${move.kind==='shift'?'借位一格':assembling()?'归位':'抽出'}。棋局保持原样，请亲手完成。`);
+    const action=move.kind==='shift'?'借位一格':assembling()?'归位':'抽出';
+    tellHint(renderer?`半透明副本演示${p.name}${d.label}${action}。棋局保持原样，请亲手完成。`:`选中${p.name}，在精确操作里点「${d.label}」${action}。`);
     if(renderer){const group=models.get(p.id).group.clone(true);group.traverse(o=>{if(o.material){o.material=o.material.clone();o.material.transparent=true;o.material.opacity=o.isMesh?.36:.65;o.material.depthWrite=false;o.material.depthTest=false;if(o.material.color)o.material.color.set(0x8c9d6a);}o.castShadow=false;});group.visible=true;group.renderOrder=20;scene.add(group);const origin=new THREE.Vector3(...(state.offsets[p.id]||[0,0,0])),vector=new THREE.Vector3(...d.vector),exit=assembling()?P.DIRECTIONS.find(x=>x.vector.every((v,i)=>v===-d.vector[i])).id:d.id,distance=move.kind==='shift'?level().step:P.motionRange(level(),assembling()?state.removed.filter(id=>id!==p.id):state.removed,p.id,exit,state.offsets).exitDistance;if(assembling()){origin.addScaledVector(vector,-distance);}demo={group,origin,vector,distance,start:performance.now()};renderDirty=true;}
   }
 
@@ -477,19 +529,25 @@
   function updateTimer(){$('elapsed').textContent=formatTime(trial?.visibleMs||0);}
   $('help').onclick=()=>{drag?.cancel();closeHint();$('help-dialog').showModal();};document.querySelectorAll('[data-close]').forEach(b=>b.onclick=() =>$(b.dataset.close).close());
   document.querySelectorAll('dialog').forEach(dialog=>dialog.addEventListener('click',e=>{if(e.target!==dialog)return;const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}));
-    document.querySelectorAll('[data-direction]').forEach(b=>{b.onclick=()=>tryExtract(b.dataset.direction);b.addEventListener('mouseenter',()=>showDirectionPreview(b.dataset.direction));b.addEventListener('focus',()=>showDirectionPreview(b.dataset.direction));b.addEventListener('mouseleave',clearDirectionPreview);b.addEventListener('blur',clearDirectionPreview);});
+  document.querySelectorAll('[data-direction]').forEach(button=>{
+    const preview=()=>showDirectionPreview(button.dataset.direction);
+    const unpreview=()=>{if(!guide()||!assemblyHand)clearDirectionPreview();};
+    button.onclick=()=>tryExtract(button.dataset.direction);
+    button.addEventListener('mouseenter',preview);button.addEventListener('focus',preview);
+    button.addEventListener('mouseleave',unpreview);button.addEventListener('blur',unpreview);
+  });
   $('xray').onclick=toggleXray;$('reset-camera').onclick=()=>{drag?.cancel();assemblyDrag?.cancel();closeHint();defaultCamera();};$('undo').onclick=undo;$('quick-undo').onclick=undo;$('quick-hint').onclick=hint;$('hint-next').onclick=hint;$('restart').onclick=()=>loadLevel(state.level,state.experiment);$('hint').onclick=hint;$('replay-complete').onclick=()=>loadLevel(state.level,state.experiment);$('next-level').onclick=()=>{const next=nextStructure();if(state.experiment||!next){$('complete-dialog').close();openAtlas();}else loadLevel(P.LEVELS.indexOf(next));};
   $('reverse-complete').onclick=()=>{state.mode=assembling()?'dismantle':'assemble';loadLevel(state.level);};
   $('mode-dismantle').onclick=()=>{state.mode='dismantle';loadLevel(state.level,state.experiment);};$('mode-assemble').onclick=()=>{state.mode='assemble';loadLevel(state.level);};$('sound').onclick=()=>{state.sound=!state.sound;if(!state.sound){stopRubbing();stopWoodTones();}updateSoundButton();persist();if(state.sound)sound('move');};
   for(const [id,action]of [['action-extract','extract'],['action-step','step']])$(id).onclick=()=>{if(state.busy)return;drag?.cancel();closeHint();state.action=action;clearDirectionPreview();renderPieces();setFeedback(action==='step'?'选择方向，先借出一格空间。':'选择方向，完整抽出选中的构件。');};
   $('open-atlas').onclick=openAtlas;
   document.addEventListener('keydown',e=>{
-    if(!gameVisible||document.querySelector('dialog[open]')||e.target.closest('input,textarea,select,[contenteditable=true]'))return;
+    if(e.defaultPrevented||!gameVisible||document.querySelector('dialog[open]')||e.target.closest('input,textarea,select,[contenteditable=true]'))return;
     const undoShortcut=(e.ctrlKey||e.metaKey)&&!e.altKey&&!e.shiftKey&&e.key.toLowerCase()==='z';if(undoShortcut){e.preventDefault();if(!e.repeat)undo();return;}if(e.ctrlKey||e.metaKey||e.altKey)return;
     const key=e.key.toLowerCase(),direction=P.DIRECTIONS.find(d=>d.key===key);if(e.repeat)return;
-    if(direction){e.preventDefault();tryExtract(direction.id,'keyboard');}else if(['1','2','3','4','5','6'].includes(key)){const piece=movable()[Number(key)-1];if(piece)select(piece.id);}else if(key==='h')hint();else if(key==='z')undo();else if(key==='r')loadLevel(state.level,state.experiment);else if(key==='v')toggleXray();else if(key==='escape'){const cancelled=drag?.active()||!!dragReturn||!!fitting||!$('hint-box').hidden;drag?.cancel();closeHint();if(cancelled)e.preventDefault();}
+    if(direction){e.preventDefault();tryExtract(direction.id,'keyboard');}else if(['1','2','3','4','5','6'].includes(key)){const piece=movable()[Number(key)-1];if(piece)select(piece.id);}else if(key==='h')hint();else if(key==='z')undo();else if(key==='r')loadLevel(state.level,state.experiment);else if(key==='v')toggleXray();else if(key==='escape'&&cancelInteraction())e.preventDefault();
   });
-  $('close-hint').onclick=closeHint;$('nudge-open').onclick=hint;$('nudge-dismiss').onclick=()=>{$('help-nudge').hidden=true;};
+  $('close-hint').onclick=()=>{closeHint();restoreAssemblyCue();};$('nudge-open').onclick=hint;$('nudge-dismiss').onclick=()=>{$('help-nudge').hidden=true;};
   $('start-tutorial').onclick=()=>{state.tutorialStatus='started';persist();$('welcome-dialog').close();loadLevel(0);};
   $('skip-tutorial').onclick=()=>{state.tutorialStatus='skipped';persist();$('welcome-dialog').close();loadLevel(P.LEVELS.indexOf(P.MAIN_LEVELS[0]));};
   $('skip-current-tutorial').onclick=()=>{state.tutorialStatus='skipped';persist();loadLevel(P.LEVELS.indexOf(P.MAIN_LEVELS[0]));};
@@ -523,7 +581,7 @@
       this.suspend();const backup=practiceBackup;storyContext=null;gameVisible=true;practiceBackup=null;storyLighting(false);
       if(backup){state.sound=backup.sound;if(!state.sound){stopRubbing();stopWoodTones();}updateSoundButton();state.mode=backup.run.mode;state.xray=backup.xray;const restored=E.restoreSession(JSON.stringify(backup.run),P);loadLevel(restored?.experiment?0:P.LEVELS.findIndex(l=>l.id===backup.run.level),restored?.experiment||false,restored);state.selected=backup.selected;this.resize();if(camera&&backup.camera){camera.position.fromArray(backup.camera);controls.target.fromArray(backup.target);controls.update();}updateMaterials();renderPieces();$('xray').setAttribute('aria-pressed',state.xray);persist();if(camera&&backup.camera)requestAnimationFrame(()=>{if(!storyContext){camera.position.fromArray(backup.camera);controls.target.fromArray(backup.target);controls.update();renderDirty=true;}});}else this.resize();
     },
-    getRun:runData,rendererAvailable:()=>!!renderer,
+    getRun:runData,cancelInteraction,rendererAvailable:()=>!!renderer,
     resumeAfterOverlay(opening){if(!opening?.visible||this.inspection().key!==opening.key||document.querySelector("dialog[open]"))return false;if(opening.story&&!["story-puzzle","cave-puzzle","campaign-puzzle"].some(name=>document.body.classList.contains(name)))return false;this.resume();return true;},
     inspection(){const id=state.selected||state.history.at(-1)?.piece,part=level().pieces.find(p=>p.id===id);return {key:[storyContext?.taskId||'practice',level().id,state.mode,trial?.id].join(':'),levelId:level().id,pieceId:part?.id||null,name:part?.name||'',direction:camera&&controls?camera.position.clone().sub(controls.target).normalize().toArray():null,visible:gameVisible,reducedMotion,busy:state.busy,settling:gameVisible&&!!storyContext?.taskId&&!storyContext.taskId.startsWith('study:')&&state.completedAt!==null,story:!!storyContext};}
   };

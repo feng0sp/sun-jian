@@ -1,12 +1,26 @@
 # 《榫间》Agent 接手与执行说明
 
-核对日期：2026-11-08，Asia/Shanghai。本文是项目接手文件，不是后台运行中的智能体，也不意味着会自动启动定时任务。
+核对日期为 2026-11-23（Asia/Shanghai）。本文供接手项目时查阅。
 
 ## 1. 当前任务定位
 
+0.15.3 的独行开场明确陈屿的大学生身份，修凳后可在雨棚点选赛事海报。后续维护沿用[独行版剧情 Agent](agents/SOLO_TRAVEL_STORY_AGENT.md)。
+
+0.15.1 的主菜单有「旅行笔记」和「榫卯练习」。正式通关后解锁七章选玩，制作专用快捷方式可直接选章。维护时先读 [菜单、练习与选章 Agent](agents/CHAPTER_REPLAY_AGENT.md)。
+
+0.15.0 在工坊练习与参赛选件之间加入榫卯文化博物馆。展厅以第一视角点选八件展品或展名，夹头榫案角、燕尾滑盖、六件鲁班锁有可拆合的教学复原件。可直接离馆，手记与章节回顾可重访。主存档沿用数据版 2，续篇修订为 7。
+
+0.14.9 改善低角度下的引导拼装、碰撞路径计算和撤销后的箭头。工坊与赛场指引随构件和剩余步骤更新。对应 Windows 候选包在 `output/polish-0149/`。
+
+0.14.8：收尾修复 Esc 取消拆装预览和收起提示的顺序，显示燕尾与鲁班锁的工坊续玩进度，统一旧库返村指引。对应 Windows 候选包在 `output/final-polish-0148/`。
+
+0.14.7：在开放工坊的维修复盘和参赛选件之间新增燕尾两段和六件鲁班锁复原。主存档数据版 2、对白修订 13 保持，续篇修订为 6。旧档完成维修复盘后可直接继续制作，也可通过工坊重练入口补练。三个新任务复用合法拆装历史，重练记录独立。
+
+0.14.6：增强旧物维护、当代使用和非遗传习的叙事。随行手记可展开现实案例及来源；0.14.5 参赛材料另存。
+
 你负责维护《榫间》：现代徒步者在虚构的溪桥村避雨借宿，从接触木作发展为持续学习，参加虚构省级木作交流赛新人组并获得第三名的中文解谜游戏。
 
-当前源码 0.14.3 完成参赛与领奖修整、周伯远程报喜及日常对白通读。三选一、合法比赛证明和旧进度保留。见 [本轮记录](docs/awards-0.14.3.md)；实际发布以 output/awards-0143/release.json 为准。
+0.14.5：将原小许改为十九岁的亲妹妹陈晴，哥哥/妹妹、咱家、报名用途与手记同步；保留原女性形象与内部资产ID。修复发言人图片加载时短暂显示前一人物的问题。数据版2、剧情修订13、新篇修订5，旧原文在 family13 迁移前备份。视频 v2 为待用户改稿的无声工作版，不覆盖0.14.4参赛材料。见 [该版说明](docs/submission-2026/video-v2.md)。
 
 后续工作先读 [全流程制作 Agent](agents/FULL_GAME_AGENT.md)、[完整故事蓝本](docs/STORY_BIBLE.md)、[节点卡](docs/FULL_GAME_NODE_CARDS.md)、[剧情助手](agents/STORY_AGENT.md) 与 [制作清单](docs/STORY_PRODUCTION_BACKLOG.md)。最新用户要求：参赛作品三选一、名次固定第三名。
 
@@ -102,7 +116,7 @@
 | 木材外观和连续构件网格 | `dist/wood-finish.js`、`dist/wood-mesh.js` |
 | 雨、蒸汽、光色与音景 | `dist/journey-weather.js`、`dist/journey-atmosphere.js` |
 | 人物对白音效、静音和短音释放 | `dist/dialogue-sound.js`、`dist/journey-atmosphere.js`；由 `campaign.js` 按台词提交 |
-| 小许现场／消息立绘 | `dist/companion-dialogue.js` |
+| 陈晴现场／消息立绘 | `dist/companion-dialogue.js` |
 | 情景接头、角尺和样木绘制状态 | `dist/context-puzzles.js`、`dist/square-check.js`、`dist/sample-close-art.js`、`dist/sample-wide-art.js` |
 | 旧独立试玩 | `dist/story*.js`、`dist/cave*.js`、`dist/first-person.js` |
 
@@ -110,13 +124,13 @@
 
 ## 7. 状态与输入纪律
 
-- 主存档键 `sun-jian-campaign-v1`，当前 `version: 2`、`storyRevision: 12`。新篇内部 continuation.revision 为 5；游戏版本号和云端版本号是另外两种版本号，不要混淆。
+- 主存档键 `sun-jian-campaign-v1`，当前 `version: 2`、`storyRevision: 16`、`continuation.revision: 7`。
 - `state.runs` 保存主线正式历史；`state.replays` 保存独立练习，不能互相替代。
 - `state.roomObjects` 保存小屋物件当前合法拆装历史；不能用它覆盖正式学习证明。`campaign-objects.js` 管理桌面／盒内摆放、重复拆合和旧库门迁移；迁移前原文备份键为 `sun-jian-campaign-v1-backup-before-context8`。
 - 恢复应通过 `experience.js` 和 `AssemblyGuide.restoreSession` 验证。不能仅信 `done`、`completed` 标记或旧嵌套副本。
 - `completionSeen` 防同一完成重复弹窗；撤销后重做应可再次提示。关闭弹窗继续观察不等于正式放回场景。
 - 原练习使用 `sun-jian-v1`、`sun-jian-session-v1`、`sun-jian-trials-v1`；旧小屋用 `sun-jian-story-v1`；旧洞穴用 `sun-jian-cave-v1`。
-- 重看开场使用 `sun-jian-campaign-v1-opening-replay-v1`，不能覆盖原旅程。
+- 0.15.1 选章试玩使用会话存档 `sun-jian-campaign-v1-chapter-run-v1`，正式通关解锁用 `sun-jian-campaign-v1-chapter-unlock-v1`。榫卯练习局面存于 `sun-jian-practice-library-v1`。
 - 未提交拖动不写入正式棋局。失焦、退出、切关、缩放窗口时取消预览。
 - 对话、弹窗、菜单、场景和特写之间只让当前界面接收输入。下一帧回调需核验当前任务，避免退出后重新启用隐藏视图。
 - 长按 Enter 不连续推进新节点；对话跳过必须停在选择处。不要用延迟聚焦覆盖玩家刚选中的按钮。
@@ -173,7 +187,7 @@ python scripts/package-web.py
 1. S01—S07 已接通，优先完成/核对 S08 的验收证据与同源发布，再按真实试玩修复卡点；不得把三选一作品退回单一固定小凳。
 2. 先验证错序恢复与维修通路，再制作参赛小凳；备赛、正式比赛、第一幕长凳使用独立历史，不能互相顶替。
 3. 以约十周的分段学习支撑成长；第三名为虚构省级新人组固定叙事结局，提示和操作速度不扣名次。周伯不在省城现场，只通过消息指导和报喜，不替主角代做设计。
-4. 新章任务、合法历史和奖项归因见全流程 Agent 与节点卡。数据版2、剧情修订12、continuation修订5；迁移前备份原文，保持旧阶段合法记录。
+4. 新章任务、合法历史和奖项归因见全流程 Agent 与节点卡。数据版2、剧情修订13、continuation修订6；迁移前备份原文，保持旧阶段合法记录。
 
 以下体验验证继续适用，与新章节制作配合进行：
 

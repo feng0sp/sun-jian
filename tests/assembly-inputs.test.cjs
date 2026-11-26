@@ -4,6 +4,14 @@ const screen=()=>p.evaluate(()=>SunJian.screen().pieces.tenon),history=()=>p.eva
 async function push(){const s=await screen();await p.mouse.move(s.start.x,s.start.y);await p.mouse.down();await p.mouse.move(s.start.x-s.axes[1][0]*.6,s.start.y-s.axes[1][1]*.6,{steps:8});}
 await push();const preview=await screen();await p.setViewportSize({width:1280,height:720});await p.mouse.up();assert.equal(await history(),0);const afterResize=await screen();assert(Number.isFinite(afterResize.start.x));
 await push();await p.evaluate(()=>window.dispatchEvent(new Event('blur')));await p.mouse.up();assert.equal(await history(),0);await p.waitForTimeout(220);const base=await screen();
+await push();
+assert.notDeepEqual((await screen()).start,base.start);
+await p.evaluate(()=>{
+ Object.defineProperty(document,'hidden',{configurable:true,value:true});
+ document.dispatchEvent(new Event('visibilitychange'));
+ delete document.hidden;
+});
+await p.mouse.up();assert.equal(await history(),0);assert.deepEqual((await screen()).start,base.start);
 await push();await p.mouse.up();const moving=await screen();await p.mouse.move(moving.start.x,moving.start.y);await p.mouse.down();const captured=await screen();await p.mouse.move(moving.start.x,moving.start.y,{steps:1});const still=await screen();assert(Math.hypot(still.start.x-captured.start.x,still.start.y-captured.start.y)<5,'regrip has no jump with stationary pointer');await p.mouse.up();await p.waitForTimeout(240);assert.equal(await history(),0);
 await push();await p.keyboard.press('v');await p.mouse.up();assert.equal(await history(),0);await p.locator('#reset-camera').click();
 await p.locator('[data-approach=yn]').click();const s=await screen(),r=await p.evaluate(()=>{const s=SunJian.snapshot();return JointPuzzle.insertionRange(JointPuzzle.LEVELS.find(l=>l.id===s.level),s.removed,'tenon','yn');});await p.mouse.move(s.start.x,s.start.y);await p.mouse.down();await p.mouse.move(s.start.x-s.axes[1][0]*r.distance*1.4,s.start.y-s.axes[1][1]*r.distance*1.4,{steps:28});await p.mouse.up();await p.waitForFunction(()=>SunJian.snapshot().history.length===1);assert.deepEqual((await p.evaluate(()=>SunJian.snapshot())).removed,['pin']);console.log('PASS: real assembly pointer resize/blur cancellation, return regrip, xray/camera cancellation, then valid one-time snap.');

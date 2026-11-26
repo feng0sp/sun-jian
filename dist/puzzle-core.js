@@ -277,9 +277,13 @@
     return {distance,start,travel:hit.ok?distance:Math.max(0,hit.distance-1e-4),blocker:hit.ok?null:hit.piece,blockerName:hit.ok?null:hit.name};
   }
   function previewInsertion(level,removed,id,direction,requested){
-    const range=insertionRange(level,removed,id,direction);if(!range)return null;
-    const distance=Math.max(0,Math.min(Number.isFinite(requested)?requested:0,range.travel));
-    return {...range,requested:Math.max(0,requested||0),distance,blocked:!!range.blocker&&requested>range.travel+.015,canSeat:!range.blocker&&requested>=range.distance*.95};
+    return previewInsertionRange(insertionRange(level,removed,id,direction),requested);
+  }
+  function previewInsertionRange(range,requested){
+    if(!range)return null;
+    const travelRequested=Number.isFinite(requested)?Math.max(0,requested):0;
+    const distance=Math.min(travelRequested,range.travel);
+    return {...range,requested:travelRequested,distance,blocked:!!range.blocker&&travelRequested>range.travel+.015,canSeat:!range.blocker&&travelRequested>=range.distance*.95};
   }
   // A legal insertion can lock out the remaining pieces. Demonstrate a move
   // only when the remaining geometry can also be assembled afterwards.
@@ -306,7 +310,7 @@
     const p=level.pieces.find(p=>p.id===move.piece);
     return {move,related:[move.piece,...level.pieces.filter(p=>p.fixed).map(p=>p.id)],text:mode==='assemble'?`观察${p.name}的槽口与待装位置。先留出进入空间，再安装用于锁定的木件。`:`观察${p.name}与周围槽口的接触，区分封闭面与出口。`};
   }
-  const api={box,prismX,subtractBox,overlaps,sweep,DIRECTIONS,LEVELS,MAIN_LEVELS,TUTORIALS,EXPERIMENT,observation,movedShape,canTranslate,canExtract,availableMoves,canInsert,availableInsertions,initialIntersections,motionRange,insertionRange,previewInsertion,hintContext};
+  const api={box,prismX,subtractBox,overlaps,sweep,DIRECTIONS,LEVELS,MAIN_LEVELS,TUTORIALS,EXPERIMENT,observation,movedShape,canTranslate,canExtract,availableMoves,canInsert,availableInsertions,initialIntersections,motionRange,insertionRange,previewInsertion,previewInsertionRange,assemblyRoute,hintContext};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   root.JointPuzzle=api;
 })(typeof window==='undefined'?globalThis:window);

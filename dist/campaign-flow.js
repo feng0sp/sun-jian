@@ -30,6 +30,7 @@
   if(s.phase!=='cave')return null;
   const has=id=>s.cave.completed.includes(id);
   if(!has('mouth-latch'))return 'store-door';
+  if(has('rack-frame')&&has('stone-box'))return null;
   if(s.frame==='store-sky'&&!has('stone-box'))return 'store-sky';
   return !has('rack-frame')?'store-middle':'store-sky';
  }

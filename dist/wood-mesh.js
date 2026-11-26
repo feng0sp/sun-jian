@@ -79,5 +79,23 @@
     // Coplanar triangulation/partition edges disappear; only physical creases remain.
     return [...segments.values()].filter(s=>s.normals.some(n=>dot(n,s.normals[0])<.985)).flatMap(s=>[s.p,s.q]);
   }
-  const api={surfaces,edges};if(typeof module!=='undefined'&&module.exports)module.exports=api;root.WoodMesh=api;
+  function geometry(THREE,faces,grainAxis){
+    const positions=[],normals=[],uvs=[];
+    for(const face of faces){
+      const n=face.normal;
+      const normalAxis=[0,1,2].reduce((a,b)=>Math.abs(n[a])>=Math.abs(n[b])?a:b);
+      const across=[0,1,2].find(a=>a!==normalAxis&&a!==grainAxis)??((grainAxis+1)%3);
+      for(let j=1;j<face.vertices.length-1;j++){
+        for(const v of [face.vertices[0],face.vertices[j],face.vertices[j+1]]){
+          positions.push(...v);normals.push(...n);uvs.push(v[across]*.38,v[grainAxis]*.22);
+        }
+      }
+    }
+    const mesh=new THREE.BufferGeometry();
+    mesh.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+    mesh.setAttribute('normal',new THREE.Float32BufferAttribute(normals,3));
+    mesh.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));
+    return mesh;
+  }
+  const api={surfaces,edges,geometry};if(typeof module!=='undefined'&&module.exports)module.exports=api;root.WoodMesh=api;
 })(typeof window==='undefined'?globalThis:window);

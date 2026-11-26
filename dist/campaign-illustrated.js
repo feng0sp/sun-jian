@@ -9,7 +9,12 @@
   'mountain-rain':{name:'溪桥村外 · 下山石阶',image:()=>ART+'mountain-rain.webp',exits:[['village','沿石阶下山']],objects:()=>[spot('frame:village','沿着灯光进村',.62,.54,.22,.27,()=>true)]},
   'zhou-door':{name:'亮灯的小屋 · 门前',image:()=>ART+'zhou-door-night.webp',exits:[['village','退回村口']],objects:s=>[spot(s.prologue?.invited?'enter-home':'knock-door',s.prologue?.invited?'主人答应了，进屋':'敲门问问',.51,.47,.22,.57,()=>true)]},
   village:{name:'溪桥村 · 村口',image:s=>ART+(day(s)?'village-day.webp':'village-night-unpacked.webp'),exits:s=>[[homeExit(s),'亮灯的小屋','往周伯家'],['shelter','村口雨棚','看看长凳'],['trail','屋旁石路','村后的小路']]},
-  shelter:{name:'溪桥村 · 雨棚',image:s=>ART+benchPainting(s),exits:s=>[['village','回到村口'],[homeExit(s),arrival(s)?'亮灯的小屋':'周伯家']],objects:s=>[...(['return','bench'].includes(s.phase)?[spot('bench-timber','从旧库取回的木料',.22,.745,.24,.21)]:[]),spot('bench','雨棚长凳',.56,.7,.55,.28,()=>s.phase==='bench'||s.phase==='farewell'),...(outdoorZhou(s)?[spot('zhou','周伯',s.phase==='complete'?.68:.59,s.phase==='complete'?.55:.37,.18,.46,()=>s.phase==='farewell'&&!s.benchChecked)]:[])]},
+  shelter:{name:'溪桥村 · 雨棚',image:s=>ART+benchPainting(s),exits:s=>[['village','回到村口'],[homeExit(s),arrival(s)?'亮灯的小屋':'周伯家']],objects:s=>[
+   ...(['return','bench'].includes(s.phase)?[spot('bench-timber','从旧库取回的木料',.22,.745,.24,.21)]:[]),
+   spot('bench','雨棚长凳',.56,.7,.55,.28,()=>s.phase==='bench'||s.phase==='farewell'),
+   ...(outdoorZhou(s)?[spot('zhou','周伯',s.phase==='complete'?.68:.59,s.phase==='complete'?.55:.37,.18,.46,()=>s.phase==='farewell'&&!s.benchChecked)]:[]),
+   ...(s.finished&&!s.continuation.departed?[spot('contest-poster','柱上的木作交流赛海报',.57,.317,.061,.177,()=>!s.continuation.noticeSeen)]:[])
+  ]},
   room:{name:'周伯家 · 木工作业角',image:s=>outdoorZhou(s)?SampleWideArt.emptyBase:s.prologue?.bagPlaced&&root.CampaignData.phases.indexOf(s.phase)<5?ART+(day(s)?'room-day-bag-01311.webp':'room-night-bag-01311.webp'):day(s)?SampleWideArt.dayBase:SampleWideArt.nightBase,exits:[['village','走出小屋']],objects:s=>arrival(s)&&!s.prologue.bagPlaced?[spot('put-bag','擦擦鞋，把包放下',.12,.86,.18,.24,()=>true)]:[
    ...(!outdoorZhou(s)?[spot('zhou','周伯',.18,.53,.21,.57,()=>['arrival','settle','morning','return'].includes(s.phase))]:[]),
    spot('frame:workbench','走近工作台',.57,.62,.45,.32),
@@ -194,6 +199,9 @@
    hotspots.replaceChildren(...[...(f.objects?.(state)||[]),...observations].map(item=>{
     const b=document.createElement('button');b.type='button';b.className='illustrated-hotspot';b.dataset.hotspot=item.id;b.setAttribute('aria-label',item.label);b.style.left=(item.x*100)+'%';b.style.top=(item.y*100)+'%';b.style.width=(item.w*100)+'%';b.style.height=(item.h*100)+'%';
     const primary=item.primary(state);b.classList.toggle('current',primary);const completed=item.id.startsWith('cave:')&&done(state,item.id.slice(5));b.classList.toggle('experienced',completed);b.innerHTML='<span class="hotspot-mark" aria-hidden="true">'+(completed?'✓':primary?'◆':'·')+'</span><span class="hotspot-name"></span>';b.querySelector('.hotspot-name').textContent=item.label;
+    if(item.id==='contest-poster'){
+     b.querySelector('.hotspot-mark').replaceWith(Object.assign(document.createElement('span'),{className:'contest-poster-paper',ariaHidden:'true',innerHTML:'<small>省级活动</small><strong>木作交流赛</strong><small>新人组</small>'}));
+    }
     if(item.id.startsWith('observe:')){b.classList.add('field-hotspot');b.classList.toggle('experienced',state.fieldNotes.includes(item.id.slice(8)));b.setAttribute('aria-expanded',String(fieldId===item.id.slice(8)));}
     // Keep the name by its object, without a duplicate caption.
     b.onmouseenter=()=>{};b.onmouseleave=()=>{};b.onfocus=()=>{focusId=item.id;};b.onblur=()=>{};b.onclick=()=>select(item);return b;

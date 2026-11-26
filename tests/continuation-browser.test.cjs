@@ -10,7 +10,7 @@ async function ready(p){await p.waitForFunction(()=>!!window.CampaignJourney?.sn
  const old={...caveDone(),storyRevision:5,phase:'complete',frame:'bench-seat',finished:true,benchChecked:true};old.runs.bench=solved('rain-shelter-bench','assemble');
  await p.goto(base+'?practice=1');await p.evaluate(s=>localStorage.setItem('sun-jian-campaign-v1',JSON.stringify(s)),old);await p.goto(base+'?journey=1');await ready(p);
  const before=(await snap(p)).state.runs;assert.equal((await snap(p)).state.continuation.started,false);assert(await p.evaluate(()=>!!localStorage.getItem('sun-jian-campaign-v1-backup-before-continuation6')));
- await p.locator('#campaign-pause').click();await p.locator('#campaign-next-story').click();await lines(p);assert.equal((await snap(p)).state.talk.id,'continuationMeetup');
+ await p.locator('#campaign-pause').click();await p.locator('#campaign-next-story').click();await p.locator('[data-hotspot=contest-poster]').click();await lines(p);assert.equal((await snap(p)).state.talk.id,'continuationMeetup');
  // Skip/held activation cannot select a choice for the player.
  await p.locator('#campaign-choices button').first().dispatchEvent('keydown',{key:'Enter',repeat:true,bubbles:true});assert.equal((await snap(p)).state.continuation.noticeSeen,false);
  await p.getByRole('button',{name:'先收好，路上再看。',exact:true}).click();assert.equal((await snap(p)).state.continuation.stage,'notice');await p.screenshot({path:out+'/notice.png'});

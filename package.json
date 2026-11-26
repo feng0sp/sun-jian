@@ -1,6 +1,6 @@
 {
   "name": "sun-jian",
-  "version": "0.14.3",
+  "version": "0.15.5",
   "private": true,
   "description": "榫间 · 榫卯解谜",
   "scripts": {
@@ -59,7 +59,8 @@
     "test:design": "node tests/service-puzzle.test.cjs && node tests/design-state.test.cjs && node tests/design-browser.test.cjs",
     "test:continuation": "node tests/continuation-state.test.cjs && node tests/continuation-browser.test.cjs",
     "test:journey-flow": "node tests/journey-0135.test.cjs && node tests/campaign-2d.test.cjs",
-    "test:finale": "node tests/finale-state.test.cjs && node tests/finale-browser.test.cjs"
+    "test:finale": "node tests/finale-state.test.cjs && node tests/finale-browser.test.cjs",
+    "test:chapters": "node tests/chapter-replay.test.cjs && node tests/chapter-replay-browser.test.cjs"
   },
   "devDependencies": {
     "@electron/packager": "^20.3.0",

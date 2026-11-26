@@ -9,7 +9,7 @@ async function sound(p){await p.keyboard.press('Shift');if(!(await audio(p)).ena
 async function settings(p){await p.keyboard.press('Escape');await p.locator('#campaign-settings').click();}
 async function resume(p){await p.locator('#campaign-panel-actions').getByRole('button',{name:'返回',exact:true}).click();await p.locator('#campaign-continue').click();}
 async function main(){
- const b=await chromium.launch({channel:'chrome'}),p=await b.newPage({offline:process.env.OFFLINE==='1',viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
+ const b=process.env.SUNJIAN_PACKAGED_EXE?await require('./helpers/desktop-browser.cjs')():await chromium.launch({channel:'chrome'}),p=await b.newPage({offline:process.env.OFFLINE==='1',viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
  try{
   await p.goto(base+'?journey=1');await ready(p);assert.equal((await audio(p)).enabled,false);await p.locator('#campaign-next').click();assert.equal((await audio(p)).dialogueCue.played,0);
   await sound(p);const before=(await audio(p)).dialogueCue.played;await p.locator('#campaign-next').click();let a=await audio(p);assert.equal(a.dialogueCue.last.actor,'xiaoxu');assert.equal(a.dialogueCue.played,before+1);const phrase=a.phraseGeneration;

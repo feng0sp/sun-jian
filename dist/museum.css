@@ -1,0 +1,148 @@
+.museum-active #campaign-world,
+.museum-active .campaign-objective,
+.museum-active #campaign-continuation-backdrop,
+.museum-active #campaign-workshop-rest {
+ visibility:hidden;
+}
+#campaign-museum {
+ position:absolute;
+ z-index:1;
+ inset:73px 0 46px;
+ color:#e8e8d7;
+ background:radial-gradient(ellipse at top,#2d4648,#162a30 75%);
+}
+.museum-gallery {
+ height:100%;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:9px;
+}
+.museum-painting {
+ width:min(calc(100% - 32px),calc((100dvh - 173px)*16/9));
+ aspect-ratio:1672/941;
+ position:relative;
+ flex:none;
+ isolation:isolate;
+ overflow:hidden;
+ background:#222e32;
+ border:1px solid #cdb5844d;
+ border-radius:8px;
+ box-shadow:0 12px 44px #0c1a225c;
+}
+.museum-painting:focus { outline:none; }
+.museum-art { display:block; width:100%; height:100%; object-fit:contain; }
+.museum-hotspots { position:absolute; inset:0; z-index:2; }
+#campaign-root .museum-hotspot {
+ position:absolute;
+ transform:translate(-50%,-50%);
+ display:flex;
+ justify-content:center;
+ align-items:flex-end;
+ padding:0;
+ border:1px solid transparent;
+ background:none;
+ border-radius:4px;
+}
+.museum-hotspot>span {
+ display:inline-flex;
+ align-items:center;
+ gap:6px;
+ transform:translateY(14%);
+ padding:4px 9px;
+ color:#f3ecdc;
+ background:#203436ed;
+ border:1px solid #b0a18674;
+ border-radius:3px;
+ font-size:clamp(11px,1.12vw,15px);
+ line-height:1.3;
+ white-space:nowrap;
+}
+.museum-hotspot i { color:#e4c38b; font:700 1.25em/.8 sans-serif; }
+#campaign-root .museum-hotspot:hover,
+#campaign-root .museum-hotspot:focus-visible,
+#campaign-root .museum-hotspot:active {
+ background:transparent;
+ border-color:#f4ce889e;
+}
+.museum-hotspot:hover>span,.museum-hotspot:focus-visible>span,.show-museum-hotspots .museum-hotspot>span {
+ background:#f0dcae;
+ color:#24383b;
+}
+.museum-hotspot:hover i,.museum-hotspot:focus-visible i,.show-museum-hotspots .museum-hotspot i { color:inherit; }
+.museum-hotspot.visited>span::before { content:'✓ '; color:#a9c7a2; }
+.museum-hotspot.visited:hover>span::before,.museum-hotspot.visited:focus-visible>span::before,
+.show-museum-hotspots .museum-hotspot.visited>span::before { color:#335e53; }
+.museum-navigation {
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ width:min(calc(100% - 32px),calc((100dvh - 173px)*16/9));
+}
+.museum-navigation button,.museum-tabs button,.museum-detail-actions button { min-height:40px; }
+.museum-progress { font-size:clamp(11px,1.15vw,15px); color:#e4d3ac; text-align:center; }
+.museum-image-status { position:absolute; inset:4% 4% auto; display:flex; gap:12px; align-items:center; z-index:3; }
+.missing-art .museum-art { visibility:hidden; }
+.missing-art .museum-hotspots { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; inset:24% 4% 9%; }
+#campaign-root .missing-art .museum-hotspot { position:static; width:auto!important; height:auto!important; transform:none; align-items:center; border-color:#797c6b; }
+.missing-art .museum-hotspot>span { transform:none; background:none; border:0; }
+.museum-detail {
+ max-width:1240px;
+ width:calc(100% - 54px);
+ height:100%;
+ margin:auto;
+ display:grid;
+ grid-template-columns:minmax(0,1.58fr) minmax(280px,1fr);
+ align-content:center;
+ gap:clamp(18px,3vw,54px);
+ overflow:auto;
+}
+.museum-detail-image,.museum-plaque { min-width:0; }
+.museum-detail-image figure {
+ margin:0;
+ background:#ecdfc6;
+ color:#3d4138;
+ border-radius:8px;
+ overflow:hidden;
+ box-shadow:0 14px 36px #09191944;
+}
+.museum-detail-image img {
+ display:block;
+ width:100%;
+ height:auto;
+ max-height:calc(100dvh - 260px);
+ aspect-ratio:25/17;
+ object-fit:contain;
+}
+.museum-detail-image figcaption { padding:11px 18px; font-size:14px; line-height:1.6; border-top:1px solid #79674737; }
+.museum-figure-error { min-height:200px; padding:28px; }
+.museum-figure-error button { margin-left:8px; }
+.museum-tabs { display:flex; margin-top:10px; gap:8px; flex-wrap:wrap; }
+#campaign-root .museum-tabs [aria-pressed=true] { background:#dcc08b; border-color:#e7cc9b; color:#23383b; }
+.museum-plaque { align-self:center; border-left:1px solid #a2926b96; padding:4px 0 4px 21px; }
+.museum-era { margin:0 0 12px; color:#d7bd88; font-size:13px; letter-spacing:.1em; }
+.museum-plaque h2 {
+ color:#f6ebd2;
+ font:500 clamp(28px,3vw,44px)/1.2 "Songti SC","SimSun",serif;
+ margin:0 0 17px;
+}
+.museum-description { font-size:clamp(15px,1.33vw,20px); line-height:1.8; margin:0 0 14px; color:#e7e7d8; }
+.museum-credit { font-size:12px; color:#c8b58f; }
+.museum-plaque details { margin:18px 0; line-height:1.65; font-size:13px; color:#c8d4c7; }
+.museum-plaque summary { cursor:pointer; }
+.museum-url { font-size:11px; overflow-wrap:anywhere; }
+.museum-detail-actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:15px; }
+body.campaign-puzzle[data-campaign-surface=museum] .stage {
+ background-image:linear-gradient(180deg,#f0ecd25e,#f3e3ba32),url('assets/museum/teaching-table.webp')!important;
+}
+@media(max-height:760px){
+ #campaign-museum { inset:64px 0 36px; }
+ .museum-painting,.museum-navigation { width:min(calc(100% - 26px),calc((100dvh - 153px)*16/9)); }
+ .museum-plaque h2 { margin-bottom:10px; }
+ .museum-plaque details { margin:10px 0; }
+}
+@media(max-width:800px){
+ .museum-detail { grid-template-columns:minmax(0,1fr); align-content:start; padding:14px 0; }
+ .museum-detail-image img { max-height:43dvh; }
+}

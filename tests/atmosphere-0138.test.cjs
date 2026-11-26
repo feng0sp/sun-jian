@@ -50,7 +50,12 @@ async function measure(page, duration) {
     const rain = await measure(page, 3650);
     assert(rain.rms > .001, 'rain road produced audible samples');
 
-    await config({interior:true, home:true});
+    // Switch during a sounding note so this check actually exercises its fade-out.
+    await wait(() => {
+      if (!JourneyAtmosphere.snapshot().voices) return false;
+      JourneyAtmosphere.configure({interior:true, home:true});
+      return true;
+    });
     const homeEntry = await snapshot();
     assert.equal(homeEntry.profile, 'home', 'legacy home flag still selects indoor score');
     assert(homeEntry.rainTarget < entry.rainTarget);
@@ -115,7 +120,8 @@ async function measure(page, duration) {
     });
     await page.waitForTimeout(800);
     assert((await snapshot()).scheduled && (await snapshot()).running);
-    const restoredSignal = await measure(page, 500);
+    // A resumed phrase may start in a rest; measure a full home phrase.
+    const restoredSignal = await measure(page, 8200);
     assert(restoredSignal.rms > .0005);
 
     const recording = await stopAudioCapture(page, path.join(out, 'three-rooms-live.webm'));

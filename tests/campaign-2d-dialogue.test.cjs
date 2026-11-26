@@ -2,7 +2,7 @@ const assert=require('node:assert/strict');
 const S=require('../dist/campaign-story.js');
 const terminals=new Set(['close','accept','depart','return','bench','findZhou','toolCorner']);
 const state=(phase='settle',extra={})=>({phase,scene:phase==='cave'?'cave':'village',done:[],spoken:[],cave:{completed:[]},...extra});
-assert.equal(S.revision,12);
+assert.equal(S.revision,require('../dist/campaign-data.js').storyRevision);
 for(const [id,n]of Object.entries(S.nodes)){
  assert(n.lines.length>0,id+' has lines');
  for(const [speaker,text]of [...n.lines,...n.repeat||[]])assert(typeof speaker==='string'&&typeof text==='string'&&text.length,id+' valid dialogue');

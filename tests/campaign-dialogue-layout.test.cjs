@@ -8,7 +8,15 @@ const results=[];for(const [width,height]of [[1280,720],[1440,900],[1920,1080]])
  // Real keyboard traversal of all displayed optional choices without advancing unrelated tasks.
  for(const id of ['chair','tools','cup','heritage','invite']){const s=D.fresh();s.openingSeen=true;s.phase='settle';s.talk={id,line:0};s.village.position=[-2.4,1.65,-4.8];s.village.yaw=.2;s.village.pitch=-.3;await seed(p,s);await lines(p);const buttons=await p.locator('#campaign-choices button').all();assert(buttons.length>=2,id);for(const q of buttons){await q.focus();const r=await q.boundingBox();assert(r.x>=0&&r.y>=0&&r.x+r.width<=width&&r.y+r.height<=height,id+' choice visible');}await p.keyboard.press('ArrowUp');assert(await p.locator('#campaign-choices').evaluate(e=>e.contains(document.activeElement)));await p.keyboard.press('Tab');assert(await p.locator('#campaign-conversation').evaluate(e=>e.contains(document.activeElement)));assert.equal(await p.evaluate(()=>CampaignJourney.snapshot().state.phase),'settle');if(id==='chair')await p.screenshot({path:out+'/dialogue-'+width+'.png'});}
  // A simple click on the cup does not force an unrequested action.
- const s=D.fresh();s.openingSeen=true;s.phase='settle';s.talk={id:'cup',line:0};await seed(p,s);assert.equal(await p.locator('#campaign-speaker').innerText(),'我');await p.locator('#campaign-choices').getByRole('button',{name:'先放下。',exact:true}).click();assert(!await p.evaluate(()=>CampaignJourney.snapshot().state.spoken.includes('teaPour')));
+ const s=D.fresh();s.openingSeen=true;s.phase='settle';s.talk={id:'cup',line:0};await seed(p,s);assert.equal(await p.locator('#campaign-speaker').innerText(),'旁白');assert(!await p.locator('.companion-portrait').isVisible());await p.locator('#campaign-choices').getByRole('button',{name:'先放下。',exact:true}).click();assert(!await p.evaluate(()=>CampaignJourney.snapshot().state.spoken.includes('teaPour')));
+ const opening=D.fresh();opening.talk={id:'opening',line:0};await seed(p,opening);
+ await p.locator('#campaign-next').click();
+ assert.equal(await p.locator('#campaign-speaker').innerText(),'我');
+ await p.locator('.companion-portrait[data-actor="player"]').waitFor({state:'visible'});
+ await p.locator('#campaign-next').click();
+ assert.equal(await p.locator('#campaign-speaker').innerText(),'陈晴');
+ await p.locator('.companion-portrait[data-actor="xiaoxu"]').waitFor({state:'visible'});
+ await p.screenshot({path:out+'/siblings-'+width+'.png'});
  assert.deepEqual(errs,[]);results.push({width,height,branches:5,keyboard:true,errors:errs});await p.close();}
-fs.writeFileSync(out+'/dialogue-layouts.json',JSON.stringify(results,null,2));console.log('PASS: three desktop sizes, five conversation branches, visible choices, arrow/Tab focus, cup action is optional.');
+fs.writeFileSync(out+'/dialogue-layouts.json',JSON.stringify(results,null,2));console.log('PASS: three desktop sizes, five conversation branches, visible choices, arrow/Tab focus, optional cup action, and sibling portrait switches.');
 }finally{await b.close();}})().catch(e=>{console.error(e);process.exit(1)});

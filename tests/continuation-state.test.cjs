@@ -15,6 +15,6 @@ s.continuation.reviewed=true;r=restore(s);assert(r.continuation.entryAccepted);a
 s.continuation.run={...s.continuation.run,history:[]};r=restore(s);assert.equal(r.continuation.stage,'practice');assert(!r.continuation.reviewed);assert(!r.continuation.entryAccepted);
 s=full();s.phase='arrival';s.runs={};s.continuation={...Next.fresh(),started:true,active:true,noticeSeen:true,departed:true};r=restore(s);assert(!r.continuation.active);assert(!r.continuation.started);
 for(const bad of [null,{},[],{revision:1,started:true,run:{level:'straight',mode:'assemble',history:[]}}])assert.equal(Next.restore(bad,true,P,E).entryAccepted,false);
-s=restore(full());s.continuation={...Next.fresh(),started:true,active:true};assert(S.resolve('continuationMeetup',s));assert(!S.resolve('continuationEntry',s));assert.equal(S.frameFor('continuationMeetup',s),'bench-seat');
+s=restore(full());s.continuation={...Next.fresh(),started:true,active:true};assert(S.resolve('continuationMeetup',s));assert(!S.resolve('continuationEntry',s));assert.equal(S.frameFor('continuationMeetup',s),'shelter');
 s.continuation.active=false;assert(!S.resolve('continuationMeetup',s));
 console.log('PASS continuation migration, diagnostic seed, legal proof, registration prerequisites, isolation and conditional dialogue');

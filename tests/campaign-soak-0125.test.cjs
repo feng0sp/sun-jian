@@ -15,7 +15,7 @@ await p.goto(base+'?practice=1');const s=caveDone();s.frame='store-sky';s.settin
 await p.locator('#viewport canvas').evaluate(c=>c.addEventListener('webglcontextlost',()=>window.qaContextLost++));const canonical=await p.evaluate(()=>JSON.stringify(CampaignJourney.snapshot().state.runs)),cdp=await p.context().newCDPSession(p);await cdp.send('Performance.enable');
 start=Date.now();while(Date.now()-start<duration){
 const n=C.nodes[cycle%C.nodes.length],mode=Math.floor(cycle/C.nodes.length)%2?'assemble':'dismantle',key=n.id+':'+mode;
-await p.locator('#campaign-notes').click();await p.locator('[data-study="'+key+'"]').click();await p.locator('#campaign-reset').click();let before=await snap(p);const l=P.LEVELS.find(l=>l.id===n.level),m=route(l,before.removed,mode)[0];assert(m);
+await p.locator('#campaign-notes').click();await p.locator('[data-study="'+key+'"]').click();await p.locator('#campaign-reset').click();let before=await snap(p);const l=P.LEVELS.find(l=>l.id===before.level),m=route(l,before.removed,mode)[0];assert(m);
 await p.locator('[data-piece="'+m.piece+'"]').click();
 if(cycle%2===0){if(mode==='assemble')await p.locator('[data-approach="'+m.direction+'"]').click();const point=await p.evaluate(id=>SunJian.screen().pieces[id],m.piece);await p.mouse.move(point.start.x,point.start.y);await p.mouse.down();await p.mouse.move(point.directions[m.direction].end.x,point.directions[m.direction].end.y,{steps:24});await p.mouse.up();}
 else{await p.locator('#precise-controls').evaluate(e=>e.open=true);await p.locator('[data-direction="'+m.direction+'"]').click();}

@@ -5,7 +5,7 @@
  const P=typeof module!=='undefined'?require('./puzzle-core.js'):root.JointPuzzle;
  const base=typeof module!=='undefined'?require('./bench-puzzle.js'):root.BenchPuzzle;
  const choices=[
-  {key:'stool',id:'entry-shoe-stool',name:'换鞋小凳',panel:'宽座板',scale:[.34,1,.76],use:'给玄关换鞋用，坐面留宽，扫地时能搬开。',review:'座面、搬动位置、两侧取销口',recipient:'小许',art:'stool'},
+  {key:'stool',id:'entry-shoe-stool',name:'换鞋小凳',panel:'宽座板',scale:[.34,1,.76],use:'给玄关换鞋用，坐面留宽，扫地时能搬开。',review:'座面、搬动位置、两侧取销口',recipient:'自家玄关',art:'stool'},
   {key:'table',id:'entry-bedside-table',name:'床边小几',panel:'几面',scale:[.32,1.3,.83],use:'放床边的书和水杯，台面可单独退出、更换。',review:'几面、拿起的位置、两侧取销口',recipient:'我',art:'table'},
   {key:'shelf',id:'entry-desk-shelf',name:'桌上书架',panel:'承书板',scale:[.42,.62,.64],use:'把桌上的常用书集中起来，承书板可以单独拆换。',review:'承书板、背挡、两侧取销口',recipient:'我',art:'shelf'}
  ];
