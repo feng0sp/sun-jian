@@ -14,6 +14,12 @@
 | --- | --- | --- |
 | [![人物与旅程](docs/showcase/01-story.jpg)](docs/showcase/01-story.jpg) | [![六木成锁](docs/showcase/02-joinery.jpg)](docs/showcase/02-joinery.jpg) | [![游戏特色玩法](docs/showcase/03-gameplay.jpg)](docs/showcase/03-gameplay.jpg) |
 
+### 下载与试玩
+
+[下载 Windows x64 游戏包](https://github.com/feng0sp/sun-jian/releases/download/v0.15.5/SunJian-0.15.5-Windows-x64.zip)，解压后运行其中的 EXE。需要先了解玩法时，可下载 [参赛演示视频](https://github.com/feng0sp/sun-jian/releases/download/v0.15.5/game-overview.mp4) 或 [操作说明](https://github.com/feng0sp/sun-jian/releases/download/v0.15.5/player-guide.pdf)。
+
+[0.15.5 完整发布页](https://github.com/feng0sp/sun-jian/releases/tag/v0.15.5) 同时提供交互流程图、高保真设计图和 SHA-256 校验清单。
+
 ## 当前内容
 
 - 七章旅程：雨夜借宿、木作学习、取料修凳、返校练习、作品设计、参赛与结局。
